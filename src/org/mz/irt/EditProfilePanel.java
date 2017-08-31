@@ -5,20 +5,36 @@
  */
 package org.mz.irt;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.mz.irt.model.Profile;
 import org.mz.irt.bo.profile.ProfileBo;
 import org.mz.irt.bo.profile.ProfileBoImp1;
+import org.mz.irt.model.Document;
 
 /**
  *
  * @author metazone
  */
 public class EditProfilePanel extends javax.swing.JPanel {
-    String gender;
+    //String gender;
     private final JFrame frame;
     private Profile profile;
-
+    private JLabel previewDocumentLbl;
+    ArrayList<Document> documentList = new ArrayList<Document>();
+    int i, component;
     /**
      * Creates new form FilePanel
      */
@@ -29,17 +45,23 @@ public class EditProfilePanel extends javax.swing.JPanel {
         firstNameTextField.setText(profile.getFirstName());
         lastNameTextField.setText(profile.getLastName());
         contactNumberTextField.setText(profile.getContactNumber());
-        if(profile.getGender().equals("male")){
-            maleRadioBtn.setSelected(true);
-        }else{
-            femaleRadioBtn.setSelected(true);
-        }
+        phoneNumberTextField.setText(profile.getPhoneNumber());
+        i=profile.getDocumentList().size()-1;
+//        if(profile.getGender().equals("male")){
+//            maleRadioBtn.setSelected(true);
+//        }else{
+//            femaleRadioBtn.setSelected(true);
+//        }
+        panNoTextField.setText(profile.getPanNumber());
         emailIdTextField.setText(profile.getEmailId());
         addressTextField.setText(profile.getAddress());
-        cityTextField.setText(profile.getCity());
-        stateTextField.setText(profile.getState());
-        pinNoTextField.setText(profile.getPinNumber());
+//        cityTextField.setText(profile.getCity());
+//        stateTextField.setText(profile.getState());
+//        pinNoTextField.setText(profile.getPinNumber());
         aadharTextField.setText(profile.getAadharCardNumber());
+//        for(Document document:profile.getDocumentList()){
+//            
+//        }
     }
 
     /**
@@ -57,51 +79,31 @@ public class EditProfilePanel extends javax.swing.JPanel {
         lastNameLbl = new javax.swing.JLabel();
         firstNameTextField = new javax.swing.JTextField();
         lastNameTextField = new javax.swing.JTextField();
-        genderLbl = new javax.swing.JLabel();
-        maleRadioBtn = new javax.swing.JRadioButton();
-        femaleRadioBtn = new javax.swing.JRadioButton();
         contactNumberLbl = new javax.swing.JLabel();
         contactNumberTextField = new javax.swing.JTextField();
         emailIdLbl = new javax.swing.JLabel();
         emailIdTextField = new javax.swing.JTextField();
         addressLbl = new javax.swing.JLabel();
         addressTextField = new javax.swing.JTextField();
-        cityLbl = new javax.swing.JLabel();
-        cityTextField = new javax.swing.JTextField();
-        stateLbl = new javax.swing.JLabel();
-        stateTextField = new javax.swing.JTextField();
         aadharLbl = new javax.swing.JLabel();
         aadharTextField = new javax.swing.JTextField();
-        pinNoLbl = new javax.swing.JLabel();
-        pinNoTextField = new javax.swing.JTextField();
         saveBtn = new javax.swing.JButton();
         msgLbl = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        phoneNumberLbl = new javax.swing.JLabel();
+        phoneNumberTextField = new javax.swing.JTextField();
+        panNoLbl = new javax.swing.JLabel();
+        panNoTextField = new javax.swing.JTextField();
+        documentsPanel = new javax.swing.JPanel();
 
-        genderButtonGroup.add(maleRadioBtn);
-        genderButtonGroup.add(femaleRadioBtn);
+        //genderButtonGroup.add(maleRadioBtn);
+        //genderButtonGroup.add(femaleRadioBtn);
 
         profileTitleLbl.setText("Profile");
 
         firstNameLbl.setText("First Name");
 
         lastNameLbl.setText("Last Name");
-
-        genderLbl.setText("Gender");
-
-        maleRadioBtn.setText("Male");
-        maleRadioBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maleRadioBtnActionPerformed(evt);
-            }
-        });
-
-        femaleRadioBtn.setText("Female");
-        femaleRadioBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                femaleRadioBtnActionPerformed(evt);
-            }
-        });
 
         contactNumberLbl.setText("Contact Number");
 
@@ -115,13 +117,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
             }
         });
 
-        cityLbl.setText("City");
-
-        stateLbl.setText("State");
-
         aadharLbl.setText("Aadhar Card No");
-
-        pinNoLbl.setText("Pin No");
 
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +127,21 @@ public class EditProfilePanel extends javax.swing.JPanel {
         });
 
         jLabel1.setText("+91");
+
+        phoneNumberLbl.setText("PhoneNumber");
+
+        panNoLbl.setText("Pan Number");
+
+        javax.swing.GroupLayout documentsPanelLayout = new javax.swing.GroupLayout(documentsPanel);
+        documentsPanel.setLayout(documentsPanelLayout);
+        documentsPanelLayout.setHorizontalGroup(
+            documentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 505, Short.MAX_VALUE)
+        );
+        documentsPanelLayout.setVerticalGroup(
+            documentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 112, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -152,14 +163,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
                                         .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(genderLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(maleRadioBtn)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(femaleRadioBtn))
-                                    .addComponent(addressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(addressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(279, 279, 279))
                     .addGroup(layout.createSequentialGroup()
@@ -168,38 +172,41 @@ public class EditProfilePanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(emailIdLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(contactNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(contactNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(emailIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(contactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(contactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(phoneNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(profileTitleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addComponent(msgLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cityLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(stateLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(stateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(pinNoLbl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(pinNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(aadharLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addComponent(aadharTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(aadharLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(panNoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(39, 39, 39)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(aadharTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(documentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,17 +226,13 @@ public class EditProfilePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(genderLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(maleRadioBtn)
-                    .addComponent(femaleRadioBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contactNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(contactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(contactNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(contactNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(phoneNumberLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailIdLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,21 +241,21 @@ public class EditProfilePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(addressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stateLbl)
-                    .addComponent(cityLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pinNoLbl)
-                    .addComponent(pinNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(panNoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panNoTextField)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aadharLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(aadharTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(documentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -261,16 +264,16 @@ public class EditProfilePanel extends javax.swing.JPanel {
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setContactNumber(contactNumberTextField.getText());
-        if(gender!=null){
-            profile.setGender(gender);
-        }else{
-           profile.setGender(this.profile.getGender()); 
-        }
+//        if(gender!=null){
+//            profile.setGender(gender);
+//        }else{
+//           profile.setGender(this.profile.getGender()); 
+//        }
         profile.setEmailId(emailIdTextField.getText());
         profile.setAddress(addressTextField.getText());
-        profile.setCity(cityTextField.getText());
-        profile.setState(stateTextField.getText());
-        profile.setPinNumber(pinNoTextField.getText());
+//        profile.setCity(cityTextField.getText());
+//        profile.setState(stateTextField.getText());
+//        profile.setPinNumber(pinNoTextField.getText());
         profile.setAadharCardNumber(aadharTextField.getText());
         ProfileBo profileBo=new ProfileBoImp1();
         int result=profileBo.updateProfile(profile);
@@ -283,45 +286,132 @@ public class EditProfilePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
-    private void maleRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleRadioBtnActionPerformed
-        gender="male";
-    }//GEN-LAST:event_maleRadioBtnActionPerformed
-
-    private void femaleRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleRadioBtnActionPerformed
-        gender="female";
-    }//GEN-LAST:event_femaleRadioBtnActionPerformed
-
     private void addressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addressTextFieldActionPerformed
+    
+    private void uploadDocument() {
+        i++;
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        String filePath = file.getAbsolutePath();
+        Document document = new Document();
+        document.setFile(file);
+        int index = file.getName().indexOf(".");
+        document.setFileName("document_" + i + file.getName().substring(index));
+//        FilenameFilter filter = new FilenameFilter() {
+//            public boolean accept(File file,String name) {
+//                return name.endsWith(".jpg") || name.endsWith(".pdf");
+//            }
+//        };
+        documentList.add(document);
+//        ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+//        uploadDocumentBo.uploadDocument(document,aadharTextField.getText());
+//        try {
+//          JTextArea textArea=new JTextArea();
+//          previewDocumentPanel.add(textArea);
+//          System.out.println(file.getName());
+//         FileReader fileReader=new FileReader(file);
+//          System.out.println(fileReader);
+//          textArea.read(fileReader,file);
+//        } catch (IOException ex) {
+//          System.out.println("problem accessing file"+file.getAbsolutePath());
+//        }
+        ImageIcon icon = new ImageIcon(filePath);
+        Image img = icon.getImage();
+        previewDocumentLbl.setIcon(new ImageIcon(scaledImage(img, previewDocumentLbl.getWidth(), previewDocumentLbl.getHeight())));
+        createDeleteButton();
+        createDocumentPanel();
+    }
+    
+    private Image scaledImage(Image img, int width, int height) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bufferedImage.createGraphics();
+        g.drawImage(img, 0, 0, height, width, null);
+        return bufferedImage;
+    }
 
+    private void createDeleteButton() {
+        JPanel deletePanel = (JPanel) ((JPanel) documentsPanel.getComponent(component - 1)).getComponent(2);
+        JButton deleteBtn = new JButton("Delete");
+        deletePanel.add(deleteBtn);
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                documentsPanel.remove(deleteBtn.getParent().getParent());
+            }
+        });
+    }
+    
+    
+    private void createDocumentPanel() {
+        JPanel documentPanel = new JPanel();
+        JLabel previewDocumentLbl = new JLabel();
+        this.previewDocumentLbl = previewDocumentLbl;
+        JPanel deleteBtnPanel = new JPanel();
+        JButton uploadDocumentBtn = new JButton("Upload Documents");
+        GroupLayout documentPanelLayout = new GroupLayout(documentPanel);
+        documentPanel.setLayout(documentPanelLayout);
+        documentPanelLayout.setHorizontalGroup(
+                documentPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(documentPanelLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(uploadDocumentBtn)
+                                .addGap(49, 49, 49)
+                                .addComponent(previewDocumentLbl, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+                                //.addGap(69, 69, 69)
+                                .addComponent(deleteBtnPanel, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(160, Short.MAX_VALUE))
+        );
+        documentPanelLayout.setVerticalGroup(
+                documentPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(documentPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(documentPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(uploadDocumentBtn, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(previewDocumentLbl, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(deleteBtnPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        uploadDocumentBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                uploadDocument();
+            }
+        });
+//        deleteBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                documentsPanel.remove(documentPanel);
+//            }
+//        });
+        documentsPanel.add(documentPanel);
+        component++;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aadharLbl;
     private javax.swing.JTextField aadharTextField;
     private javax.swing.JLabel addressLbl;
     private javax.swing.JTextField addressTextField;
-    private javax.swing.JLabel cityLbl;
-    private javax.swing.JTextField cityTextField;
     private javax.swing.JLabel contactNumberLbl;
     private javax.swing.JTextField contactNumberTextField;
+    private javax.swing.JPanel documentsPanel;
     private javax.swing.JLabel emailIdLbl;
     private javax.swing.JTextField emailIdTextField;
-    private javax.swing.JRadioButton femaleRadioBtn;
     private javax.swing.JLabel firstNameLbl;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.ButtonGroup genderButtonGroup;
-    private javax.swing.JLabel genderLbl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lastNameLbl;
     private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JRadioButton maleRadioBtn;
     private javax.swing.JLabel msgLbl;
-    private javax.swing.JLabel pinNoLbl;
-    private javax.swing.JTextField pinNoTextField;
+    private javax.swing.JLabel panNoLbl;
+    private javax.swing.JTextField panNoTextField;
+    private javax.swing.JLabel phoneNumberLbl;
+    private javax.swing.JTextField phoneNumberTextField;
     private javax.swing.JLabel profileTitleLbl;
     private javax.swing.JButton saveBtn;
-    private javax.swing.JLabel stateLbl;
-    private javax.swing.JTextField stateTextField;
     // End of variables declaration//GEN-END:variables
 }
