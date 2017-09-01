@@ -60,7 +60,9 @@ public class EditProfilePanel extends javax.swing.JPanel {
 //        pinNoTextField.setText(profile.getPinNumber());
         aadharTextField.setText(profile.getAadharCardNumber());
 //        for(Document document:profile.getDocumentList()){
-//            
+//           createDocumentPanel();
+//           String filePath="documents/" + profile.getAadharCardNumber()+document.getFileName();
+//           previewDocumentLbl.setIcon(new ImageIcon(scaledImage(new ImageIcon(filePath).getImage(), previewDocumentLbl.getWidth(), previewDocumentLbl.getHeight())));
 //        }
     }
 

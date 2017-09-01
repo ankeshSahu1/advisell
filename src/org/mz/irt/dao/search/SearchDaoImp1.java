@@ -118,7 +118,7 @@ public class SearchDaoImp1 implements SearchDao {
                 profile.setAadharCardNumber(resultSet.getString(6));
                 profile.setPanNumber(resultSet.getString(7));
                 profile.setPhoneNumber(resultSet.getString(8));
-                ArrayList<Document> documentList=new ArrayList<Document>(); 
+                ArrayList<Document> documentList=new ArrayList<Document>();
                 String[] filesName=resultSet.getString(9).split(",");
                 for(String fileName:filesName){
                     Document document=new Document();

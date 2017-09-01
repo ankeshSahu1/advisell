@@ -119,6 +119,7 @@ public class SearchPanel extends javax.swing.JPanel {
         clientListPanel.removeAll();
         if (!(clientList.isEmpty())) {
             for (Profile clientDetails : clientList) {
+                //System.out.println(clientDetails);
                 JPanel clientPanel = new JPanel();
                 clientPanel.setEnabled(true);
                 clientPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
