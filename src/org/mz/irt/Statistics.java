@@ -5,6 +5,7 @@
  */
 package org.mz.irt;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.UIManager;
 
@@ -37,6 +38,8 @@ public class Statistics extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newProfileMenuItem = new javax.swing.JMenuItem();
@@ -46,9 +49,23 @@ public class Statistics extends javax.swing.JFrame {
         settingsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Advisell");
+        setIconImage(new ImageIcon(getClass().getResource("logo_icon.png")).getImage());
+        setResizable(false);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/logo_home.png"))); // NOI18N
+        jLabel1.setToolTipText("");
+        jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
 
+        newProfileMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newProfileMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/icon_new_profile.png"))); // NOI18N
         newProfileMenuItem.setText("New Profile");
         newProfileMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,7 +74,9 @@ public class Statistics extends javax.swing.JFrame {
         });
         fileMenu.add(newProfileMenuItem);
 
-        searchProfileMenuItem.setText("Search Profile....");
+        searchProfileMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        searchProfileMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/icon_search.png"))); // NOI18N
+        searchProfileMenuItem.setText("Search...");
         searchProfileMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchProfileMenuItemActionPerformed(evt);
@@ -65,6 +84,7 @@ public class Statistics extends javax.swing.JFrame {
         });
         fileMenu.add(searchProfileMenuItem);
 
+        exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/turn-off.png"))); // NOI18N
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,6 +102,7 @@ public class Statistics extends javax.swing.JFrame {
             }
         });
 
+        settingsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/icon_settings.png"))); // NOI18N
         settingsMenuItem.setText("Settings");
         settingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,31 +115,12 @@ public class Statistics extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
-        );
-
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void newProfileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProfileMenuItemActionPerformed
-        JDialog dialog = new JDialog(this, true);
-        dialog.add(new ProfilePanel(this));
-        dialog.setSize(550, 650);
-        dialog.setVisible(true);
-        //JOptionPane.showInputDialog(new ProfilePanel());
-        //this.setEnabled(false);
-        //JFrame frame=new JFrame();
-        //frame.add(new ProfilePanel(this));
-        //frame.getContentPane().add(new ProfilePanel(this));
-        //frame.setVisible(true);
+        new NewProfileDialog(this, true).setVisible(true);
     }//GEN-LAST:event_newProfileMenuItemActionPerformed
 
     private void searchProfileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchProfileMenuItemActionPerformed
@@ -182,7 +184,9 @@ public class Statistics extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem newProfileMenuItem;
     private javax.swing.JMenuItem searchProfileMenuItem;
     private javax.swing.JMenu settingMenu;
