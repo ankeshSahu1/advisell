@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import org.mz.irt.model.Profile;
 import org.mz.irt.bo.profile.ProfileBo;
 import org.mz.irt.bo.profile.ProfileBoImp1;
+import org.mz.irt.bo.uploadDocument.ClientProfileUploadDocumentBo;
+import org.mz.irt.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
 import org.mz.irt.model.Document;
 
 /**
@@ -34,6 +36,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
     private Profile profile;
     private JLabel previewDocumentLbl;
     ArrayList<Document> documentList = new ArrayList<Document>();
+    ArrayList<Document> deleteDocumentList = new ArrayList<Document>();
     int i, component;
     /**
      * Creates new form FilePanel
@@ -46,7 +49,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
         lastNameTextField.setText(profile.getLastName());
         contactNumberTextField.setText(profile.getContactNumber());
         phoneNumberTextField.setText(profile.getPhoneNumber());
-        i=profile.getDocumentList().size()-1;
+        i=profile.getDocumentList().size();
 //        if(profile.getGender().equals("male")){
 //            maleRadioBtn.setSelected(true);
 //        }else{
@@ -59,11 +62,13 @@ public class EditProfilePanel extends javax.swing.JPanel {
 //        stateTextField.setText(profile.getState());
 //        pinNoTextField.setText(profile.getPinNumber());
         aadharTextField.setText(profile.getAadharCardNumber());
-//        for(Document document:profile.getDocumentList()){
-//           createDocumentPanel();
-//           String filePath="documents/" + profile.getAadharCardNumber()+document.getFileName();
-//           previewDocumentLbl.setIcon(new ImageIcon(scaledImage(new ImageIcon(filePath).getImage(), previewDocumentLbl.getWidth(), previewDocumentLbl.getHeight())));
-//        }
+        for(Document document:profile.getDocumentList()){
+           createDocumentPanel();
+           String filePath="documents/" + profile.getAadharCardNumber()+"/"+document.getFileName();
+           previewDocumentLbl.setIcon(new ImageIcon(scaledImage(new ImageIcon(filePath).getImage(),120,215)));
+           createDeleteButton(document);
+        }
+        createDocumentPanel();
     }
 
     /**
@@ -96,6 +101,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
         phoneNumberTextField = new javax.swing.JTextField();
         panNoLbl = new javax.swing.JLabel();
         panNoTextField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
         documentsPanel = new javax.swing.JPanel();
 
         //genderButtonGroup.add(maleRadioBtn);
@@ -134,16 +140,8 @@ public class EditProfilePanel extends javax.swing.JPanel {
 
         panNoLbl.setText("Pan Number");
 
-        javax.swing.GroupLayout documentsPanelLayout = new javax.swing.GroupLayout(documentsPanel);
-        documentsPanel.setLayout(documentsPanelLayout);
-        documentsPanelLayout.setHorizontalGroup(
-            documentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 505, Short.MAX_VALUE)
-        );
-        documentsPanelLayout.setVerticalGroup(
-            documentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
-        );
+        documentsPanel.setLayout(new javax.swing.BoxLayout(documentsPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(documentsPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -201,14 +199,12 @@ public class EditProfilePanel extends javax.swing.JPanel {
                                     .addComponent(aadharTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(documentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(168, 168, 168)
+                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,9 +250,9 @@ public class EditProfilePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aadharLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(aadharTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(documentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -266,6 +262,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setContactNumber(contactNumberTextField.getText());
+        profile.setPhoneNumber(phoneNumberTextField.getText());
 //        if(gender!=null){
 //            profile.setGender(gender);
 //        }else{
@@ -277,8 +274,19 @@ public class EditProfilePanel extends javax.swing.JPanel {
 //        profile.setState(stateTextField.getText());
 //        profile.setPinNumber(pinNoTextField.getText());
         profile.setAadharCardNumber(aadharTextField.getText());
+        profile.setPanNumber(panNoTextField.getText());
         ProfileBo profileBo=new ProfileBoImp1();
-        int result=profileBo.updateProfile(profile);
+        if (!(documentList.isEmpty())) {
+            ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+            uploadDocumentBo.uploadDocument(documentList, aadharTextField.getText());
+        }
+        System.out.println(deleteDocumentList);
+        if (!(deleteDocumentList.isEmpty())) {
+            ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+            uploadDocumentBo.deleteDocument(deleteDocumentList, aadharTextField.getText());
+        }
+        profile.setDocumentList(documentList);
+        int result=profileBo.updateProfile(profile,deleteDocumentList);
         if(result>0){
             msgLbl.setText("Profile modified successfully");
             //frame.setEnabled(true);
@@ -289,7 +297,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void addressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTextFieldActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_addressTextFieldActionPerformed
     
     private void uploadDocument() {
@@ -310,16 +318,6 @@ public class EditProfilePanel extends javax.swing.JPanel {
         documentList.add(document);
 //        ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
 //        uploadDocumentBo.uploadDocument(document,aadharTextField.getText());
-//        try {
-//          JTextArea textArea=new JTextArea();
-//          previewDocumentPanel.add(textArea);
-//          System.out.println(file.getName());
-//         FileReader fileReader=new FileReader(file);
-//          System.out.println(fileReader);
-//          textArea.read(fileReader,file);
-//        } catch (IOException ex) {
-//          System.out.println("problem accessing file"+file.getAbsolutePath());
-//        }
         ImageIcon icon = new ImageIcon(filePath);
         Image img = icon.getImage();
         previewDocumentLbl.setIcon(new ImageIcon(scaledImage(img, previewDocumentLbl.getWidth(), previewDocumentLbl.getHeight())));
@@ -334,6 +332,22 @@ public class EditProfilePanel extends javax.swing.JPanel {
         return bufferedImage;
     }
 
+    private void createDeleteButton(Document document) {
+        JPanel deletePanel = (JPanel) ((JPanel) documentsPanel.getComponent(component - 1)).getComponent(2);
+        JButton deleteBtn = new JButton("Delete");
+        deletePanel.add(deleteBtn);
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                documentsPanel.remove(deleteBtn.getParent().getParent());
+                component--;
+                i--;
+                deleteDocumentList.add(document);
+                revalidate();
+            }
+        });
+    }
+    
     private void createDeleteButton() {
         JPanel deletePanel = (JPanel) ((JPanel) documentsPanel.getComponent(component - 1)).getComponent(2);
         JButton deleteBtn = new JButton("Delete");
@@ -346,11 +360,10 @@ public class EditProfilePanel extends javax.swing.JPanel {
         });
     }
     
-    
     private void createDocumentPanel() {
         JPanel documentPanel = new JPanel();
         JLabel previewDocumentLbl = new JLabel();
-        this.previewDocumentLbl = previewDocumentLbl;
+        this.previewDocumentLbl=previewDocumentLbl;
         JPanel deleteBtnPanel = new JPanel();
         JButton uploadDocumentBtn = new JButton("Upload Documents");
         GroupLayout documentPanelLayout = new GroupLayout(documentPanel);
@@ -406,6 +419,7 @@ public class EditProfilePanel extends javax.swing.JPanel {
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.ButtonGroup genderButtonGroup;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lastNameLbl;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JLabel msgLbl;

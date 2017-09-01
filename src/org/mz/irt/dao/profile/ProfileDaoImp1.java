@@ -7,7 +7,9 @@ package org.mz.irt.dao.profile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.mz.irt.dao.connection.DBConnection;
 import org.mz.irt.model.Document;
 import org.mz.irt.model.Profile;
@@ -33,7 +35,7 @@ public class ProfileDaoImp1 implements ProfileDao {
             statement.setString(2, (String) profile.getLastName());
 //            statement.setString(3, (String) profile.getGender());
             statement.setString(3, (String) profile.getContactNumber());
-             statement.setString(4, (String) profile.getPhoneNumber());
+            statement.setString(4, (String) profile.getPhoneNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
 //            statement.setString(7, (String) profile.getCity());
@@ -41,16 +43,17 @@ public class ProfileDaoImp1 implements ProfileDao {
 //            statement.setString(9, (String) profile.getPinNumber());
             statement.setString(7, (String) profile.getAadharCardNumber());
             statement.setString(8, (String) profile.getPanNumber());
-            String documents="";
+            String documents = "";
             if (!(profile.getDocumentList().isEmpty())) {
-                for (Document document: profile.getDocumentList()) {
-                    if(documents.equals(""))
-                        documents=documents.concat(document.getFileName());
-                    else
-                        documents=documents.concat(","+document.getFileName());
+                for (Document document : profile.getDocumentList()) {
+                    if (documents.equals("")) {
+                        documents = documents.concat(document.getFileName());
+                    } else {
+                        documents = documents.concat("," + document.getFileName());
+                    }
                 }
             }
-            statement.setString(9,documents);
+            statement.setString(9, documents);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,25 +73,62 @@ public class ProfileDaoImp1 implements ProfileDao {
     }
 
     @Override
-    public int updateProfile(Profile profile) {
+    public int updateProfile(Profile profile, ArrayList<Document> deleteDocumentList) {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();
         int result = 0;
+        ResultSet resultSet = null;
+        String documents = "";
         try {
             connection = dbConnection.createConnection();
-            String query = "UPDATE profile SET first_name=?,last_name=?,gender=?,contact=?,email=?,address=?,city=?,state=?,pin_no=?,aadhar=? WHERE  aadhar=" + profile.getAadharCardNumber();
+            statement = connection.prepareStatement("SELECT documents FROM profile WHERE aadhar=?");
+            statement.setString(1, (String) profile.getAadharCardNumber());
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                documents = resultSet.getString("documents");
+            }
+            statement.close();
+            resultSet.close();
+            String query = "UPDATE profile SET first_name=?,last_name=?,contact=?,phone=?,email=?,address=?,aadhar=?,pan_no=?,documents=? WHERE  aadhar=" + profile.getAadharCardNumber();
             statement = connection.prepareStatement(query);
-            System.out.println(statement);
             statement.setString(1, (String) profile.getFirstName());
             statement.setString(2, (String) profile.getLastName());
-            statement.setString(3, (String) profile.getGender());
-            statement.setString(4, (String) profile.getContactNumber());
+            //statement.setString(3, (String) profile.getGender());
+            statement.setString(3, (String) profile.getContactNumber());
+            statement.setString(4, (String) profile.getPhoneNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
-            statement.setString(7, (String) profile.getCity());
-            statement.setString(8, (String) profile.getState());
-            statement.setString(9, (String) profile.getPinNumber());
-            statement.setString(10, (String) profile.getAadharCardNumber());
+            //statement.setString(7, (String) profile.getCity());
+            //statement.setString(8, (String) profile.getState());
+            //statement.setString(9, (String) profile.getPinNumber());
+            statement.setString(7, (String) profile.getAadharCardNumber());
+            statement.setString(8, (String) profile.getPanNumber());
+            //System.out.println(deleteDocumentList);
+            if (!(deleteDocumentList.isEmpty())) {
+                for (Document document : deleteDocumentList) {
+                    if (documents.contains(",")) {
+                        String[] filesName = documents.split(",");
+                        for (String fileName : filesName) {
+                            if (fileName.equals(document.getFileName())) {
+                                documents = documents.replace("," + fileName, "");
+                            }
+                        }
+                    } else {
+                        documents = documents.replace(documents, "");
+                    }
+                }
+            }
+            //System.out.println(documents);
+            if (!(profile.getDocumentList().isEmpty())) {
+                for (Document document : profile.getDocumentList()) {
+                    if (documents.equals("")) {
+                        documents = documents.concat(document.getFileName());
+                    } else {
+                        documents = documents.concat("," + document.getFileName());
+                    }
+                }
+            }
+            statement.setString(9, documents);
             result = statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -137,7 +177,7 @@ public class ProfileDaoImp1 implements ProfileDao {
         return result;
     }
 
-   // @Override
+    // @Override
 //    public int uploadDocument(Document documentList, String aadharNo) {
 //        PreparedStatement statement = null;
 //        DBConnection dbConnection = new DBConnection();
@@ -171,5 +211,4 @@ public class ProfileDaoImp1 implements ProfileDao {
 //        }
 //        return result;
 //    }
-
 }

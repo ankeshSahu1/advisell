@@ -112,14 +112,14 @@ public class SearchDaoImp1 implements SearchDao {
                 
                 profile.setFirstName(resultSet.getString(1));
                 profile.setLastName(resultSet.getString(2));
-                profile.setContactNumber(resultSet.getString(3));
-                profile.setEmailId(resultSet.getString(4));
-                profile.setAddress(resultSet.getString(5));
-                profile.setAadharCardNumber(resultSet.getString(6));
-                profile.setPanNumber(resultSet.getString(7));
-                profile.setPhoneNumber(resultSet.getString(8));
+                profile.setContactNumber(resultSet.getString(4));
+                profile.setEmailId(resultSet.getString(5));
+                profile.setAddress(resultSet.getString(6));
+                profile.setAadharCardNumber(resultSet.getString(10));
+                profile.setPanNumber(resultSet.getString(11));
+                profile.setPhoneNumber(resultSet.getString(12));
                 ArrayList<Document> documentList=new ArrayList<Document>();
-                String[] filesName=resultSet.getString(9).split(",");
+                String[] filesName=resultSet.getString(13).split(",");
                 for(String fileName:filesName){
                     Document document=new Document();
                     document.setFileName(fileName);

@@ -18,4 +18,6 @@ import org.mz.irt.model.Document;
  */
 public interface ClientProfileUploadDocumentBo {
     void uploadDocument(ArrayList<Document> documentList,String aadharNo);
+
+    public void deleteDocument(ArrayList<Document> deleteDocumentList, String aadharNo);
 }
