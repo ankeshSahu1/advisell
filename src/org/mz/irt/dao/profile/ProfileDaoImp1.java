@@ -110,7 +110,11 @@ public class ProfileDaoImp1 implements ProfileDao {
                         String[] filesName = documents.split(",");
                         for (String fileName : filesName) {
                             if (fileName.equals(document.getFileName())) {
-                                documents = documents.replace("," + fileName, "");
+                                if (filesName[0].equals(document.getFileName())) {
+                                    documents = documents.replace(fileName+",", "");
+                                } else {
+                                    documents = documents.replace("," + fileName, "");
+                                }
                             }
                         }
                     } else {

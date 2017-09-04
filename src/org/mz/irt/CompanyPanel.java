@@ -105,14 +105,14 @@ public class CompanyPanel extends javax.swing.JPanel {
         int row = companyNameTable.getSelectedRow();
         CompanyBo companyBo = new CompanyBoImp1();
         if (addBtn.getText().equals("Add")) {
-            int result = companyBo.addCompanyName(companyNameTextField.getText());
+            int result = companyBo.addCompanyName(companyNameTextField.getText().toUpperCase());
             if (result > 0) {
                 resultLbl.setText("Add Successfully");
             } else {
                 resultLbl.setText("Can not be added");
             }
         } else {
-            int result = companyBo.updateCompanyName((String) companyNameTable.getValueAt(row, 1),companyNameTextField.getText());
+            int result = companyBo.updateCompanyName((String) companyNameTable.getValueAt(row, 1),companyNameTextField.getText().toUpperCase());
             if (result > 0) {
                 addBtn.setText("Add");
                 resultLbl.setText("Modified Successfully");

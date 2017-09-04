@@ -84,6 +84,10 @@ public class SearchDaoImp1 implements SearchDao {
                     queryBuilder.append(Constant.QUERY_LIKE);
                     queryBuilder.append("'%" + searchValue + "%'");
                     queryBuilder.append(Constant.QUERY_OR);
+                    queryBuilder.append(Constant.QUERY_PAN_NUMBER);
+                    queryBuilder.append(Constant.QUERY_LIKE);
+                    queryBuilder.append("'%" + searchValue + "%'");
+                    queryBuilder.append(Constant.QUERY_OR);
                     queryBuilder.append(Constant.QUERY_NUMBER);
                     queryBuilder.append(Constant.QUERY_LIKE);
                     queryBuilder.append("'%" + searchValue + "%'");

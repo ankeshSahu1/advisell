@@ -5,6 +5,7 @@
  */
 package org.mz.irt.bo.uploadDocument;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.mz.irt.model.Document;
 
