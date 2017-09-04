@@ -59,7 +59,6 @@ public class ClientProfileUploadDocumentBoImp1 implements ClientProfileUploadDoc
     public void deleteDocument(ArrayList<Document> deleteDocumentList, String aadharNo) {
         for (Document document : deleteDocumentList) {
             File file = new File("documents/" + aadharNo+"/"+document.getFileName());
-            System.out.println(file);
             file.delete();
         } 
     }
