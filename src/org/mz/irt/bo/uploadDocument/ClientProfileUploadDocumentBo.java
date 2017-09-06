@@ -5,6 +5,7 @@
  */
 package org.mz.irt.bo.uploadDocument;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.mz.irt.model.Document;
 
@@ -18,4 +19,6 @@ import org.mz.irt.model.Document;
  */
 public interface ClientProfileUploadDocumentBo {
     void uploadDocument(ArrayList<Document> documentList,String aadharNo);
+
+    public void deleteDocument(ArrayList<Document> deleteDocumentList, String aadharNo);
 }

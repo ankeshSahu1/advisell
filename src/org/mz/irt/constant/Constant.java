@@ -16,6 +16,7 @@ public interface Constant {
     String QUERY_IN = " IN ";
     String QUERY_BETWEEN = " between ";
     String QUERY_AADHAR = " aadhar ";
+    String QUERY_PAN_NUMBER = " pan_no ";
     String QUERY_NUMBER = " contact ";
     String QUERY_OR = " or ";
     String QUERY_CONCAT = " concat ";

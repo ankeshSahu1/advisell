@@ -5,6 +5,7 @@
  */
 package org.mz.irt.dao.profile;
 
+import java.util.ArrayList;
 import org.mz.irt.model.Document;
 import org.mz.irt.model.Profile;
 
@@ -14,7 +15,7 @@ import org.mz.irt.model.Profile;
  */
 public interface ProfileDao {
     int addProfile(Profile profile);
-    int updateProfile(Profile profile);
+    int updateProfile(Profile profile,ArrayList<Document> deleteDocumentList);
     public int deleteProfile(String aadharCardNo);
     //int uploadDocument(Document document,String aadharNo);
 }

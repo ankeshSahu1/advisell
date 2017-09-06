@@ -6,6 +6,13 @@
 package org.mz.irt;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import org.mz.irt.model.Document;
 import org.mz.irt.model.Profile;
 
 /**
@@ -14,16 +21,26 @@ import org.mz.irt.model.Profile;
  */
 public class ProfileDialog extends javax.swing.JDialog {
 
-    Profile client;
     /**
      * Creates new form NewJDialog
      * @param parent
      * @param modal
      */
-    public ProfileDialog(java.awt.Frame parent, boolean modal, Profile client) {
+    public ProfileDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
-        this.client = client;
         initComponents();
+        
+        nameLbl.setText(profile.getFirstName()+" "+profile.getLastName());
+        contactNumberLbl.setText(profile.getContactNumber());
+        mobileNoLbl.setText(profile.getPhoneNumber());
+        emailIdLbl.setText(profile.getEmailId());
+        addressLbl.setText(profile.getAddress());
+        panNoLbl.setText(profile.getPanNumber());
+        aadharCardLbl.setText(profile.getAadharCardNumber());
+        for(Document document:profile.getDocumentList()){
+            createDocument(document,profile);
+        }
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
     }
 
     /**
@@ -237,6 +254,20 @@ public class ProfileDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createDocument(Document document,Profile profile) {
+        JLabel documentLbl=new JLabel();
+        documentLbl.setSize(120,215);
+        String filePath = "documents/" + profile.getAadharCardNumber() + "/" + document.getFileName();
+        documentLbl.setIcon(new ImageIcon(scaledImage(new ImageIcon(filePath).getImage(), 120, 215)));
+        documentsPanel.add(documentLbl);
+    }
+    
+    private Image scaledImage(Image img, int width, int height) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bufferedImage.createGraphics();
+        g.drawImage(img, 0, 0, height, width, null);
+        return bufferedImage;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel documentsPanel;

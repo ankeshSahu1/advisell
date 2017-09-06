@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,17 +34,17 @@ import org.mz.irt.model.Profile;
  */
 public class NewProfileDialog extends javax.swing.JDialog {
 
-    //private final JFrame frame;
+    private final JFrame frame;
     private JLabel previewDocumentLbl;
     String gender;
     ArrayList<Document> documentList = new ArrayList<Document>();
-    int i;
+    int i, component;
     /**
      * Creates new form NewProfileDialog
      */
     public NewProfileDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        //this.frame = parent;
+        this.frame = (JFrame)parent;
         initComponents();
         //createDocumentPanel();
     }
@@ -282,7 +283,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_phoneNumberTextFieldActionPerformed
 
     private void createprofileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createprofileBtnActionPerformed
-        i=0;
+        i = 0;
         Profile profile = new Profile();
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
@@ -305,8 +306,12 @@ public class NewProfileDialog extends javax.swing.JDialog {
         int result = profileBo.createProfile(profile);
         if (result > 0) {
             msgLbl.setText("Profile created");
-            //frame.setEnabled(true);
-            //this.getTopLevelAncestor().setVisible(false);
+            JDialog dialog = new JDialog(frame, true);
+            dialog.add(new MessageDialog(frame,profile));
+            dialog.setSize(300, 200);
+            dialog.setVisible(true);
+            frame.setEnabled(true);
+            this.setVisible(false);
         } else {
             msgLbl.setText("Profile does not created");
         }
@@ -324,8 +329,8 @@ public class NewProfileDialog extends javax.swing.JDialog {
         String filePath = file.getAbsolutePath();
         Document document = new Document();
         document.setFile(file);
-        int index=file.getName().indexOf(".");
-        document.setFileName("document_"+i+"."+file.getName().substring(index));
+        int index = file.getName().indexOf(".");
+        document.setFileName("document_" + i + file.getName().substring(index));
 //        FilenameFilter filter = new FilenameFilter() {
 //            public boolean accept(File file,String name) {
 //                return name.endsWith(".jpg") || name.endsWith(".pdf");
@@ -347,11 +352,8 @@ public class NewProfileDialog extends javax.swing.JDialog {
         ImageIcon icon = new ImageIcon(filePath);
         Image img = icon.getImage();
         previewDocumentLbl.setIcon(new ImageIcon(scaledImage(img, previewDocumentLbl.getWidth(), previewDocumentLbl.getHeight())));
+        createDeleteButton();
         createDocumentPanel();
-    }
-
-    void deleteDocument() {
-        
     }
 
     private Image scaledImage(Image img, int width, int height) {
@@ -360,12 +362,24 @@ public class NewProfileDialog extends javax.swing.JDialog {
         g.drawImage(img, 0, 0, height, width, null);
         return bufferedImage;
     }
+    
+    private void createDeleteButton() {
+        JPanel deletePanel = (JPanel) ((JPanel) documentsPanel.getComponent(component - 1)).getComponent(2);
+        JButton deleteBtn = new JButton("Delete");
+        deletePanel.add(deleteBtn);
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                documentsPanel.remove(deleteBtn.getParent().getParent());
+            }
+        });
+    }
 
     private void createDocumentPanel() {
         JPanel documentPanel = new JPanel();
         JLabel previewDocumentLbl = new JLabel();
         this.previewDocumentLbl = previewDocumentLbl;
-        JButton deleteBtn = new JButton("Delete");
+        JPanel deleteBtnPanel = new JPanel();
         JButton uploadDocumentBtn = new JButton("Upload Documents");
         GroupLayout documentPanelLayout = new GroupLayout(documentPanel);
         documentPanel.setLayout(documentPanelLayout);
@@ -377,7 +391,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
                                 .addGap(49, 49, 49)
                                 .addComponent(previewDocumentLbl, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
                                 //.addGap(69, 69, 69)
-                                .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(deleteBtnPanel, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(160, Short.MAX_VALUE))
         );
         documentPanelLayout.setVerticalGroup(
@@ -387,7 +401,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
                                 .addGroup(documentPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(uploadDocumentBtn, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(previewDocumentLbl, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(deleteBtnPanel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(20, Short.MAX_VALUE))
         );
         uploadDocumentBtn.addActionListener(new ActionListener() {
@@ -396,13 +410,14 @@ public class NewProfileDialog extends javax.swing.JDialog {
                 uploadDocument();
             }
         });
-        deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteDocument();
-            }
-        });
+//        deleteBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                documentsPanel.remove(documentPanel);
+//            }
+//        });
         documentsPanel.add(documentPanel);
+        component++;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

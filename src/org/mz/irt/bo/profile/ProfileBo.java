@@ -5,6 +5,8 @@
  */
 package org.mz.irt.bo.profile;
 
+import java.util.ArrayList;
+import org.mz.irt.model.Document;
 import org.mz.irt.model.Profile;
 
 /**
@@ -13,7 +15,7 @@ import org.mz.irt.model.Profile;
  */
 public interface ProfileBo {
     int createProfile(Profile profile);
-    int updateProfile(Profile profile);
+    int updateProfile(Profile profile,ArrayList<Document> deleteDocumentList);
 
     public int deleteProfile(String aadharCardNumber);
 }

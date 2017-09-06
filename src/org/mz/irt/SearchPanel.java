@@ -186,12 +186,14 @@ public class SearchPanel extends javax.swing.JPanel {
                 JLabel clientPhoneNumberLbl = new JLabel();
                 JLabel clientEmailIdLbl = new JLabel();
                 JLabel clientAadharLbl = new JLabel();
+                JLabel clientPanNoLbl = new JLabel();
                 JButton editBtn = new JButton("Edit");
                 JButton deleteBtn = new JButton("Delete");
                 JButton investmentBtn = new JButton("Investment");
                 clientNameLbl.setText(clientDetails.getFirstName() + " " + clientDetails.getLastName());
                 clientPhoneNumberLbl.setText(clientDetails.getContactNumber());
                 clientEmailIdLbl.setText(clientDetails.getEmailId());
+                clientPanNoLbl.setText(clientDetails.getPanNumber());
                 clientAadharLbl.setText(clientDetails.getAadharCardNumber());
                 GroupLayout clientPanelLayout = new GroupLayout(clientPanel);
                 clientPanel.setLayout(clientPanelLayout);
@@ -200,6 +202,8 @@ public class SearchPanel extends javax.swing.JPanel {
                                 .addGroup(clientPanelLayout.createSequentialGroup()
                                         .addContainerGap()
                                         .addComponent(clientNameLbl, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(clientPanNoLbl, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(clientPhoneNumberLbl, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -225,6 +229,7 @@ public class SearchPanel extends javax.swing.JPanel {
                                                         .addComponent(deleteBtn, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(investmentBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(clientAadharLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+                                                         .addComponent(clientPanNoLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(clientEmailIdLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(clientPhoneNumberLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
                                         .addContainerGap(62, Short.MAX_VALUE))
@@ -286,7 +291,7 @@ public class SearchPanel extends javax.swing.JPanel {
     private void editProfile(Profile client) {
         JDialog dialog = new JDialog(frame, true);
         dialog.add(new EditProfilePanel(frame, client));
-        dialog.setSize(515, 515);
+        dialog.setSize(575, 650);
         dialog.setVisible(true);
         searchOnChange();
     }

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.irt.constant.Constant;
 import org.mz.irt.dao.connection.DBConnection;
+import org.mz.irt.model.Document;
 import org.mz.irt.model.Profile;
 
 /**
@@ -83,6 +84,10 @@ public class SearchDaoImp1 implements SearchDao {
                     queryBuilder.append(Constant.QUERY_LIKE);
                     queryBuilder.append("'%" + searchValue + "%'");
                     queryBuilder.append(Constant.QUERY_OR);
+                    queryBuilder.append(Constant.QUERY_PAN_NUMBER);
+                    queryBuilder.append(Constant.QUERY_LIKE);
+                    queryBuilder.append("'%" + searchValue + "%'");
+                    queryBuilder.append(Constant.QUERY_OR);
                     queryBuilder.append(Constant.QUERY_NUMBER);
                     queryBuilder.append(Constant.QUERY_LIKE);
                     queryBuilder.append("'%" + searchValue + "%'");
@@ -98,16 +103,33 @@ public class SearchDaoImp1 implements SearchDao {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Profile profile = new Profile();
+//                profile.setFirstName(resultSet.getString(1));
+//                profile.setLastName(resultSet.getString(2));
+//                profile.setGender(resultSet.getString(3));
+//                profile.setContactNumber(resultSet.getString(4));
+//                profile.setEmailId(resultSet.getString(5));
+//                profile.setAddress(resultSet.getString(6));
+//                profile.setCity(resultSet.getString(7));
+//                profile.setState(resultSet.getString(8));
+//                profile.setPinNumber(resultSet.getString(9));
+//                profile.setAadharCardNumber(resultSet.getString(10));
+                
                 profile.setFirstName(resultSet.getString(1));
                 profile.setLastName(resultSet.getString(2));
-                profile.setGender(resultSet.getString(3));
                 profile.setContactNumber(resultSet.getString(4));
                 profile.setEmailId(resultSet.getString(5));
                 profile.setAddress(resultSet.getString(6));
-                profile.setCity(resultSet.getString(7));
-                profile.setState(resultSet.getString(8));
-                profile.setPinNumber(resultSet.getString(9));
                 profile.setAadharCardNumber(resultSet.getString(10));
+                profile.setPanNumber(resultSet.getString(11));
+                profile.setPhoneNumber(resultSet.getString(12));
+                ArrayList<Document> documentList=new ArrayList<Document>();
+                String[] filesName=resultSet.getString(13).split(",");
+                for(String fileName:filesName){
+                    Document document=new Document();
+                    document.setFileName(fileName);
+                    documentList.add(document);
+                }
+                profile.setDocumentList(documentList);
                 clientDetails.add(profile);
             }
         } catch (SQLException e) {

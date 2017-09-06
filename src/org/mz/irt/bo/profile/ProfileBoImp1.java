@@ -5,9 +5,11 @@
  */
 package org.mz.irt.bo.profile;
 
+import java.util.ArrayList;
 import org.mz.irt.model.Profile;
 import org.mz.irt.dao.profile.ProfileDao;
 import org.mz.irt.dao.profile.ProfileDaoImp1;
+import org.mz.irt.model.Document;
 
 /**
  *
@@ -22,9 +24,9 @@ public class ProfileBoImp1 implements ProfileBo{
     }
 
     @Override
-    public int updateProfile(Profile profile) {
+    public int updateProfile(Profile profile,ArrayList<Document> deleteDocumentlist) {
       ProfileDao profileDao=new ProfileDaoImp1();
-      return profileDao.updateProfile(profile);    
+      return profileDao.updateProfile(profile,deleteDocumentlist);    
     }
     
     @Override
