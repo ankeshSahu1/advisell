@@ -1,24 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2017 Metazone Infotech Pvt Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.mz.irt;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.UIManager;
 
 /**
  *
  * @author metazone
  */
-public class Statistics extends javax.swing.JFrame {
+public class Advisell extends javax.swing.JFrame {
 
     /**
      * Creates new form Statistics
      */
-    public Statistics() {
+    public Advisell() {
         super("Investment record tracking");
         initComponents();
         //Container c=getContentPane();
@@ -95,13 +106,9 @@ public class Statistics extends javax.swing.JFrame {
 
         jMenuBar.add(fileMenu);
 
-        settingMenu.setText("Settings");
-        settingMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingMenuActionPerformed(evt);
-            }
-        });
+        settingMenu.setText("Admin");
 
+        settingsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         settingsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/irt/icon_settings.png"))); // NOI18N
         settingsMenuItem.setText("Settings");
         settingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -124,28 +131,21 @@ public class Statistics extends javax.swing.JFrame {
     }//GEN-LAST:event_newProfileMenuItemActionPerformed
 
     private void searchProfileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchProfileMenuItemActionPerformed
-        JDialog dialog = new JDialog(this, true);
+        /*JDialog dialog = new JDialog(this, true);
         dialog.add(new SearchPanel(this));
         dialog.setSize(1050, 600);
-        dialog.setVisible(true);
+        dialog.setVisible(true);*/
+        this.add(new SearchPanel(this),0);
+        this.revalidate();
     }//GEN-LAST:event_searchProfileMenuItemActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        this.setVisible(false);
+        //new ProfileDialog(this, true).setVisible(true);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void settingMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingMenuActionPerformed
-        JDialog dialog = new JDialog(this, true);
-        dialog.add(new CompanyPanel());
-        dialog.setSize(500, 380);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_settingMenuActionPerformed
-
     private void settingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsMenuItemActionPerformed
-        JDialog dialog = new JDialog(this, true);
-        dialog.add(new CompanyPanel());
-        dialog.setSize(500, 380);
-        dialog.setVisible(true);
+        this.add(new CompanyPanel(),0);
+        this.revalidate();
     }//GEN-LAST:event_settingsMenuItemActionPerformed
 
     /**
@@ -160,14 +160,18 @@ public class Statistics extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Statistics.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Advisell.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Statistics.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Advisell.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Statistics.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Advisell.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Statistics.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Advisell.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -176,7 +180,7 @@ public class Statistics extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Statistics().setVisible(true);
+                new Advisell().setVisible(true);
             }
         });
     }

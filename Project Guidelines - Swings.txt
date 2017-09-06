@@ -1,0 +1,9 @@
+Swings Project
+
+1. Choose Project name
+2. Project architecture - overall structure and use cases, 
+3. packages and folder heirarchy
+4. Change License
+5. Project design - JFrames, Dialogs and all
+6. DB design
+7. Services classes/Code
