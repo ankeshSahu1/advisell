@@ -26,14 +26,12 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import org.mz.advisell.bo.profile.ProfileBo;
-import org.mz.advisell.bo.profile.ProfileBoImp1;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBo;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
-import org.mz.advisell.model.Document;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.services.ProfileService;
+import org.mz.advisell.services.DocumentService;
+import org.mz.advisell.bean.Document;
+import org.mz.advisell.bean.Profile;
 
 /**
  *
@@ -90,10 +88,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         documentChooser = new javax.swing.JFileChooser();
-        investOptionDialog = new javax.swing.JDialog();
-        messageLbl = new javax.swing.JLabel();
-        investBtn = new javax.swing.JButton();
-        laterBtn = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
         msgLbl = new javax.swing.JLabel();
         namePanel = new javax.swing.JPanel();
@@ -123,58 +117,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
         documentsPanel = new javax.swing.JPanel();
         uploadLbl = new javax.swing.JLabel();
         submitProfileBtn = new javax.swing.JButton();
-
-        investOptionDialog.setTitle("Invest Option");
-        investOptionDialog.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        investOptionDialog.setIconImage(null);
-        investOptionDialog.setPreferredSize(new java.awt.Dimension(292, 90));
-        investOptionDialog.setResizable(false);
-        investOptionDialog.setSize(investOptionDialog.size());
-        investOptionDialog.setType(java.awt.Window.Type.POPUP);
-
-        messageLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        messageLbl.setText("Record Investment?");
-
-        investBtn.setText("Invest");
-        investBtn.setPreferredSize(new java.awt.Dimension(65, 23));
-        investBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                investBtnActionPerformed(evt);
-            }
-        });
-
-        laterBtn.setText("Later");
-        laterBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                laterBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout investOptionDialogLayout = new javax.swing.GroupLayout(investOptionDialog.getContentPane());
-        investOptionDialog.getContentPane().setLayout(investOptionDialogLayout);
-        investOptionDialogLayout.setHorizontalGroup(
-            investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(investOptionDialogLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(investOptionDialogLayout.createSequentialGroup()
-                        .addComponent(investBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(laterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(messageLbl))
-                .addGap(20, 20, 20))
-        );
-        investOptionDialogLayout.setVerticalGroup(
-            investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(investOptionDialogLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(messageLbl)
-                .addGap(18, 18, 18)
-                .addGroup(investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(laterBtn)
-                    .addComponent(investBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Profile");
@@ -364,15 +306,19 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setPanNumber(panNoTextField.getText());
         profile.setDocumentList(documentList);
         
-        /*ProfileBo profileBo = new ProfileBoImp1();
-        if (!(documentList.isEmpty())) {
-            ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
-            uploadDocumentBo.uploadDocument(documentList, aadharTextField.getText());
+        DocumentService uploadService = new DocumentService();
+        int result = uploadService.uploadDocuments(documentList, aadharTextField.getText());
+        
+        if(result == 0){
+            msgLbl.setText("Document couldn't be uploaded.");
+            return;
         }
-        int result = profileBo.createProfile(profile);*/
-        if (true) {
-            System.out.println("A");
+        ProfileService profileService = new ProfileService();
+        result = profileService.createProfile(profile);
+        if (result > 0) {
             dispose();
+            new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
+                    .setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
         }
@@ -390,16 +336,21 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setPanNumber(panNoTextField.getText());
         profile.setDocumentList(documentList);
         
-        ProfileBo profileBo = new ProfileBoImp1();
-        if (!(documentList.isEmpty())) {
-            ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
-            uploadDocumentBo.uploadDocument(documentList, aadharTextField.getText());
+        DocumentService documentService = new DocumentService();
+        //create temp docs
+        int result = documentService.uploadDocuments(documentList, aadharTextField.getText());
+        //delete temp
+        
+        if(result == 0){
+            msgLbl.setText("Document couldn't be uploaded.");
+            return;
         }
-        int result = profileBo.updateProfile(profile, documentList);
+        ProfileService profileService = new ProfileService();
+        result = profileService.updateProfile(profile);
         if (result > 0) {
             dispose();
-            investOptionDialog.setVisible(true);
-            this.setVisible(false);
+            new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
+                    .setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
         }
@@ -408,14 +359,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
     private void uploadLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadLblMouseClicked
         onUploadLblClicked();
     }//GEN-LAST:event_uploadLblMouseClicked
-
-    private void laterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laterBtnActionPerformed
-        dispose();
-    }//GEN-LAST:event_laterBtnActionPerformed
-
-    private void investBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_investBtnActionPerformed
 
     private void onUploadLblClicked() {
         documentChooser.showOpenDialog(null);
@@ -477,12 +420,8 @@ public class FillProfileDialog extends javax.swing.JDialog {
     private javax.swing.JPanel emailPanel;
     private javax.swing.JLabel firstNameLbl;
     private javax.swing.JTextField firstNameTextField;
-    private javax.swing.JButton investBtn;
-    private javax.swing.JDialog investOptionDialog;
     private javax.swing.JLabel lastNameLbl;
     private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JButton laterBtn;
-    private javax.swing.JLabel messageLbl;
     private javax.swing.JLabel mobileLbl;
     private javax.swing.JPanel mobilePanel;
     private javax.swing.JTextField mobileTextField;
