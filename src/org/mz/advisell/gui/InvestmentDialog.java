@@ -16,6 +16,17 @@
  */
 package org.mz.advisell.gui;
 
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.text.NumberFormatter;
+import org.mz.advisell.bo.company.CompanyBo;
+import org.mz.advisell.bo.company.CompanyBoImp1;
+import org.mz.advisell.bo.makeInvestment.MakeInvestmentBo;
+import org.mz.advisell.bo.makeInvestment.MakeInvestmentBoImp1;
 import org.mz.advisell.model.Profile;
 
 /**
@@ -23,18 +34,24 @@ import org.mz.advisell.model.Profile;
  * @author parii
  */
 public class InvestmentDialog extends javax.swing.JDialog {
-    
+
     private final Profile profile;
+    private JFormattedTextField investmentTextField;
+    private JComboBox companyNameDropDown;
+    private JPanel singleInvestmentPanel;
+
     /**
      * Creates new form InvestmentDialog
+     *
      * @param parent
      * @param modal
      * @param profile
      */
-    public InvestmentDialog(java.awt.Frame parent, boolean modal,Profile profile) {
+    public InvestmentDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
         initComponents();
-        this.profile=profile;
+        this.profile = profile;
+        addInvestmentPanel();
     }
 
     /**
@@ -46,23 +63,145 @@ public class InvestmentDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        companyLbl = new javax.swing.JLabel();
+        investmentLbl = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        investmentPanel = new javax.swing.JPanel();
+        moreBtn = new javax.swing.JButton();
+        investmentResultLbl = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Investment");
+        setResizable(false);
+
+        companyLbl.setText("Select Company Name");
+
+        investmentLbl.setText("Investment");
+
+        investmentPanel.setLayout(new javax.swing.BoxLayout(investmentPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(investmentPanel);
+
+        moreBtn.setText("+");
+        moreBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moreBtnActionPerformed(evt);
+            }
+        });
+
+        investmentResultLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        investmentResultLbl.setForeground(new java.awt.Color(255, 51, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(investmentResultLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(companyLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(investmentLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(moreBtn))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 21, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(investmentResultLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(investmentLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(companyLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(moreBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void moreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moreBtnActionPerformed
+        addInvestmentPanel();
+        investmentResultLbl.setText("");
+    }//GEN-LAST:event_moreBtnActionPerformed
+
+    private void addInvestmentPanel() {
+        singleInvestmentPanel = new JPanel();
+        singleInvestmentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        companyNameDropDown = new JComboBox();
+        CompanyBo companyBo = new CompanyBoImp1();
+        ArrayList<String> companyNameList = companyBo.getCompaniesName();
+        for (String companyName : companyNameList) {
+            companyNameDropDown.addItem(companyName);
+        }
+        NumberFormatter formatter = new NumberFormatter();
+        formatter.setAllowsInvalid(false);
+        investmentTextField = new JFormattedTextField(formatter);
+        JButton addInvestmentBtn = new JButton("Add");
+        javax.swing.GroupLayout singleInvestmentPanelLayout = new javax.swing.GroupLayout(singleInvestmentPanel);
+        singleInvestmentPanel.setLayout(singleInvestmentPanelLayout);
+        singleInvestmentPanelLayout.setHorizontalGroup(
+                singleInvestmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(singleInvestmentPanelLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(companyNameDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(investmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(addInvestmentBtn)
+                                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        singleInvestmentPanelLayout.setVerticalGroup(
+                singleInvestmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(singleInvestmentPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(singleInvestmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(companyNameDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(investmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addInvestmentBtn))
+                                .addContainerGap(0, Short.MAX_VALUE))
+        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        addInvestmentBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addInvestmentBtnActionPerformed(evt);
+            }
+        });
+        investmentPanel.add(singleInvestmentPanel, 0);
+        revalidate();
+    }
+
+    private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        MakeInvestmentBo makeInvestmentBo = new MakeInvestmentBoImp1();
+        int result = makeInvestmentBo.addInvestment(companyNameDropDown.getSelectedItem().toString(), investmentTextField.getText(), profile.getAadharCardNumber());
+        if (result > 0) {
+            investmentResultLbl.setText("successfully added");
+        } else {
+            investmentResultLbl.setText("Error to make investment");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel companyLbl;
+    private javax.swing.JLabel investmentLbl;
+    private javax.swing.JPanel investmentPanel;
+    private javax.swing.JLabel investmentResultLbl;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton moreBtn;
     // End of variables declaration//GEN-END:variables
 }

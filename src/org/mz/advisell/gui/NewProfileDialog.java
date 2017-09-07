@@ -17,6 +17,7 @@
 package org.mz.advisell.gui;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.mz.advisell.bo.profile.ProfileBo;
 import org.mz.advisell.bo.profile.ProfileBoImp1;
@@ -40,6 +42,7 @@ import org.mz.advisell.model.Profile;
 public class NewProfileDialog extends javax.swing.JDialog {
 
     private ArrayList<Document> documentList = new ArrayList<Document>();
+    private final Frame frame;
     /**
      * Creates new form NewProfileDialog
      * @param parent
@@ -48,6 +51,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
     public NewProfileDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        frame=parent;
     }
 
     /**
@@ -94,6 +98,10 @@ public class NewProfileDialog extends javax.swing.JDialog {
         uploadLbl = new javax.swing.JLabel();
         createprofileBtn = new javax.swing.JButton();
 
+        investmentDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        investmentDialog.setResizable(false);
+        investmentDialog.setSize(new java.awt.Dimension(450, 130));
+
         laterBtn.setText("Later");
         laterBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,7 +132,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
                     .addGroup(investmentDialogLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(informationLbl)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         investmentDialogLayout.setVerticalGroup(
             investmentDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,6 +343,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
         if (result > 0) {
             dispose();
             //ask to invest or later
+            investmentDialog.setLocationRelativeTo(null);
             investmentDialog.setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
@@ -346,11 +355,12 @@ public class NewProfileDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_uploadLblMouseClicked
 
     private void investmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investmentBtnActionPerformed
-
+        investmentDialog.setVisible(false);
+        new InvestmentDialog(frame,true, new Profile()).setVisible(true);
     }//GEN-LAST:event_investmentBtnActionPerformed
 
     private void laterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laterBtnActionPerformed
-        dispose();
+        investmentDialog.setVisible(false);
     }//GEN-LAST:event_laterBtnActionPerformed
 
     private void onUploadLblClicked() {

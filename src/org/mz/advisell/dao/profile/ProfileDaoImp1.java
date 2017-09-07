@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2017 Metazone Infotech Pvt Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.mz.advisell.dao.profile;
 
@@ -122,7 +133,6 @@ public class ProfileDaoImp1 implements ProfileDao {
                     }
                 }
             }
-            //System.out.println(documents);
             if (!(profile.getDocumentList().isEmpty())) {
                 for (Document document : profile.getDocumentList()) {
                     if (documents.equals("")) {
@@ -180,39 +190,4 @@ public class ProfileDaoImp1 implements ProfileDao {
         }
         return result;
     }
-
-    // @Override
-//    public int uploadDocument(Document documentList, String aadharNo) {
-//        PreparedStatement statement = null;
-//        DBConnection dbConnection = new DBConnection();
-//        int result = 0;
-//        try {
-//            connection = dbConnection.createConnection();
-//            statement = connection.prepareStatement("Insert into client_documents values(?,?)");
-//            for (int i = 0; i < documentsList.size(); i++) {
-//                if (documentsList.get(i) != null) {
-//                    statement.setString(1, aadhar_no);
-//                    if (!documentsList.isEmpty()) {
-//                        statement.setString(2, documentsList.get(i).toString());
-//                    }
-//                    result = statement.executeUpdate();
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (statement != null) {
-//                    statement.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//
-//            }
-//        }
-//        return result;
-//    }
 }

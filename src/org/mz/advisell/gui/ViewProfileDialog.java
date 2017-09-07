@@ -1,16 +1,33 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2017 Metazone Infotech Pvt Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.mz.advisell.gui;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import org.mz.advisell.bo.profile.ProfileBo;
+import org.mz.advisell.bo.profile.ProfileBoImp1;
+import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBo;
+import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
 import org.mz.advisell.model.Document;
 import org.mz.advisell.model.Profile;
 
@@ -19,27 +36,21 @@ import org.mz.advisell.model.Profile;
  * @author Saket
  */
 public class ViewProfileDialog extends javax.swing.JDialog {
-
+    
+    private final Profile profile;
+    private final Frame frame;
     /**
      * Creates new form NewJDialog
+     *
      * @param parent
      * @param modal
      */
     public ViewProfileDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
         initComponents();
-        
-        /*nameLbl.setText(profile.getFirstName()+" "+profile.getLastName());
-        contactNumberLbl.setText(profile.getContactNumber());
-        mobileNoLbl.setText(profile.getPhoneNumber());
-        emailIdLbl.setText(profile.getEmailId());
-        addressLbl.setText(profile.getAddress());
-        panNoLbl.setText(profile.getPanNumber());
-        aadharCardLbl.setText(profile.getAadharCardNumber());
-        for(Document document:profile.getDocumentList()){
-            createDocument(document,profile);
-        }
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);*/
+        frame=parent;
+        this.profile=profile;
+        //setContent();
     }
 
     /**
@@ -75,6 +86,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         uploadLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         setSize(contentPanel.getPreferredSize());
 
         contentPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -93,10 +105,25 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         phoneNo.setText("09813076033");
 
         editBtn.setText("Edit");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
         investBtn.setText("Invest");
+        investBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                investBtnActionPerformed(evt);
+            }
+        });
 
         deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         emailIdLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailIdLbl.setText("Email:");
@@ -251,22 +278,63 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createDocument(Document document,Profile profile) {
-        JLabel documentLbl=new JLabel();
-        documentLbl.setSize(120,215);
-        String filePath = "documents/" + profile.getAadharCardNumber() + "/" + document.getFileName();
-        documentLbl.setIcon(new ImageIcon(scaledImage(new ImageIcon(filePath).getImage(), 120, 215)));
-        documentsPanel.add(documentLbl);
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        new NewProfileDialog(frame, true).setVisible(true);
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void investBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investBtnActionPerformed
+        new InvestmentDialog(frame, true, profile).setVisible(true);
+    }//GEN-LAST:event_investBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+      int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.OK_OPTION) {
+            ProfileBo profileBo = new ProfileBoImp1();
+            int result = profileBo.deleteProfile(profile.getAadharCardNumber());
+            if (result > 0) {
+                ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+                uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
+                //investmentResultLbl.setText("Delete successfully");
+            } else {
+                //investmentResultLbl.setText("Error");
+            }
+        }  
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void setContent() {
+        nameLbl.setText(profile.getFirstName() + " " + profile.getLastName());
+        phoneNo.setText(profile.getContactNumber());
+        mobileNo.setText(profile.getPhoneNumber());
+        email.setText(profile.getEmailId());
+        address.setText(profile.getAddress());
+        panNo.setText(profile.getPanNumber());
+        aadharNo.setText(profile.getAadharCardNumber());
+        if(!(profile.getDocumentList().isEmpty())){
+            for (Document document : profile.getDocumentList()) {
+                createDocumentThumbnail(document,profile);
+            }
+        }
     }
     
-    private Image scaledImage(Image img, int width, int height) {
+    private void createDocumentThumbnail(Document document,Profile profile){
+        ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon("documents/"+profile.getAadharCardNumber()+"/"+document.getFileName()), 30,35);
+        JLabel thumbnailLbl = new JLabel(documentThumbnail);
+        thumbnailLbl.setBorder(BorderFactory.createEtchedBorder());
+        documentsPanel.add(thumbnailLbl, 0);
+        this.revalidate();
+    }
+    
+    private ImageIcon getScaledImageIcon(ImageIcon icon, int width, int height) {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics g = bufferedImage.createGraphics();
-        g.drawImage(img, 0, 0, height, width, null);
-        return bufferedImage;
+        g.drawImage(icon.getImage(), 0, 0, width, height, null);
+        return new ImageIcon(bufferedImage);
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aadharLbl;
