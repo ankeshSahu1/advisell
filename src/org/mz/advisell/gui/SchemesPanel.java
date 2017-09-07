@@ -22,9 +22,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import org.mz.advisell.bo.company.CompanyBo;
-import org.mz.advisell.bo.company.CompanyBoImp1;
-import org.mz.advisell.buttoncolumn.ButtonColumn;
+import org.mz.advisell.services.SchemeService;
+import org.mz.advisell.services.extra.ButtonColumn;
 
 /**
  *
@@ -35,9 +34,9 @@ public class SchemesPanel extends javax.swing.JPanel {
     /**
      * Creates new form CompanyPanel
      */
-    public SchemesPanel() {
+    public SchemesPanel(ArrayList<String> schemes) {
         initComponents();
-        //generateTable();
+        generateTable(schemes);
     }
 
     /**
@@ -112,7 +111,7 @@ public class SchemesPanel extends javax.swing.JPanel {
 
     private void addSchemeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchemeBtnActionPerformed
         int row = schemesTable.getSelectedRow();
-        CompanyBo companyBo = new CompanyBoImp1();
+        CompanyBo companyBo = new SchemeService();
         if (addSchemeBtn.getText().equals("Add")) {
             int result = companyBo.addCompanyName(schemeNameTextField.getText().toUpperCase());
             if (result > 0) {
@@ -132,9 +131,7 @@ public class SchemesPanel extends javax.swing.JPanel {
         generateTable();
     }//GEN-LAST:event_addSchemeBtnActionPerformed
 
-    public void generateTable() {
-        CompanyBo companyBo = new CompanyBoImp1();
-        ArrayList<String> companyNameList = companyBo.getCompaniesName();
+    public void generateTable(ArrayList<String> schemes) {
         String[] columns = new String[]{"S.No.", "Company Name", "Edit", "Delete"};
         DefaultTableModel tableModel = new DefaultTableModel(0, 0) {
             @Override
@@ -148,8 +145,8 @@ public class SchemesPanel extends javax.swing.JPanel {
         };
         tableModel.setColumnIdentifiers(columns);
         schemesTable.setModel(tableModel);
-        for (int count = 1; count <= companyNameList.size(); count++) {
-            tableModel.addRow(new Object[]{String.valueOf(count), companyNameList.get(count - 1)});
+        for (int count = 1; count <= schemes.size(); count++) {
+            tableModel.addRow(new Object[]{String.valueOf(count), schemes.get(count - 1)});
         }
         schemesTable.setRowHeight(30);
         Action btn = new AbstractAction() {
@@ -170,7 +167,7 @@ public class SchemesPanel extends javax.swing.JPanel {
                     @Override
                     public void run() {
                         int row = schemesTable.getSelectedRow();
-                        CompanyBo companyBo = new CompanyBoImp1();
+                        CompanyBo companyBo = new SchemeService();
                         int result = companyBo.deleteCompanyName((String) schemesTable.getValueAt(row, 1));
                         if (result > 0) {
                             resultLbl.setText("Delete Successfully");
