@@ -18,6 +18,7 @@ package org.mz.advisell.gui;
 
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
+import org.mz.advisell.services.SchemeService;
 
 /**
  *
@@ -41,10 +42,6 @@ public class AdvisellGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        investOptionDialog = new javax.swing.JDialog();
-        messageLbl = new javax.swing.JLabel();
-        investBtn = new javax.swing.JButton();
-        laterBtn = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
@@ -54,57 +51,6 @@ public class AdvisellGUI extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
         adminMenu = new javax.swing.JMenu();
         settingsMenuItem = new javax.swing.JMenuItem();
-
-        investOptionDialog.setTitle("Invest Option");
-        investOptionDialog.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        investOptionDialog.setIconImage(null);
-        investOptionDialog.setPreferredSize(new java.awt.Dimension(292, 90));
-        investOptionDialog.setResizable(false);
-        investOptionDialog.setType(java.awt.Window.Type.POPUP);
-
-        messageLbl.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        messageLbl.setText("Record Investment?");
-
-        investBtn.setText("Invest");
-        investBtn.setPreferredSize(new java.awt.Dimension(65, 23));
-        investBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                investBtnActionPerformed(evt);
-            }
-        });
-
-        laterBtn.setText("Later");
-        laterBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                laterBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout investOptionDialogLayout = new javax.swing.GroupLayout(investOptionDialog.getContentPane());
-        investOptionDialog.getContentPane().setLayout(investOptionDialogLayout);
-        investOptionDialogLayout.setHorizontalGroup(
-            investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(investOptionDialogLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(investOptionDialogLayout.createSequentialGroup()
-                        .addComponent(investBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(laterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(messageLbl))
-                .addGap(20, 20, 20))
-        );
-        investOptionDialogLayout.setVerticalGroup(
-            investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(investOptionDialogLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(messageLbl)
-                .addGap(18, 18, 18)
-                .addGroup(investOptionDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(laterBtn)
-                    .addComponent(investBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Advisell");
@@ -187,17 +133,10 @@ public class AdvisellGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void settingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsMenuItemActionPerformed
-        this.add(new SchemesPanel(),0);
+        SchemeService schemeService = new SchemeService();
+        this.add(new SchemesPanel(schemeService.getSchemes()),0);
         this.revalidate();
     }//GEN-LAST:event_settingsMenuItemActionPerformed
-
-    private void investBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_investBtnActionPerformed
-
-    private void laterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laterBtnActionPerformed
-        dispose();
-    }//GEN-LAST:event_laterBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,12 +161,8 @@ public class AdvisellGUI extends javax.swing.JFrame {
     private javax.swing.JPanel contentPanel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JButton investBtn;
-    private javax.swing.JDialog investOptionDialog;
-    private javax.swing.JButton laterBtn;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JLabel messageLbl;
     private javax.swing.JMenuItem newProfileMenuItem;
     private javax.swing.JMenuItem searchMenuItem;
     private javax.swing.JMenuItem settingsMenuItem;
