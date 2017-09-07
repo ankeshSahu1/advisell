@@ -34,19 +34,30 @@ import org.mz.irt.model.Profile;
  */
 public class NewProfileDialog extends javax.swing.JDialog {
 
-    private final JFrame frame;
+    private final JFrame frame=null;
     private JLabel previewDocumentLbl;
     String gender;
     ArrayList<Document> documentList = new ArrayList<Document>();
     int i, component;
+    
+    public static enum DialogType{
+        NEW, EDIT;
+    }
+    
     /**
      * Creates new form NewProfileDialog
      */
-    public NewProfileDialog(java.awt.Frame parent, boolean modal) {
+    public NewProfileDialog(java.awt.Frame parent, boolean modal, DialogType TYPE) {
         super(parent, modal);
-        this.frame = (JFrame)parent;
         initComponents();
-        //createDocumentPanel();
+        //add different listeners according to type -- edit me delete all then up
+    }
+    
+    /**
+     * Creates new form EditProfileDialog
+     */
+    private NewProfileDialog(java.awt.Frame parenl) {
+        //Folio bhi add krna hai
     }
 
     /**
@@ -86,7 +97,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
         panNoTextField = new javax.swing.JTextField();
         documentsPanel = new javax.swing.JPanel();
         uploadLbl = new javax.swing.JLabel();
-        createprofileBtn = new javax.swing.JButton();
+        submitProfileBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Profile");
@@ -201,10 +212,10 @@ public class NewProfileDialog extends javax.swing.JDialog {
         uploadLbl.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.GRAY));
         documentsPanel.add(uploadLbl);
 
-        createprofileBtn.setText("Create Profile");
-        createprofileBtn.addActionListener(new java.awt.event.ActionListener() {
+        submitProfileBtn.setText("Create Profile");
+        submitProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createprofileBtnActionPerformed(evt);
+                submitProfileBtnActionPerformed(evt);
             }
         });
 
@@ -217,7 +228,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(namePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(documentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(createprofileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(submitProfileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(aadharPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addressPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -249,7 +260,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
                 .addGap(3, 3, 3)
                 .addComponent(documentsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(createprofileBtn)
+                .addComponent(submitProfileBtn)
                 .addGap(6, 6, 6))
         );
 
@@ -282,7 +293,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneNumberTextFieldActionPerformed
 
-    private void createprofileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createprofileBtnActionPerformed
+    private void submitProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitProfileBtnActionPerformed
         i = 0;
         Profile profile = new Profile();
         profile.setFirstName(firstNameTextField.getText());
@@ -315,7 +326,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
         } else {
             msgLbl.setText("Profile does not created");
         }
-    }//GEN-LAST:event_createprofileBtnActionPerformed
+    }//GEN-LAST:event_submitProfileBtnActionPerformed
 
     private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
         // TODO add your handling code here:
@@ -430,7 +441,6 @@ public class NewProfileDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea addressTextArea;
     private javax.swing.JLabel contactNumberLbl;
     private javax.swing.JTextField contactNumberTextField;
-    private javax.swing.JButton createprofileBtn;
     private javax.swing.JPanel documentsPanel;
     private javax.swing.JLabel emailIdLbl;
     private javax.swing.JTextField emailIdTextField;
@@ -449,6 +459,7 @@ public class NewProfileDialog extends javax.swing.JDialog {
     private javax.swing.JLabel phoneNumberLbl;
     private javax.swing.JTextField phoneNumberTextField;
     private javax.swing.JPanel phonePanel;
+    private javax.swing.JButton submitProfileBtn;
     private javax.swing.JLabel uploadLbl;
     // End of variables declaration//GEN-END:variables
 }

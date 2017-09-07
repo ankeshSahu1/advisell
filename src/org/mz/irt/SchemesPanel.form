@@ -21,14 +21,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="resultLbl" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="companyNameLbl" min="-2" max="-2" attributes="0"/>
+                      <Component id="schemeLbl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="companyNameTextField" min="-2" pref="154" max="-2" attributes="0"/>
+                      <Component id="schemeNameTextField" min="-2" pref="154" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="addBtn" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Component id="addSchemeBtn" min="-2" pref="65" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="schemesScrollPane" alignment="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -39,48 +39,48 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="companyNameLbl" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                  <Component id="companyNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="addBtn" alignment="3" max="32767" attributes="0"/>
+                  <Component id="schemeLbl" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                  <Component id="schemeNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addSchemeBtn" alignment="3" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="resultLbl" min="-2" pref="20" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="307" max="-2" attributes="0"/>
+              <Component id="schemesScrollPane" min="-2" pref="307" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="companyNameTextField">
+    <Component class="javax.swing.JTextField" name="schemeNameTextField">
     </Component>
-    <Component class="javax.swing.JButton" name="addBtn">
+    <Component class="javax.swing.JButton" name="addSchemeBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addBtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addSchemeBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="companyNameLbl">
+    <Component class="javax.swing.JLabel" name="schemeLbl">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Company :"/>
+        <Property name="text" type="java.lang.String" value="Scheme :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="resultLbl">
     </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="schemesScrollPane">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="companyNameTable">
+        <Component class="javax.swing.JTable" name="schemesTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="0" rowCount="0"/>

@@ -19,12 +19,12 @@ import org.mz.irt.buttoncolumn.ButtonColumn;
  *
  * @author parii
  */
-public class CompanyPanel extends javax.swing.JPanel {
+public class SchemesPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CompanyPanel
      */
-    public CompanyPanel() {
+    public SchemesPanel() {
         initComponents();
         //generateTable();
     }
@@ -38,24 +38,24 @@ public class CompanyPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        companyNameTextField = new javax.swing.JTextField();
-        addBtn = new javax.swing.JButton();
-        companyNameLbl = new javax.swing.JLabel();
+        schemeNameTextField = new javax.swing.JTextField();
+        addSchemeBtn = new javax.swing.JButton();
+        schemeLbl = new javax.swing.JLabel();
         resultLbl = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        companyNameTable = new javax.swing.JTable();
+        schemesScrollPane = new javax.swing.JScrollPane();
+        schemesTable = new javax.swing.JTable();
 
-        addBtn.setText("Add");
-        addBtn.addActionListener(new java.awt.event.ActionListener() {
+        addSchemeBtn.setText("Add");
+        addSchemeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtnActionPerformed(evt);
+                addSchemeBtnActionPerformed(evt);
             }
         });
 
-        companyNameLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        companyNameLbl.setText("Company :");
+        schemeLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        schemeLbl.setText("Scheme :");
 
-        companyNameTable.setModel(new javax.swing.table.DefaultTableModel(
+        schemesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -63,7 +63,7 @@ public class CompanyPanel extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(companyNameTable);
+        schemesScrollPane.setViewportView(schemesTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -74,13 +74,13 @@ public class CompanyPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(resultLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(companyNameLbl)
+                        .addComponent(schemeLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(companyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(schemeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addSchemeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(schemesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -88,38 +88,38 @@ public class CompanyPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(companyNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(companyNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(schemeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(schemeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addSchemeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resultLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(schemesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        int row = companyNameTable.getSelectedRow();
+    private void addSchemeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchemeBtnActionPerformed
+        int row = schemesTable.getSelectedRow();
         CompanyBo companyBo = new CompanyBoImp1();
-        if (addBtn.getText().equals("Add")) {
-            int result = companyBo.addCompanyName(companyNameTextField.getText().toUpperCase());
+        if (addSchemeBtn.getText().equals("Add")) {
+            int result = companyBo.addCompanyName(schemeNameTextField.getText().toUpperCase());
             if (result > 0) {
                 resultLbl.setText("Add Successfully");
             } else {
                 resultLbl.setText("Can not be added");
             }
         } else {
-            int result = companyBo.updateCompanyName((String) companyNameTable.getValueAt(row, 1),companyNameTextField.getText().toUpperCase());
+            int result = companyBo.updateCompanyName((String) schemesTable.getValueAt(row, 1),schemeNameTextField.getText().toUpperCase());
             if (result > 0) {
-                addBtn.setText("Add");
+                addSchemeBtn.setText("Add");
                 resultLbl.setText("Modified Successfully");
             } else {
                 resultLbl.setText("Can not be modified");
             }
         }
         generateTable();
-    }//GEN-LAST:event_addBtnActionPerformed
+    }//GEN-LAST:event_addSchemeBtnActionPerformed
 
     public void generateTable() {
         CompanyBo companyBo = new CompanyBoImp1();
@@ -136,19 +136,19 @@ public class CompanyPanel extends javax.swing.JPanel {
             }
         };
         tableModel.setColumnIdentifiers(columns);
-        companyNameTable.setModel(tableModel);
+        schemesTable.setModel(tableModel);
         for (int count = 1; count <= companyNameList.size(); count++) {
             tableModel.addRow(new Object[]{String.valueOf(count), companyNameList.get(count - 1)});
         }
-        companyNameTable.setRowHeight(30);
+        schemesTable.setRowHeight(30);
         Action btn = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        companyNameTextField.setText((String) companyNameTable.getValueAt(companyNameTable.getSelectedRow(), 1));
-                        addBtn.setText("Save");
-                        companyNameTextField.requestFocus();
+                        schemeNameTextField.setText((String) schemesTable.getValueAt(schemesTable.getSelectedRow(), 1));
+                        addSchemeBtn.setText("Save");
+                        schemeNameTextField.requestFocus();
                     }
                 });
             }
@@ -158,9 +158,9 @@ public class CompanyPanel extends javax.swing.JPanel {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        int row = companyNameTable.getSelectedRow();
+                        int row = schemesTable.getSelectedRow();
                         CompanyBo companyBo = new CompanyBoImp1();
-                        int result = companyBo.deleteCompanyName((String) companyNameTable.getValueAt(row, 1));
+                        int result = companyBo.deleteCompanyName((String) schemesTable.getValueAt(row, 1));
                         if (result > 0) {
                             resultLbl.setText("Delete Successfully");
                         } else {
@@ -171,16 +171,16 @@ public class CompanyPanel extends javax.swing.JPanel {
                 });
             }
         };
-        new ButtonColumn(companyNameTable, btn, 2);
-        new ButtonColumn(companyNameTable, btn1, 3);
+        new ButtonColumn(schemesTable, btn, 2);
+        new ButtonColumn(schemesTable, btn1, 3);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addBtn;
-    private javax.swing.JLabel companyNameLbl;
-    private javax.swing.JTable companyNameTable;
-    private javax.swing.JTextField companyNameTextField;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton addSchemeBtn;
     private javax.swing.JLabel resultLbl;
+    private javax.swing.JLabel schemeLbl;
+    private javax.swing.JTextField schemeNameTextField;
+    private javax.swing.JScrollPane schemesScrollPane;
+    private javax.swing.JTable schemesTable;
     // End of variables declaration//GEN-END:variables
 }

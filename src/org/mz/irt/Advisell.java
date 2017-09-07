@@ -144,7 +144,7 @@ public class Advisell extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void settingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsMenuItemActionPerformed
-        this.add(new CompanyPanel(),0);
+        this.add(new SchemesPanel(),0);
         this.revalidate();
     }//GEN-LAST:event_settingsMenuItemActionPerformed
 

@@ -30,7 +30,7 @@ public class ProfileDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        nameLbl.setText(profile.getFirstName()+" "+profile.getLastName());
+        /*nameLbl.setText(profile.getFirstName()+" "+profile.getLastName());
         contactNumberLbl.setText(profile.getContactNumber());
         mobileNoLbl.setText(profile.getPhoneNumber());
         emailIdLbl.setText(profile.getEmailId());
@@ -41,7 +41,7 @@ public class ProfileDialog extends javax.swing.JDialog {
             createDocument(document,profile);
         }
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-    }
+    */}
 
     /**
      * This method is called from within the constructor to initialize the form.

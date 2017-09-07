@@ -32,13 +32,8 @@ import org.mz.irt.model.Document;
  */
 public class EditProfilePanel extends javax.swing.JPanel {
 
-    //String gender;
-    private final JFrame frame;
-    private Profile profile;
-    private JLabel previewDocumentLbl;
     ArrayList<Document> documentList = new ArrayList<Document>();
     ArrayList<Document> deleteDocumentList = new ArrayList<Document>();
-    int i, component;
 
     /**
      * Creates new form FilePanel
