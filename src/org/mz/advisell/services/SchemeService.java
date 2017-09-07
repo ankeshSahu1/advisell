@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.dao.company;
+package org.mz.advisell.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,26 +23,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.mz.advisell.dao.connection.DBConnection;
-import org.mz.advisell.dao.search.SearchDaoImp1;
+import org.mz.advisell.services.dao.DBConnection;
 
 /**
  *
  * @author parii
  */
-public class CompanyDaoImp1 implements CompanyDao{
+public class SchemeService {
     
     private Connection connection;
     
-    @Override
-    public int addCompanyName(String companyName) {
+    public int addScheme(String scheme) {
         DBConnection dbConnection = new DBConnection();
         PreparedStatement statement = null;
         int result = 0;
         try {
             connection = dbConnection.createConnection();
             statement = connection.prepareStatement("INSERT INTO company(company_name) VALUES(?);");
-            statement.setString(1,companyName);
+            statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,16 +59,15 @@ public class CompanyDaoImp1 implements CompanyDao{
         return result;
     }
 
-    @Override
-    public int updateCompanyName(String oldCompanyName,String updatedCompanyName) {
+    public int updateScheme(String oldScheme,String newScheme) {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();
         int result=0;
         try {
             connection = dbConnection.createConnection();
             statement = connection.prepareStatement("UPDATE company SET company_name=? WHERE  company_name=?");
-            statement.setString(1,updatedCompanyName);
-            statement.setString(2,oldCompanyName);
+            statement.setString(1,newScheme);
+            statement.setString(2,oldScheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,18 +87,17 @@ public class CompanyDaoImp1 implements CompanyDao{
         return result;
     }
     
-    @Override
-    public int deleteCompanyName(String companyName) {
+    public int deleteScheme(String scheme) {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();
         int result=0;
         try {
             connection = dbConnection.createConnection();
             statement = connection.prepareStatement("DELETE FROM company WHERE company_name=?;");
-            statement.setString(1,companyName);
+            statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
@@ -111,28 +107,27 @@ public class CompanyDaoImp1 implements CompanyDao{
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
         }
         return result;
     }
     
-    @Override
-    public ArrayList<String> getCompaniesName() {
+    public ArrayList<String> getSchemes() {
+        ArrayList<String> schemes=new ArrayList<>();
+        
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        ArrayList<String> companyNameList=new ArrayList<String>();
         DBConnection dbConnection = new DBConnection();
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("SELECT * FROM company");
+            statement = connection.prepareStatement("SELECT * FROM scheme");
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-               companyNameList.add(resultSet.getString(1));
+               schemes.add(resultSet.getString(1));
              }
-        } catch (SQLException ex) {
-            Logger.getLogger(SearchDaoImp1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -141,13 +136,11 @@ public class CompanyDaoImp1 implements CompanyDao{
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
+            dbConnection.closeConnection();
         }
-        return companyNameList;
+        return schemes;
     }
 }

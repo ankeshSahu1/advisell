@@ -14,26 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.dao.profile;
+package org.mz.advisell.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import org.mz.advisell.dao.connection.DBConnection;
-import org.mz.advisell.model.Document;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.bean.Document;
+import org.mz.advisell.bean.Profile;
+import org.mz.advisell.services.dao.DBConnection;
 
 /**
  *
  * @author metazone
  */
-public class ProfileDaoImp1 implements ProfileDao {
+public class ProfileService {
 
     private Connection connection;
 
-    @Override
     public int addProfile(Profile profile) {
         DBConnection dbConnection = new DBConnection();
         PreparedStatement statement = null;
@@ -74,7 +73,7 @@ public class ProfileDaoImp1 implements ProfileDao {
                     statement.close();
                 }
                 if (connection != null) {
-                    connection.close();
+                    dbConnection.closeConnection();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -83,8 +82,7 @@ public class ProfileDaoImp1 implements ProfileDao {
         return result;
     }
 
-    @Override
-    public int updateProfile(Profile profile, ArrayList<Document> deleteDocumentList) {
+    public int updateProfile(Profile profile) {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();
         int result = 0;
@@ -163,7 +161,6 @@ public class ProfileDaoImp1 implements ProfileDao {
         return result;
     }
 
-    @Override
     public int deleteProfile(String aadharCardNo) {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();

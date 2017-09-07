@@ -28,12 +28,12 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.mz.advisell.bo.profile.ProfileBo;
-import org.mz.advisell.bo.profile.ProfileBoImp1;
+import org.mz.advisell.services.ProfileService;
 import org.mz.advisell.bo.search.SearchBo;
-import org.mz.advisell.bo.search.SearchBoImp1;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBo;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.services.SearchService;
+import org.mz.advisell.services.ClientProfileUploadDocumentBo;
+import org.mz.advisell.services.DocumentService;
+import org.mz.advisell.bean.Profile;
 
 /**
  *
@@ -184,7 +184,7 @@ public class SearchPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void showClientResult() {
-        SearchBo searchBo = new SearchBoImp1();
+        SearchBo searchBo = new SearchService();
         ArrayList<Profile> clientList = searchBo.getClientList(searchTextField.getText());
         clientListPanel.removeAll();
         if (!(clientList.isEmpty())) {
@@ -296,10 +296,10 @@ public class SearchPanel extends javax.swing.JPanel {
     private void deleteBtnActionPerformed(ActionEvent evt) {
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.OK_OPTION) {
-            ProfileBo profileBo = new ProfileBoImp1();
+            ProfileBo profileBo = new ProfileService();
             int result = profileBo.deleteProfile(profile.getAadharCardNumber());
             if (result > 0) {
-                ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+                ClientProfileUploadDocumentBo uploadDocumentBo = new DocumentService();
                 uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
                 investmentResultLbl.setText("Delete successfully");
                 showClientResult();
@@ -310,7 +310,7 @@ public class SearchPanel extends javax.swing.JPanel {
     }
 
     private void investmentBtnActionPerformed(ActionEvent evt) {
-        new InvestmentDialog(frame, true, profile).setVisible(true);
+        new RecordInvestmentDialog(frame, true, profile.getAadharCardNumber()).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

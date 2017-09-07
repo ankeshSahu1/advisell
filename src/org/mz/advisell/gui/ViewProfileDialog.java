@@ -25,11 +25,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.mz.advisell.bo.profile.ProfileBo;
-import org.mz.advisell.bo.profile.ProfileBoImp1;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBo;
-import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
-import org.mz.advisell.model.Document;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.services.ProfileService;
+import org.mz.advisell.services.ClientProfileUploadDocumentBo;
+import org.mz.advisell.services.DocumentService;
+import org.mz.advisell.bean.Document;
+import org.mz.advisell.bean.Profile;
 
 /**
  *
@@ -287,16 +287,16 @@ public class ViewProfileDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void investBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investBtnActionPerformed
-        new InvestmentDialog(frame, true, profile).setVisible(true);
+        new RecordInvestmentDialog(frame, true, profile.getAadharCardNumber()).setVisible(true);
     }//GEN-LAST:event_investBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
       int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.OK_OPTION) {
-            ProfileBo profileBo = new ProfileBoImp1();
+            ProfileBo profileBo = new ProfileService();
             int result = profileBo.deleteProfile(profile.getAadharCardNumber());
             if (result > 0) {
-                ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+                ClientProfileUploadDocumentBo uploadDocumentBo = new DocumentService();
                 uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
                 //investmentResultLbl.setText("Delete successfully");
             } else {

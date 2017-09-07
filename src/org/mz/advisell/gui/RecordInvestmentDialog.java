@@ -24,18 +24,17 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 import org.mz.advisell.bo.company.CompanyBo;
-import org.mz.advisell.bo.company.CompanyBoImp1;
+import org.mz.advisell.services.SchemeService;
 import org.mz.advisell.bo.makeInvestment.MakeInvestmentBo;
-import org.mz.advisell.bo.makeInvestment.MakeInvestmentBoImp1;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.services.InvestmentService;
 
 /**
  *
  * @author parii
  */
-public class InvestmentDialog extends javax.swing.JDialog {
+public class RecordInvestmentDialog extends javax.swing.JDialog {
 
-    private final Profile profile;
+    private final String aadhar;
     private JFormattedTextField investmentTextField;
     private JComboBox companyNameDropDown;
     private JPanel singleInvestmentPanel;
@@ -45,12 +44,12 @@ public class InvestmentDialog extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
-     * @param profile
+     * @param aadhar
      */
-    public InvestmentDialog(java.awt.Frame parent, boolean modal, Profile profile) {
+    public RecordInvestmentDialog(java.awt.Frame parent, boolean modal, String aadhar) {
         super(parent, modal);
         initComponents();
-        this.profile = profile;
+        this.aadhar = aadhar;
         addInvestmentPanel();
     }
 
@@ -143,7 +142,7 @@ public class InvestmentDialog extends javax.swing.JDialog {
         singleInvestmentPanel = new JPanel();
         singleInvestmentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         companyNameDropDown = new JComboBox();
-        CompanyBo companyBo = new CompanyBoImp1();
+        CompanyBo companyBo = new SchemeService();
         ArrayList<String> companyNameList = companyBo.getCompaniesName();
         for (String companyName : companyNameList) {
             companyNameDropDown.addItem(companyName);
@@ -187,8 +186,8 @@ public class InvestmentDialog extends javax.swing.JDialog {
     }
 
     private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        MakeInvestmentBo makeInvestmentBo = new MakeInvestmentBoImp1();
-        int result = makeInvestmentBo.addInvestment(companyNameDropDown.getSelectedItem().toString(), investmentTextField.getText(), profile.getAadharCardNumber());
+        MakeInvestmentBo makeInvestmentBo = new InvestmentService();
+        int result = makeInvestmentBo.addInvestment(companyNameDropDown.getSelectedItem().toString(), investmentTextField.getText(), aadhar);
         if (result > 0) {
             investmentResultLbl.setText("successfully added");
         } else {

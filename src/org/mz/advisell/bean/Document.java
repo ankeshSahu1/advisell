@@ -14,16 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.bo.search;
+package org.mz.advisell.bean;
 
-import java.util.ArrayList;
-import org.mz.advisell.model.Profile;
+import java.io.File;
 
 /**
  *
- * @author metazone
+ * @author parii
  */
-public interface SearchBo {
-    ArrayList<Profile> getClientList(String searchvalue);
-    Profile getClientDetails(String aadharCardNo);
+public class Document {
+    private File file;
+    private String fileName;
+    
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 }

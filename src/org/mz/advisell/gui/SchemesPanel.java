@@ -33,10 +33,11 @@ public class SchemesPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CompanyPanel
+     * @param schemes
      */
     public SchemesPanel(ArrayList<String> schemes) {
         initComponents();
-        generateTable(schemes);
+        generateSchemesTable(schemes);
     }
 
     /**
@@ -111,76 +112,83 @@ public class SchemesPanel extends javax.swing.JPanel {
 
     private void addSchemeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchemeBtnActionPerformed
         int row = schemesTable.getSelectedRow();
-        CompanyBo companyBo = new SchemeService();
+        SchemeService schemeService = new SchemeService();
+        int result;
         if (addSchemeBtn.getText().equals("Add")) {
-            int result = companyBo.addCompanyName(schemeNameTextField.getText().toUpperCase());
-            if (result > 0) {
-                resultLbl.setText("Add Successfully");
-            } else {
-                resultLbl.setText("Can not be added");
-            }
+            result = schemeService.addScheme(schemeNameTextField.getText().toUpperCase());
         } else {
-            int result = companyBo.updateCompanyName((String) schemesTable.getValueAt(row, 1),schemeNameTextField.getText().toUpperCase());
-            if (result > 0) {
-                addSchemeBtn.setText("Add");
-                resultLbl.setText("Modified Successfully");
-            } else {
-                resultLbl.setText("Can not be modified");
-            }
+            result = schemeService.updateScheme((String) schemesTable.getValueAt(row, 1),schemeNameTextField.getText().toUpperCase());
         }
-        generateTable();
+        if (result > 0) {
+            schemeNameTextField.setText(null);
+            addSchemeBtn.setText("Add");
+            resultLbl.setText("Action Successfully.");
+        } else {
+            resultLbl.setText("Error! Please try again.");
+        }
+        generateSchemesTable(schemeService.getSchemes());
     }//GEN-LAST:event_addSchemeBtnActionPerformed
 
-    public void generateTable(ArrayList<String> schemes) {
-        String[] columns = new String[]{"S.No.", "Company Name", "Edit", "Delete"};
+    private void editSchemeActionPerformed(java.awt.event.ActionEvent e){
+        schemeNameTextField.setText((String) schemesTable.getValueAt(schemesTable.getSelectedRow(), 1));
+        addSchemeBtn.setText("Save");
+        schemeNameTextField.requestFocus();
+    }
+    
+    private void deleteSchemeActionPerformed(java.awt.event.ActionEvent e){
+        int row = schemesTable.getSelectedRow();
+        SchemeService schemeService = new SchemeService();
+        int result = schemeService.deleteScheme((String) schemesTable.getValueAt(row, 1));
+        if (result > 0) {
+            ((DefaultTableModel)schemesTable.getModel()).removeRow(row);
+            resultLbl.setText("Scheme deleted Successfully.");
+        } else {
+            resultLbl.setText("Error Deleting!");
+        }
+    }
+    
+    private void generateSchemesTable(ArrayList<String> schemes) {
+        String[] columns = new String[]{"S.No.", "Scheme", "Edit", "Delete"};
         DefaultTableModel tableModel = new DefaultTableModel(0, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column > 1) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return column > 1;
             }
         };
         tableModel.setColumnIdentifiers(columns);
-        schemesTable.setModel(tableModel);
         for (int count = 1; count <= schemes.size(); count++) {
             tableModel.addRow(new Object[]{String.valueOf(count), schemes.get(count - 1)});
         }
+        
+        schemesTable.setModel(tableModel);
         schemesTable.setRowHeight(30);
-        Action btn = new AbstractAction() {
+        
+        Action editAction = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        schemeNameTextField.setText((String) schemesTable.getValueAt(schemesTable.getSelectedRow(), 1));
-                        addSchemeBtn.setText("Save");
-                        schemeNameTextField.requestFocus();
+                        editSchemeActionPerformed(e);
                     }
                 });
             }
         };
-        Action btn1 = new AbstractAction() {
+        Action deleteAction = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        int row = schemesTable.getSelectedRow();
-                        CompanyBo companyBo = new SchemeService();
-                        int result = companyBo.deleteCompanyName((String) schemesTable.getValueAt(row, 1));
-                        if (result > 0) {
-                            resultLbl.setText("Delete Successfully");
-                        } else {
-                            resultLbl.setText("Error");
-                        }
-                        generateTable();
+                        deleteSchemeActionPerformed(e);
                     }
                 });
             }
         };
-        new ButtonColumn(schemesTable, btn, 2);
-        new ButtonColumn(schemesTable, btn1, 3);
+        
+        new ButtonColumn(schemesTable, editAction, 2);
+        new ButtonColumn(schemesTable, deleteAction, 3);
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.dao.search;
+package org.mz.advisell.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,19 +24,18 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.constant.Constant;
-import org.mz.advisell.dao.connection.DBConnection;
-import org.mz.advisell.model.Document;
-import org.mz.advisell.model.Profile;
+import org.mz.advisell.bean.Document;
+import org.mz.advisell.bean.Profile;
+import org.mz.advisell.services.dao.DBConnection;
 
 /**
  *
  * @author metazone
  */
-public class SearchDaoImp1 implements SearchDao {
+public class SearchService {
 
     private Connection connection;
 
-    @Override
     public Profile getClientDetails(String aadharCardNo) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -60,7 +59,7 @@ public class SearchDaoImp1 implements SearchDao {
                 profile.setAadharCardNumber(resultSet.getString(10));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SearchDaoImp1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchService.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (resultSet != null) {
@@ -79,7 +78,6 @@ public class SearchDaoImp1 implements SearchDao {
         return profile;
     }
 
-    @Override
     public ArrayList<Profile> getClientList(String searchValue) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;

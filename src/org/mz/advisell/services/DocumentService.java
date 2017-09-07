@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.bo.uploadDocument;
+package org.mz.advisell.services;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,16 +22,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import org.mz.advisell.model.Document;
+import org.mz.advisell.bean.Document;
 
 /**
  *
  * @author parii
  */
-public class ClientProfileUploadDocumentBoImp1 implements ClientProfileUploadDocumentBo {
+public class DocumentService{
 
-    @Override
-    public void uploadDocument(ArrayList<Document> documentList, String aadharNo) {
+    public int uploadDocuments(ArrayList<Document> documentList, String aadharNo) {
+        int result = 0;
         FileInputStream fileInputStream = null;
         FileOutputStream fileOutputStream = null;
         File file = null;
@@ -48,6 +48,7 @@ public class ClientProfileUploadDocumentBoImp1 implements ClientProfileUploadDoc
                     fileOutputStream.write(buffer, 0, length);
                 }
             }
+            result = 1;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,9 +65,10 @@ public class ClientProfileUploadDocumentBoImp1 implements ClientProfileUploadDoc
                 e.printStackTrace();
             }
         }
+        
+        return result;
     }
 
-    @Override
     public void deleteDocument(ArrayList<Document> deleteDocumentList, String aadharNo) {
         for (Document document : deleteDocumentList) {
             File file = new File("documents/" + aadharNo + "/" + document.getFileName());
@@ -74,7 +76,6 @@ public class ClientProfileUploadDocumentBoImp1 implements ClientProfileUploadDoc
         }
     }
 
-    @Override
     public void deleteDocuments(String aadharNo) {
         File file = new File("documents/" + aadharNo);
         File[] documentArray=file.listFiles();

@@ -314,7 +314,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
             return;
         }
         ProfileService profileService = new ProfileService();
-        result = profileService.createProfile(profile);
+        result = profileService.addProfile(profile);
         if (result > 0) {
             dispose();
             new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())

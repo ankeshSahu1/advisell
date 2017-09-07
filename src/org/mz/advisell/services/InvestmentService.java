@@ -14,20 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.mz.advisell.dao.makeInvestment;
+package org.mz.advisell.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.mz.advisell.dao.connection.DBConnection;
+import org.mz.advisell.services.dao.DBConnection;
 
 /**
  *
  * @author metazone
  */
-public class MakeInvestmentDaoImp1 implements MakeInvestmentDao{
+public class InvestmentService{
 
-    @Override
     public int addInvestment(String companyName, String investment, String aadharNumber) {
      DBConnection dbConnection = new DBConnection();
 	Connection conn=null;
