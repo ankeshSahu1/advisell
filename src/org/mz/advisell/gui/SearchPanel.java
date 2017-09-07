@@ -21,8 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -31,6 +31,8 @@ import org.mz.advisell.bo.profile.ProfileBo;
 import org.mz.advisell.bo.profile.ProfileBoImp1;
 import org.mz.advisell.bo.search.SearchBo;
 import org.mz.advisell.bo.search.SearchBoImp1;
+import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBo;
+import org.mz.advisell.bo.uploadDocument.ClientProfileUploadDocumentBoImp1;
 import org.mz.advisell.model.Profile;
 
 /**
@@ -39,13 +41,13 @@ import org.mz.advisell.model.Profile;
  */
 public class SearchPanel extends javax.swing.JPanel {
 
-    private final JFrame frame;
+    private final Frame frame;
     private Profile profile;
 
     /**
      * Creates new form GetAadharPanel
      */
-    public SearchPanel(JFrame frame) {
+    public SearchPanel(java.awt.Frame frame) {
         this.frame = frame;
         initComponents();
         showClientResult();
@@ -144,6 +146,9 @@ public class SearchPanel extends javax.swing.JPanel {
         );
 
         searchLbl.setText("Search with Name/Contact/Aadhar/PAN");
+
+        investmentResultLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        investmentResultLbl.setForeground(new java.awt.Color(255, 0, 0));
 
         clientListPanel.setLayout(new javax.swing.BoxLayout(clientListPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(clientListPanel);
@@ -280,6 +285,7 @@ public class SearchPanel extends javax.swing.JPanel {
     
     private void singleResultPanelMouseClicked(java.awt.event.MouseEvent evt){
         new ViewProfileDialog(frame, true, profile).setVisible(true);
+        showClientResult();
     }
     
     private void editBtnActionPerformed(ActionEvent evt) {
@@ -293,6 +299,8 @@ public class SearchPanel extends javax.swing.JPanel {
             ProfileBo profileBo = new ProfileBoImp1();
             int result = profileBo.deleteProfile(profile.getAadharCardNumber());
             if (result > 0) {
+                ClientProfileUploadDocumentBo uploadDocumentBo = new ClientProfileUploadDocumentBoImp1();
+                uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
                 investmentResultLbl.setText("Delete successfully");
                 showClientResult();
             } else {
