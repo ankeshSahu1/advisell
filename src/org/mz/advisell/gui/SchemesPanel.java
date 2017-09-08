@@ -122,7 +122,7 @@ public class SchemesPanel extends javax.swing.JPanel {
         if (result > 0) {
             schemeNameTextField.setText(null);
             addSchemeBtn.setText("Add");
-            resultLbl.setText("Action Successfully.");
+            resultLbl.setText("Action Successful.");
         } else {
             resultLbl.setText("Error! Please try again.");
         }

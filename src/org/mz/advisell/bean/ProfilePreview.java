@@ -17,8 +17,6 @@
 
 package org.mz.advisell.bean;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Saket

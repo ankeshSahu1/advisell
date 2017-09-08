@@ -17,7 +17,6 @@
 package org.mz.advisell.gui;
 
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;

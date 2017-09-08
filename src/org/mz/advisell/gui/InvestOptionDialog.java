@@ -24,7 +24,7 @@ import javax.swing.JFrame;
  */
 public class InvestOptionDialog extends javax.swing.JDialog {
 
-    private String aadhar;
+    private final String aadhar;
     /**
      * Creates new form InvestOptionDialog
      * @param parent

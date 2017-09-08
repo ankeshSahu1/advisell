@@ -39,7 +39,7 @@ public class SchemeService {
         int result = 0;
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("INSERT INTO company(company_name) VALUES(?);");
+            statement = connection.prepareStatement("INSERT INTO scheme(scheme_name) VALUES(?);");
             statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class SchemeService {
         int result=0;
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("UPDATE company SET company_name=? WHERE  company_name=?");
+            statement = connection.prepareStatement("UPDATE scheme SET scheme_name=? WHERE  scheme_name=?");
             statement.setString(1,newScheme);
             statement.setString(2,oldScheme);
             result = statement.executeUpdate();
@@ -89,7 +89,7 @@ public class SchemeService {
         int result=0;
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("DELETE FROM company WHERE company_name=?;");
+            statement = connection.prepareStatement("DELETE FROM scheme WHERE scheme_name=?;");
             statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {

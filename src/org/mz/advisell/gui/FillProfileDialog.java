@@ -23,15 +23,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.mz.advisell.services.ProfileService;
-import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
+import org.mz.advisell.constant.Constant;
 
 /**
  *
@@ -39,8 +38,7 @@ import org.mz.advisell.bean.Profile;
  */
 public class FillProfileDialog extends javax.swing.JDialog {
 
-    private final ArrayList<Document> documentList = new ArrayList<>();
-    private Profile profile;
+    private final Profile profile;
     /**
      * Creates new form NewProfileDialog
      * @param parent
@@ -50,7 +48,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
     public FillProfileDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
         initComponents();
-        this.profile = profile;
         if(profile!=null){
             submitProfileBtn.setText("Save Changes");
             submitProfileBtn.addActionListener(new ActionListener() {
@@ -60,7 +57,10 @@ public class FillProfileDialog extends javax.swing.JDialog {
                 }
             });
             setProfileData(profile);
+        } else{
+            profile = new Profile();
         }
+        this.profile = profile;
     }
     
     private void setProfileData(Profile profile){
@@ -73,7 +73,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
         aadharTextField.setText(profile.getAadharCardNumber());
         panNoTextField.setText(profile.getPanNumber());
         for (Document document : profile.getDocumentList()) {
-            documentList.add(document);
             createDocumentThumbnail(document);
         }
     }
@@ -295,7 +294,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProfileBtnActionPerformed
-        profile = new Profile();
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setContactNumber(mobileTextField.getText());
@@ -304,17 +302,10 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setAddress(addressTextArea.getText());
         profile.setAadharCardNumber(aadharTextField.getText());
         profile.setPanNumber(panNoTextField.getText());
-        profile.setDocumentList(documentList);
+        /*Documents have been set already by upload button*/
         
-        DocumentService uploadService = new DocumentService();
-        int result = uploadService.uploadDocuments(documentList, aadharTextField.getText());
-        
-        if(result == 0){
-            msgLbl.setText("Document couldn't be uploaded.");
-            return;
-        }
         ProfileService profileService = new ProfileService();
-        result = profileService.addProfile(profile);
+        int result = profileService.addProfile(profile);
         if (result > 0) {
             dispose();
             new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
@@ -325,7 +316,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_createProfileBtnActionPerformed
 
     private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
-        profile = new Profile();
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setContactNumber(mobileTextField.getText());
@@ -334,19 +324,10 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setAddress(addressTextArea.getText());
         profile.setAadharCardNumber(aadharTextField.getText());
         profile.setPanNumber(panNoTextField.getText());
-        profile.setDocumentList(documentList);
+        /*Documents have been set already by upload/delete button*/
         
-        DocumentService documentService = new DocumentService();
-        //create temp docs
-        int result = documentService.uploadDocuments(documentList, aadharTextField.getText());
-        //delete temp
-        
-        if(result == 0){
-            msgLbl.setText("Document couldn't be uploaded.");
-            return;
-        }
         ProfileService profileService = new ProfileService();
-        result = profileService.updateProfile(profile);
+        int result = profileService.updateProfile(profile);
         if (result > 0) {
             dispose();
             new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
@@ -360,6 +341,12 @@ public class FillProfileDialog extends javax.swing.JDialog {
         onUploadLblClicked();
     }//GEN-LAST:event_uploadLblMouseClicked
 
+    private void thumbnailLblMouseClicked(java.awt.event.MouseEvent evt){
+        profile.getDocumentList().remove((Document)((JLabel)evt.getComponent()).getClientProperty(Constant.DOCUMENT_KEY));
+        documentsPanel.remove(evt.getComponent());
+        revalidate();
+    }
+    
     private void onUploadLblClicked() {
         documentChooser.showOpenDialog(null);
         File file = documentChooser.getSelectedFile();
@@ -368,7 +355,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
         Document document = new Document();
         document.setFile(file);
         document.setFileName(file.getName());
-        documentList.add(document);
+        profile.getDocumentList().add(document);
         
         createDocumentThumbnail(document);
     }
@@ -378,7 +365,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
         JLabel thumbnailLbl = new JLabel(documentThumbnail);
         thumbnailLbl.setBorder(BorderFactory.createEtchedBorder());
         thumbnailLbl.setToolTipText("Click to Remove Document");
-        thumbnailLbl.putClientProperty("DOCUMENT", document);//Required for Delete later
+        thumbnailLbl.putClientProperty(Constant.DOCUMENT_KEY, document);//Required for Delete later
         documentsPanel.add(thumbnailLbl, 0);
         this.revalidate();
         
@@ -395,12 +382,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
         Graphics g = bufferedImage.createGraphics();
         g.drawImage(icon.getImage(), 0, 0, width, height, null);
         return new ImageIcon(bufferedImage);
-    }
-    
-    private void thumbnailLblMouseClicked(java.awt.event.MouseEvent evt){
-        documentList.remove((Document)((JLabel)evt.getComponent()).getClientProperty("DOCUMENT"));
-        documentsPanel.remove(evt.getComponent());
-        revalidate();
     }
     
     

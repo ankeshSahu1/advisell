@@ -38,6 +38,11 @@ public class Profile {
     private String PanNumber;
     private ArrayList<Document> documentList;
     private ArrayList<Investment> investmentList;
+    
+    public Profile(){
+        documentList = new ArrayList<>();
+        investmentList = new ArrayList<>();
+    }
 
     public ArrayList<Document> getDocumentList() {
         return documentList;

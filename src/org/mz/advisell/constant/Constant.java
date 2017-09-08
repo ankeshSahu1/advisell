@@ -22,18 +22,18 @@ package org.mz.advisell.constant;
  */
 public interface Constant {
 
-    String QUERY_AND = " and ";
-    //String QUERY_TRAINEE_PROGRAM=" current_status ";
-    String QUERY_IN = " IN ";
-    String QUERY_BETWEEN = " between ";
-    String QUERY_AADHAR = " aadhar ";
-    String QUERY_PAN_NUMBER = " pan_no ";
-    String QUERY_NUMBER = " contact ";
-    String QUERY_OR = " or ";
-    String QUERY_CONCAT = " concat ";
-    String QUERY_FIRST_NAME = " first_name ";
-    String QUERY_LAST_NAME = " last_name ";
-    String QUERY_LIKE = " like ";
-    //public final String SUCCESS = "success";
-    //public final String ERROR = "error";
+    final String QUERY_AND = " and ";
+    final String QUERY_IN = " IN ";
+    final String QUERY_BETWEEN = " between ";
+    final String QUERY_AADHAR = " aadhar ";
+    final String QUERY_PAN_NUMBER = " pan_no ";
+    final String QUERY_NUMBER = " contact ";
+    final String QUERY_OR = " or ";
+    final String QUERY_CONCAT = " concat ";
+    final String QUERY_FIRST_NAME = " first_name ";
+    final String QUERY_LAST_NAME = " last_name ";
+    final String QUERY_LIKE = " like ";
+    
+    final String DOCUMENT_KEY = "DOCUMENT";
+    final String AADHAR_KEY = "AADHAR";
 }

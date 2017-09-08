@@ -16,19 +16,12 @@
  */
 package org.mz.advisell.gui;
 
-import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import org.mz.advisell.services.ProfileService;
-import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Investment;
 import org.mz.advisell.bean.Profile;
@@ -281,11 +274,11 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         phoneNo.setText(profile.getContactNumber());
         mobileNo.setText(profile.getPhoneNumber());
         email.setText(profile.getEmailId());
-        address.setText(profile.getAddress());
+        address.setText("<html>"+profile.getAddress());
         panNo.setText(profile.getPanNumber());
         aadharNo.setText(profile.getAadharCardNumber());
         for (Document document : profile.getDocumentList()) {
-            documentsPanel.add(createDocumentThumbnail(document,profile), 0);
+            documentsPanel.add(createDocumentThumbnail(document), 0);
         }
         StringBuilder stringBuilder = new StringBuilder("<html>");
         for(Investment investment : profile.getInvestmentList()){
@@ -295,8 +288,8 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         this.revalidate();
     }
     
-    private JLabel createDocumentThumbnail(Document document,Profile profile){
-        ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon("documents/"+profile.getAadharCardNumber()+"/"+document.getFileName()), 30,35);
+    private JLabel createDocumentThumbnail(Document document){
+        ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon(document.getFile().getAbsolutePath()), 30,35);
         JLabel thumbnailLbl = new JLabel(documentThumbnail);
         thumbnailLbl.setBorder(BorderFactory.createEtchedBorder());
         return thumbnailLbl;

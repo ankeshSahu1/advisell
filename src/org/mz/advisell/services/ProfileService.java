@@ -16,10 +16,12 @@
  */
 package org.mz.advisell.services;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.bean.Document;
@@ -40,32 +42,31 @@ public class ProfileService {
         int result = 0;
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("INSERT INTO profile(first_name,last_name,contact,phone,email,address,aadhar,pan_no,documents)"
-                    + " VALUES(?,?,?,?,?,?,?,?,?);");
+            statement = connection.prepareStatement("INSERT INTO profile(first_name,last_name,mobile,phone,email,address,aadhar,pan_no,documents) VALUES(?,?,?,?,?,?,?,?,?);");
             statement.setString(1, (String) profile.getFirstName());
             statement.setString(2, (String) profile.getLastName());
-//            statement.setString(3, (String) profile.getGender());
             statement.setString(3, (String) profile.getContactNumber());
             statement.setString(4, (String) profile.getPhoneNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
-//            statement.setString(7, (String) profile.getCity());
-//            statement.setString(8, (String) profile.getState());
-//            statement.setString(9, (String) profile.getPinNumber());
             statement.setString(7, (String) profile.getAadharCardNumber());
             statement.setString(8, (String) profile.getPanNumber());
-            String documents = "";
-            if (!(profile.getDocumentList().isEmpty())) {
-                for (Document document : profile.getDocumentList()) {
-                    if (documents.equals("")) {
-                        documents = documents.concat(document.getFileName());
-                    } else {
-                        documents = documents.concat("," + document.getFileName());
-                    }
+            StringBuilder documents = new StringBuilder();
+            for (Document document : profile.getDocumentList()) {
+                if (documents.length() != 0) {
+                    documents.append(",");
                 }
+                documents.append(document.getFileName());
             }
-            statement.setString(9, documents);
+            statement.setString(9, documents.toString());
             result = statement.executeUpdate();
+            
+            if(result == 0){
+                return result;
+            }
+            DocumentService uploadService = new DocumentService();
+            result = uploadService.uploadDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
+        
         } catch (SQLException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -73,12 +74,10 @@ public class ProfileService {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    dbConnection.closeConnection();
-                }
             } catch (SQLException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
+            dbConnection.closeConnection();
         }
         return result;
     }
@@ -87,62 +86,33 @@ public class ProfileService {
         PreparedStatement statement = null;
         DBConnection dbConnection = new DBConnection();
         int result = 0;
-        ResultSet resultSet = null;
-        String documents = "";
+        StringBuilder documents = new StringBuilder();
         try {
             connection = dbConnection.createConnection();
-            statement = connection.prepareStatement("SELECT documents FROM profile WHERE aadhar=?");
-            statement.setString(1, (String) profile.getAadharCardNumber());
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                documents = resultSet.getString("documents");
-            }
-            statement.close();
-            resultSet.close();
-            String query = "UPDATE profile SET first_name=?,last_name=?,contact=?,phone=?,email=?,address=?,aadhar=?,pan_no=?,documents=? WHERE  aadhar=" + profile.getAadharCardNumber();
+            String query = "UPDATE profile SET first_name=?,last_name=?,mobile=?,phone=?,email=?,address=?,aadhar=?,pan_no=?,documents=? WHERE  aadhar=" + profile.getAadharCardNumber();
             statement = connection.prepareStatement(query);
             statement.setString(1, (String) profile.getFirstName());
             statement.setString(2, (String) profile.getLastName());
-            //statement.setString(3, (String) profile.getGender());
             statement.setString(3, (String) profile.getContactNumber());
             statement.setString(4, (String) profile.getPhoneNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
-            //statement.setString(7, (String) profile.getCity());
-            //statement.setString(8, (String) profile.getState());
-            //statement.setString(9, (String) profile.getPinNumber());
             statement.setString(7, (String) profile.getAadharCardNumber());
             statement.setString(8, (String) profile.getPanNumber());
-            //System.out.println(deleteDocumentList);
-            if (!(deleteDocumentList.isEmpty())) {
-                for (Document document : deleteDocumentList) {
-                    if (documents.contains(",")) {
-                        String[] filesName = documents.split(",");
-                        for (String fileName : filesName) {
-                            if (fileName.equals(document.getFileName())) {
-                                if (filesName[0].equals(document.getFileName())) {
-                                    documents = documents.replace(fileName+",", "");
-                                } else {
-                                    documents = documents.replace("," + fileName, "");
-                                }
-                            }
-                        }
-                    } else {
-                        documents = documents.replace(documents, "");
-                    }
+            for (Document document : profile.getDocumentList()) {
+                if (documents.length() != 0) {
+                    documents.append(",");
                 }
+                documents.append(document.getFileName());
             }
-            if (!(profile.getDocumentList().isEmpty())) {
-                for (Document document : profile.getDocumentList()) {
-                    if (documents.equals("")) {
-                        documents = documents.concat(document.getFileName());
-                    } else {
-                        documents = documents.concat("," + document.getFileName());
-                    }
-                }
-            }
-            statement.setString(9, documents);
+            statement.setString(9, documents.toString());
             result = statement.executeUpdate();
+            
+            if(result == 0){
+                return result;
+            }
+            DocumentService resetService = new DocumentService();
+            result = resetService.resetDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
 
         } catch (SQLException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
@@ -151,13 +121,10 @@ public class ProfileService {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-
             }
+            dbConnection.closeConnection();
         }
         return result;
     }
@@ -171,6 +138,12 @@ public class ProfileService {
             statement = connection.prepareStatement("DELETE FROM profile WHERE aadhar=?;");
             statement.setString(1, aadharCardNo);
             result = statement.executeUpdate();
+            
+            if(result == 0){
+                return result;
+            }
+            DocumentService documentService = new DocumentService();
+            result = documentService.deleteDocuments(aadharCardNo);
         } catch (SQLException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -178,39 +151,42 @@ public class ProfileService {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-
             }
+            dbConnection.closeConnection();
         }
         return result;
     }
     
     public Profile getClientDetails(String aadharCardNo) {
-        PreparedStatement statement = null;dcds
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Profile profile = new Profile();
+        Profile profile = null;
         DBConnection dbConnection = new DBConnection();
         try {
             connection = dbConnection.createConnection();
             statement = connection.prepareStatement("SELECT * FROM profile WHERE aadhar=?");
             statement.setString(1, aadharCardNo);
             resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            profile = new Profile();
+            if (resultSet.next()) {
                 profile.setFirstName(resultSet.getString(1));
                 profile.setLastName(resultSet.getString(2));
                 profile.setGender(resultSet.getString(3));
                 profile.setContactNumber(resultSet.getString(4));
+                profile.setPanNumber(resultSet.getString("pan_no"));
+                profile.setPhoneNumber(resultSet.getString("phone"));
                 profile.setEmailId(resultSet.getString(5));
                 profile.setAddress(resultSet.getString(6));
                 profile.setCity(resultSet.getString(7));
                 profile.setState(resultSet.getString(8));
                 profile.setPinNumber(resultSet.getString(9));
                 profile.setAadharCardNumber(resultSet.getString(10));
+                profile.setDocumentList(createDocumentList(resultSet.getString("documents"), aadharCardNo));
+                profile.setInvestmentList(new InvestmentService().getInvestmentList(aadharCardNo));
             }
+            
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -221,13 +197,23 @@ public class ProfileService {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
+            dbConnection.closeConnection();
         }
         return profile;
+    }
+    
+    private ArrayList<Document> createDocumentList(String documents, String aadhar){
+        ArrayList<Document> documentList = new ArrayList<>();
+        String[] fileNameArray = documents.split(",");
+        for(String fileName: fileNameArray){
+            Document document = new Document();
+            document.setFile(new File("documents/"+aadhar+"/"+fileName));
+            document.setFileName(fileName);
+            documentList.add(document);
+        }
+        return documentList;
     }
 }

@@ -68,20 +68,18 @@ public class DocumentService{
         
         return result;
     }
-
-    public void deleteDocument(ArrayList<Document> deleteDocumentList, String aadharNo) {
-        for (Document document : deleteDocumentList) {
-            File file = new File("documents/" + aadharNo + "/" + document.getFileName());
-            file.delete();
-        }
+    
+    public int resetDocuments(ArrayList<Document> documentList, String aadhar){
+        
     }
 
-    public void deleteDocuments(String aadharNo) {
+    public int deleteDocuments(String aadharNo) {
         File file = new File("documents/" + aadharNo);
         File[] documentArray=file.listFiles();
         for(File document:documentArray){
             document.delete();
         }
         file.delete();
+        return result;
     }
 }

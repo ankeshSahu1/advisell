@@ -18,7 +18,11 @@ package org.mz.advisell.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.dao.DBConnection;
 
@@ -36,26 +40,58 @@ public class InvestmentService{
         int result = 0;
 	try{
             connection = dbConnection.createConnection();
-            statement=connection.prepareStatement("INSERT INTO investment(aadhar,scheme,amount) VALUES(?,?,?);");
+            statement=connection.prepareStatement("INSERT INTO investment(aadhar,scheme_name,amount) VALUES(?,?,?);");
             statement.setString(1,aadhar);
             statement.setString(2,investment.getScheme());
             statement.setInt(3,investment.getAmount());
             result=statement.executeUpdate();
 	}catch(SQLException e){	
-            e.printStackTrace();	
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
 	}finally{
             try {
                 if(statement!=null){
                     statement.close();
 		}
             }catch (SQLException e) {
-		e.printStackTrace();
+		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
             }
             dbConnection.closeConnection();
 	}
 	return result;   
     }
     
-    getInv
+    public ArrayList<Investment> getInvestmentList(String aadhar){
+        DBConnection dbConnection = new DBConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Investment> investmentList = new ArrayList<>();
+        try{
+            connection = dbConnection.createConnection();
+            statement=connection.prepareStatement("SELECT * FROM investment WHERE aadhar=?");
+            statement.setString(1,aadhar);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Investment investment = new Investment();
+                investment.setScheme(resultSet.getString("scheme_name"));
+                investment.setAmount(resultSet.getInt("amount"));
+                investmentList.add(investment);
+            }
+	}catch(SQLException e){	
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+	}finally{
+            try {
+                if(statement!=null){
+                    statement.close();
+		}
+                if(resultSet!=null){
+                    resultSet.close();
+                }
+            }catch (SQLException e) {
+		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+            }
+            dbConnection.closeConnection();
+	}
+	return investmentList;   
+    }
     
 }

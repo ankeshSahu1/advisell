@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.constant.Constant;
-import org.mz.advisell.bean.Document;
-import org.mz.advisell.bean.Profile;
 import org.mz.advisell.bean.ProfilePreview;
 import org.mz.advisell.services.dao.DBConnection;
 

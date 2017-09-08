@@ -31,6 +31,7 @@ import org.mz.advisell.services.SearchService;
 import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Profile;
 import org.mz.advisell.bean.ProfilePreview;
+import org.mz.advisell.constant.Constant;
 
 /**
  *
@@ -180,7 +181,7 @@ public class SearchPanel extends javax.swing.JPanel {
         clientListPanel.removeAll();
         for (ProfilePreview profilePreview : clientList) {
             JPanel singleResultPanel = createSingleResult(profilePreview);
-            singleResultPanel.putClientProperty("AADHAR", profilePreview.getAadharCardNumber());/*Aadhar is linked to every result*/
+            singleResultPanel.putClientProperty(Constant.AADHAR_KEY, profilePreview.getAadharCardNumber());/*Aadhar is linked to every result*/
             singleResultPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -267,13 +268,13 @@ public class SearchPanel extends javax.swing.JPanel {
     }
     
     private void singleResultPanelMouseClicked(java.awt.event.MouseEvent evt){
-        String aadhar = (String)((JPanel)evt.getComponent()).getClientProperty("AADHAR");
+        String aadhar = (String)((JPanel)evt.getComponent()).getClientProperty(Constant.AADHAR_KEY);
         Profile profile = new ProfileService().getClientDetails(aadhar);
         new ViewProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
     
     private void editBtnActionPerformed(ActionEvent evt) {
-        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
+        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty(Constant.AADHAR_KEY);
         Profile profile = new ProfileService().getClientDetails(aadhar);
         new FillProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
@@ -281,7 +282,7 @@ public class SearchPanel extends javax.swing.JPanel {
     private void deleteBtnActionPerformed(ActionEvent evt) {
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.OK_OPTION) {
-            String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
+            String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty(Constant.AADHAR_KEY);
             ProfileService profileService = new ProfileService();
             int result = profileService.deleteProfile(aadhar);
             if (result > 0) {
@@ -297,7 +298,7 @@ public class SearchPanel extends javax.swing.JPanel {
     }
 
     private void investmentBtnActionPerformed(ActionEvent evt) {
-        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
+        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty(Constant.AADHAR_KEY);
         new RecordInvestmentDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, aadhar).setVisible(true);
     }
 
