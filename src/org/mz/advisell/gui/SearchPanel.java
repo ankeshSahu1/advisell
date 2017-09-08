@@ -30,6 +30,7 @@ import org.mz.advisell.services.ProfileService;
 import org.mz.advisell.services.SearchService;
 import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Profile;
+import org.mz.advisell.bean.ProfilePreview;
 
 /**
  *
@@ -82,7 +83,6 @@ public class SearchPanel extends javax.swing.JPanel {
         editBtnDesign = new javax.swing.JButton();
         investmentBtnDesign = new javax.swing.JButton();
         deleteBtnDesign = new javax.swing.JButton();
-        schemeLblDesign = new javax.swing.JLabel();
         searchLbl = new javax.swing.JLabel();
         searchTextField = new javax.swing.JTextField();
         searchResultLbl = new javax.swing.JLabel();
@@ -103,9 +103,6 @@ public class SearchPanel extends javax.swing.JPanel {
 
         deleteBtnDesign.setText("Delete");
 
-        schemeLblDesign.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        schemeLblDesign.setText("HCL Extra Life");
-
         javax.swing.GroupLayout singleResultPanelDesignLayout = new javax.swing.GroupLayout(singleResultPanelDesign);
         singleResultPanelDesign.setLayout(singleResultPanelDesignLayout);
         singleResultPanelDesignLayout.setHorizontalGroup(
@@ -123,8 +120,7 @@ public class SearchPanel extends javax.swing.JPanel {
                         .addComponent(nameLblDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(mobileLblDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(schemeLblDesign, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         singleResultPanelDesignLayout.setVerticalGroup(
@@ -133,8 +129,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addGap(6, 6, 6)
                 .addGroup(singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLblDesign)
-                    .addComponent(mobileLblDesign)
-                    .addComponent(schemeLblDesign))
+                    .addComponent(mobileLblDesign))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(investmentBtnDesign)
@@ -181,11 +176,11 @@ public class SearchPanel extends javax.swing.JPanel {
         getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showClientResults(ArrayList<Profile> clientList) {
+    private void showClientResults(ArrayList<ProfilePreview> clientList) {
         clientListPanel.removeAll();
-        for (Profile profile : clientList) {
-            JPanel singleResultPanel = createSingleResult(profile);
-            singleResultPanel.putClientProperty("PROFILE", profile);/*Profile is linked to every result*/
+        for (ProfilePreview profilePreview : clientList) {
+            JPanel singleResultPanel = createSingleResult(profilePreview);
+            singleResultPanel.putClientProperty("AADHAR", profilePreview.getAadharCardNumber());/*Aadhar is linked to every result*/
             singleResultPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -197,7 +192,7 @@ public class SearchPanel extends javax.swing.JPanel {
         revalidate();
     }
 
-    private JPanel createSingleResult(Profile profile) {
+    private JPanel createSingleResult(ProfilePreview profilePreview) {
         JPanel singleResultPanel = new JPanel();
         singleResultPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         singleResultPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -206,16 +201,13 @@ public class SearchPanel extends javax.swing.JPanel {
         JButton investmentBtn = new JButton();
         JLabel mobileLbl = new JLabel();
         JLabel nameLbl = new JLabel();
-        JLabel schemeLbl = new JLabel();
 
         nameLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        nameLbl.setText(profile.getFirstName() + " " + profile.getLastName());
-        mobileLbl.setText(profile.getContactNumber());
+        nameLbl.setText(profilePreview.getFirstName() + " " + profilePreview.getLastName());
+        mobileLbl.setText(profilePreview.getContactNumber());
         editBtn.setText("Edit");
         investmentBtn.setText("Invest");
         deleteBtn.setText("Delete");
-        schemeLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        schemeLbl.setText("HCL Extra Life");
 
         javax.swing.GroupLayout singleResultPanelLayout = new javax.swing.GroupLayout(singleResultPanel);
         singleResultPanel.setLayout(singleResultPanelLayout);
@@ -233,10 +225,8 @@ public class SearchPanel extends javax.swing.JPanel {
                                         .addGroup(singleResultPanelLayout.createSequentialGroup()
                                                 .addComponent(nameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(6, 6, 6)
-                                                .addComponent(mobileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(6, 6, 6)
-                                                .addComponent(schemeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
-                                .addContainerGap())
+                                                .addComponent(mobileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addContainerGap())
         );
         singleResultPanelLayout.setVerticalGroup(
                 singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,8 +234,7 @@ public class SearchPanel extends javax.swing.JPanel {
                                 .addGap(6, 6, 6)
                                 .addGroup(singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(nameLbl)
-                                        .addComponent(mobileLbl)
-                                        .addComponent(schemeLbl))
+                                        .addComponent(mobileLbl))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(investmentBtn)
@@ -278,24 +267,26 @@ public class SearchPanel extends javax.swing.JPanel {
     }
     
     private void singleResultPanelMouseClicked(java.awt.event.MouseEvent evt){
-        Profile profile = (Profile)((JPanel)evt.getComponent()).getClientProperty("PROFILE");
+        String aadhar = (String)((JPanel)evt.getComponent()).getClientProperty("AADHAR");
+        Profile profile = new ProfileService().getClientDetails(aadhar);
         new ViewProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
     
     private void editBtnActionPerformed(ActionEvent evt) {
-        Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
+        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
+        Profile profile = new ProfileService().getClientDetails(aadhar);
         new FillProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
 
     private void deleteBtnActionPerformed(ActionEvent evt) {
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.OK_OPTION) {
-            Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
+            String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
             ProfileService profileService = new ProfileService();
-            int result = profileService.deleteProfile(profile.getAadharCardNumber());
+            int result = profileService.deleteProfile(aadhar);
             if (result > 0) {
                 DocumentService documentService = new DocumentService();
-                documentService.deleteDocuments(profile.getAadharCardNumber());
+                documentService.deleteDocuments(aadhar);
                 searchResultLbl.setText("Deleted successfully.");
                 clientListPanel.remove((JPanel)((JButton)evt.getSource()).getParent());
                 revalidate();
@@ -306,8 +297,8 @@ public class SearchPanel extends javax.swing.JPanel {
     }
 
     private void investmentBtnActionPerformed(ActionEvent evt) {
-        Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
-        new RecordInvestmentDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile.getAadharCardNumber()).setVisible(true);
+        String aadhar = (String)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("AADHAR");
+        new RecordInvestmentDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, aadhar).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -318,7 +309,6 @@ public class SearchPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mobileLblDesign;
     private javax.swing.JLabel nameLblDesign;
-    private javax.swing.JLabel schemeLblDesign;
     private javax.swing.JLabel searchLbl;
     private javax.swing.JLabel searchResultLbl;
     private javax.swing.JTextField searchTextField;

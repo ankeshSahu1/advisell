@@ -70,7 +70,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="address" alignment="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="investment" alignment="0" max="32767" attributes="0"/>
+                      <Component id="investments" alignment="0" max="32767" attributes="0"/>
                       <Component id="documentsPanel" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -155,7 +155,6 @@
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="panNoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="panNo" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -167,7 +166,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="investmentLbl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="investment" min="-2" max="-2" attributes="0"/>
+                  <Component id="investments" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="documentLbl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -289,7 +288,7 @@
             <Property name="text" type="java.lang.String" value="Investments:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="investment">
+        <Component class="javax.swing.JLabel" name="investments">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;Cheque 42352 HDFC LC 23/07/1997&lt;br&gt;Cheque 42352 HDFC LC 23/07/1997&lt;br&gt;Cheque 42352 HDFC LC 23/07/1997&lt;br&gt;Cheque 42352 HDFC LC 23/07/1997 "/>
             <Property name="verticalAlignment" type="int" value="1"/>
@@ -306,18 +305,6 @@
         <Container class="javax.swing.JPanel" name="documentsPanel">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="uploadLbl">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/mz/advisell/images/plus_upload.png"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="javax.swing.BorderFactory.createDashedBorder(Color.GRAY)" type="code"/>
-                </Property>
-              </Properties>
-            </Component>
-          </SubComponents>
         </Container>
       </SubComponents>
     </Container>

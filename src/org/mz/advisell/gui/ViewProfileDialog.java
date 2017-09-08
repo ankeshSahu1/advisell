@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import org.mz.advisell.services.ProfileService;
 import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Document;
+import org.mz.advisell.bean.Investment;
 import org.mz.advisell.bean.Profile;
 
 /**
@@ -79,10 +80,9 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         panNoLbl = new javax.swing.JLabel();
         panNo = new javax.swing.JLabel();
         investmentLbl = new javax.swing.JLabel();
-        investment = new javax.swing.JLabel();
+        investments = new javax.swing.JLabel();
         documentLbl = new javax.swing.JLabel();
         documentsPanel = new javax.swing.JPanel();
-        uploadLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("../images/icon_new_profile.png")).getImage());
@@ -142,17 +142,13 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         investmentLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         investmentLbl.setText("Investments:");
 
-        investment.setText("<html>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997 ");
-        investment.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        investments.setText("<html>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997<br>Cheque 42352 HDFC LC 23/07/1997 ");
+        investments.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         documentLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         documentLbl.setText("Documents:");
 
         documentsPanel.setLayout(new javax.swing.BoxLayout(documentsPanel, javax.swing.BoxLayout.LINE_AXIS));
-
-        uploadLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/advisell/images/plus_upload.png"))); // NOI18N
-        uploadLbl.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.GRAY));
-        documentsPanel.add(uploadLbl);
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
@@ -162,7 +158,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(investment)
+                    .addComponent(investments)
                     .addComponent(documentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +223,6 @@ public class ViewProfileDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(investBtn)
                         .addGap(29, 29, 29)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(panNoLbl)
                     .addComponent(panNo))
@@ -238,7 +233,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(investmentLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(investment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(investments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(documentLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -289,19 +284,22 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         address.setText(profile.getAddress());
         panNo.setText(profile.getPanNumber());
         aadharNo.setText(profile.getAadharCardNumber());
-        if(!(profile.getDocumentList().isEmpty())){
-            for (Document document : profile.getDocumentList()) {
-                createDocumentThumbnail(document,profile);
-            }
+        for (Document document : profile.getDocumentList()) {
+            documentsPanel.add(createDocumentThumbnail(document,profile), 0);
         }
+        StringBuilder stringBuilder = new StringBuilder("<html>");
+        for(Investment investment : profile.getInvestmentList()){
+            stringBuilder.append(investment.getScheme()).append(", INR ").append(investment.getAmount()).append("<br>");
+        }
+        investments.setText(stringBuilder.toString());
+        this.revalidate();
     }
     
-    private void createDocumentThumbnail(Document document,Profile profile){
+    private JLabel createDocumentThumbnail(Document document,Profile profile){
         ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon("documents/"+profile.getAadharCardNumber()+"/"+document.getFileName()), 30,35);
         JLabel thumbnailLbl = new JLabel(documentThumbnail);
         thumbnailLbl.setBorder(BorderFactory.createEtchedBorder());
-        documentsPanel.add(thumbnailLbl, 0);
-        this.revalidate();
+        return thumbnailLbl;
     }
     
     private ImageIcon getScaledImageIcon(ImageIcon icon, int width, int height) {
@@ -325,8 +323,8 @@ public class ViewProfileDialog extends javax.swing.JDialog {
     private javax.swing.JLabel email;
     private javax.swing.JLabel emailIdLbl;
     private javax.swing.JButton investBtn;
-    private javax.swing.JLabel investment;
     private javax.swing.JLabel investmentLbl;
+    private javax.swing.JLabel investments;
     private javax.swing.JLabel mobileLbl;
     private javax.swing.JLabel mobileNo;
     private javax.swing.JLabel nameLbl;
@@ -334,6 +332,5 @@ public class ViewProfileDialog extends javax.swing.JDialog {
     private javax.swing.JLabel panNoLbl;
     private javax.swing.JLabel phoneLbl;
     private javax.swing.JLabel phoneNo;
-    private javax.swing.JLabel uploadLbl;
     // End of variables declaration//GEN-END:variables
 }

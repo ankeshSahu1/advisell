@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.mz.advisell.constant.Constant;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
+import org.mz.advisell.bean.ProfilePreview;
 import org.mz.advisell.services.dao.DBConnection;
 
 /**
@@ -36,12 +37,12 @@ public class SearchService {
 
     private Connection connection;
 
-    public ArrayList<Profile> getClientList(String searchValue) {
-        ArrayList<Profile> clientDetails = new ArrayList<>();
+    public ArrayList<ProfilePreview> getClientList(String searchValue) {
+        ArrayList<ProfilePreview> clientDetails = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         DBConnection dbConnection = new DBConnection();
-        String query = "SELECT * FROM profile WHERE";
+        String query = "SELECT first_name,last_name,contact,aadhar, FROM profile WHERE";
         StringBuilder queryBuilder = new StringBuilder(query);
         try {
             connection = dbConnection.createConnection();
@@ -67,25 +68,12 @@ public class SearchService {
             }
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Profile profile = new Profile();
-                profile.setFirstName(resultSet.getString(1));
-                profile.setLastName(resultSet.getString(2));
-                profile.setContactNumber(resultSet.getString(4));
-                profile.setEmailId(resultSet.getString(5));
-                profile.setAddress(resultSet.getString(6));
-                profile.setAadharCardNumber(resultSet.getString(10));
-                profile.setPanNumber(resultSet.getString(11));
-                profile.setPhoneNumber(resultSet.getString(12));
-                
-                ArrayList<Document> documentList=new ArrayList<>();
-                String[] filesName=resultSet.getString(13).split(",");
-                for(String fileName:filesName){
-                    Document document=new Document();
-                    document.setFileName(fileName);
-                    documentList.add(document);
-                }
-                profile.setDocumentList(documentList);
-                clientDetails.add(profile);
+                ProfilePreview profilePreview = new ProfilePreview();
+                profilePreview.setFirstName(resultSet.getString(1));
+                profilePreview.setLastName(resultSet.getString(2));
+                profilePreview.setContactNumber(resultSet.getString(4));
+                profilePreview.setAadharCardNumber(resultSet.getString(10));
+                clientDetails.add(profilePreview);
             }
         } catch (SQLException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);

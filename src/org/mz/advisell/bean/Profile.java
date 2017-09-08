@@ -28,8 +28,8 @@ public class Profile {
     private String lastName;
     private String gender;
     private String emailId;
-    private String PhoneNumber;
     private String contactNumber;
+    private String phoneNumber;
     private String city;
     private String state;
     private String pinNumber;
@@ -37,6 +37,7 @@ public class Profile {
     private String aadharCardNumber;
     private String PanNumber;
     private ArrayList<Document> documentList;
+    private ArrayList<Investment> investmentList;
 
     public ArrayList<Document> getDocumentList() {
         return documentList;
@@ -47,11 +48,11 @@ public class Profile {
     }
     
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPanNumber() {
@@ -139,6 +140,14 @@ public class Profile {
 
     public void setAadharCardNumber(String aadharCardNumber) {
         this.aadharCardNumber = aadharCardNumber;
+    }
+
+    public ArrayList<Investment> getInvestmentList() {
+        return investmentList;
+    }
+
+    public void setInvestmentList(ArrayList<Investment> investmentList) {
+        this.investmentList = investmentList;
     }
 
 }

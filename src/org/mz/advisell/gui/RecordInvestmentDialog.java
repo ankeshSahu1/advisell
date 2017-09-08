@@ -23,9 +23,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
-import org.mz.advisell.bo.company.CompanyBo;
+import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.SchemeService;
-import org.mz.advisell.bo.makeInvestment.MakeInvestmentBo;
 import org.mz.advisell.services.InvestmentService;
 
 /**
@@ -35,10 +34,6 @@ import org.mz.advisell.services.InvestmentService;
 public class RecordInvestmentDialog extends javax.swing.JDialog {
 
     private final String aadhar;
-    private JFormattedTextField investmentTextField;
-    private JComboBox companyNameDropDown;
-    private JPanel singleInvestmentPanel;
-
     /**
      * Creates new form InvestmentDialog
      *
@@ -49,8 +44,8 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
     public RecordInvestmentDialog(java.awt.Frame parent, boolean modal, String aadhar) {
         super(parent, modal);
         initComponents();
-        this.aadhar = aadhar;
         addInvestmentPanel();
+        this.aadhar = aadhar;
     }
 
     /**
@@ -107,9 +102,7 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(moreBtn))
+                            .addComponent(moreBtn)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 21, Short.MAX_VALUE))))
         );
@@ -135,21 +128,36 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
 
     private void moreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moreBtnActionPerformed
         addInvestmentPanel();
-        investmentResultLbl.setText("");
     }//GEN-LAST:event_moreBtnActionPerformed
 
+    private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        JPanel currentInvestmentPanel = (JPanel)((JButton)evt.getSource()).getParent();
+        JFormattedTextField investmentTextField = (JFormattedTextField)currentInvestmentPanel.getComponent(1);
+        JComboBox schemesDropDown = (JComboBox)currentInvestmentPanel.getComponent(0);
+        Investment investment = new Investment();
+        investment.setAmount(Integer.parseInt(investmentTextField.getText()));
+        investment.setScheme(schemesDropDown.getSelectedItem().toString()); 
+        InvestmentService investmentService = new InvestmentService();
+        int result = investmentService.addInvestment(investment, aadhar);
+        if (result > 0) {
+            investmentResultLbl.setText("successfully added.");
+        } else {
+            investmentResultLbl.setText("Error in making investment.");
+        }
+    }
+    
     private void addInvestmentPanel() {
-        singleInvestmentPanel = new JPanel();
+        JPanel singleInvestmentPanel = new JPanel();
         singleInvestmentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        companyNameDropDown = new JComboBox();
-        CompanyBo companyBo = new SchemeService();
-        ArrayList<String> companyNameList = companyBo.getCompaniesName();
-        for (String companyName : companyNameList) {
-            companyNameDropDown.addItem(companyName);
+        JComboBox schemesDropDown = new JComboBox();
+        SchemeService schemeService = new SchemeService();
+        ArrayList<String> schemeList = schemeService.getSchemes();
+        for (String scheme : schemeList) {
+            schemesDropDown.addItem(scheme);
         }
         NumberFormatter formatter = new NumberFormatter();
         formatter.setAllowsInvalid(false);
-        investmentTextField = new JFormattedTextField(formatter);
+        JFormattedTextField amountTextField = new JFormattedTextField(formatter);
         JButton addInvestmentBtn = new JButton("Add");
         javax.swing.GroupLayout singleInvestmentPanelLayout = new javax.swing.GroupLayout(singleInvestmentPanel);
         singleInvestmentPanel.setLayout(singleInvestmentPanelLayout);
@@ -157,9 +165,9 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
                 singleInvestmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(singleInvestmentPanelLayout.createSequentialGroup()
                                 .addGap(20, 20, 20)
-                                .addComponent(companyNameDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(schemesDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38)
-                                .addComponent(investmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(addInvestmentBtn)
                                 .addContainerGap(20, Short.MAX_VALUE))
@@ -169,14 +177,15 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
                         .addGroup(singleInvestmentPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(singleInvestmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(companyNameDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(investmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(schemesDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(addInvestmentBtn))
                                 .addContainerGap(0, Short.MAX_VALUE))
         );
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         addInvestmentBtn.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addInvestmentBtnActionPerformed(evt);
             }
@@ -185,15 +194,6 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
         revalidate();
     }
 
-    private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        MakeInvestmentBo makeInvestmentBo = new InvestmentService();
-        int result = makeInvestmentBo.addInvestment(companyNameDropDown.getSelectedItem().toString(), investmentTextField.getText(), aadhar);
-        if (result > 0) {
-            investmentResultLbl.setText("successfully added");
-        } else {
-            investmentResultLbl.setText("Error to make investment");
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel companyLbl;

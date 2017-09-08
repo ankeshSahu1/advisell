@@ -19,6 +19,7 @@ package org.mz.advisell.services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.dao.DBConnection;
 
 /**
@@ -27,18 +28,18 @@ import org.mz.advisell.services.dao.DBConnection;
  */
 public class InvestmentService{
 
-    public int addInvestment(String companyName, String investment, String aadharNumber) {
-     DBConnection dbConnection = new DBConnection();
-	Connection conn=null;
+    private Connection connection;
+    
+    public int addInvestment(Investment investment, String aadhar) {
+        DBConnection dbConnection = new DBConnection();
 	PreparedStatement statement=null;
         int result = 0;
 	try{
-            Connection connection = dbConnection.createConnection();
-            statement=connection.prepareStatement("INSERT INTO investment(aadhar,company_name,investment)"
-					+ " VALUES(?,?,?);");
-            statement.setString(1,aadharNumber);
-            statement.setString(2,companyName);
-            statement.setString(3,investment);
+            connection = dbConnection.createConnection();
+            statement=connection.prepareStatement("INSERT INTO investment(aadhar,scheme,amount) VALUES(?,?,?);");
+            statement.setString(1,aadhar);
+            statement.setString(2,investment.getScheme());
+            statement.setInt(3,investment.getAmount());
             result=statement.executeUpdate();
 	}catch(SQLException e){	
             e.printStackTrace();	
@@ -47,14 +48,14 @@ public class InvestmentService{
                 if(statement!=null){
                     statement.close();
 		}
-                if(conn!=null){
-                    conn.close();
-		}
             }catch (SQLException e) {
 		e.printStackTrace();
             }
+            dbConnection.closeConnection();
 	}
 	return result;   
     }
+    
+    getInv
     
 }

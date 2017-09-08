@@ -33,8 +33,7 @@
                           <Component id="nameLblDesign" min="-2" pref="91" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Component id="mobileLblDesign" min="-2" pref="85" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          <Component id="schemeLblDesign" pref="89" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -48,7 +47,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="nameLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mobileLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="schemeLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -88,12 +86,6 @@
         <Component class="javax.swing.JButton" name="deleteBtnDesign">
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="schemeLblDesign">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="HCL Extra Life"/>
           </Properties>
         </Component>
       </SubComponents>

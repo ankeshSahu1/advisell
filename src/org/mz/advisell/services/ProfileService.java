@@ -190,7 +190,7 @@ public class ProfileService {
     }
     
     public Profile getClientDetails(String aadharCardNo) {
-        PreparedStatement statement = null;
+        PreparedStatement statement = null;dcds
         ResultSet resultSet = null;
         Profile profile = new Profile();
         DBConnection dbConnection = new DBConnection();
