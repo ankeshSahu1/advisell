@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -86,7 +85,7 @@ public class SearchPanel extends javax.swing.JPanel {
         schemeLblDesign = new javax.swing.JLabel();
         searchLbl = new javax.swing.JLabel();
         searchTextField = new javax.swing.JTextField();
-        investmentResultLbl = new javax.swing.JLabel();
+        searchResultLbl = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         clientListPanel = new javax.swing.JPanel();
 
@@ -146,8 +145,8 @@ public class SearchPanel extends javax.swing.JPanel {
 
         searchLbl.setText("Search with Name/Contact/Aadhar/PAN");
 
-        investmentResultLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        investmentResultLbl.setForeground(new java.awt.Color(255, 0, 0));
+        searchResultLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        searchResultLbl.setForeground(new java.awt.Color(255, 0, 0));
 
         clientListPanel.setLayout(new javax.swing.BoxLayout(clientListPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(clientListPanel);
@@ -161,7 +160,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchTextField)
                     .addComponent(searchLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                    .addComponent(investmentResultLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchResultLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -173,7 +172,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(investmentResultLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchResultLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -297,11 +296,11 @@ public class SearchPanel extends javax.swing.JPanel {
             if (result > 0) {
                 DocumentService documentService = new DocumentService();
                 documentService.deleteDocuments(profile.getAadharCardNumber());
-                investmentResultLbl.setText("Deleted successfully.");
+                searchResultLbl.setText("Deleted successfully.");
                 clientListPanel.remove((JPanel)((JButton)evt.getSource()).getParent());
                 revalidate();
             } else {
-                investmentResultLbl.setText("Error! Please try again.");
+                searchResultLbl.setText("Error! Please try again.");
             }
         }
     }
@@ -316,12 +315,12 @@ public class SearchPanel extends javax.swing.JPanel {
     private javax.swing.JButton deleteBtnDesign;
     private javax.swing.JButton editBtnDesign;
     private javax.swing.JButton investmentBtnDesign;
-    private javax.swing.JLabel investmentResultLbl;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mobileLblDesign;
     private javax.swing.JLabel nameLblDesign;
     private javax.swing.JLabel schemeLblDesign;
     private javax.swing.JLabel searchLbl;
+    private javax.swing.JLabel searchResultLbl;
     private javax.swing.JTextField searchTextField;
     private javax.swing.JPanel singleResultPanelDesign;
     // End of variables declaration//GEN-END:variables

@@ -22,8 +22,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.mz.advisell.services.ProfileService;
 import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Document;
@@ -36,19 +39,18 @@ import org.mz.advisell.bean.Profile;
 public class ViewProfileDialog extends javax.swing.JDialog {
     
     private final Profile profile;
-    private final Frame frame;
     /**
-     * Creates new form NewJDialog
+     * Creates new form ViewProfileDialog
      *
      * @param parent
      * @param modal
+     * @param profile
      */
     public ViewProfileDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
         initComponents();
-        frame=parent;
         this.profile=profile;
-        //setContent();
+        setContent();
     }
 
     /**
@@ -68,7 +70,6 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         phoneNo = new javax.swing.JLabel();
         editBtn = new javax.swing.JButton();
         investBtn = new javax.swing.JButton();
-        deleteBtn = new javax.swing.JButton();
         emailIdLbl = new javax.swing.JLabel();
         email = new javax.swing.JLabel();
         mobileLbl = new javax.swing.JLabel();
@@ -117,13 +118,6 @@ public class ViewProfileDialog extends javax.swing.JDialog {
             }
         });
 
-        deleteBtn.setText("Delete");
-        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteBtnActionPerformed(evt);
-            }
-        });
-
         emailIdLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailIdLbl.setText("Email:");
 
@@ -156,7 +150,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
 
         documentsPanel.setLayout(new javax.swing.BoxLayout(documentsPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        uploadLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/advisell/gui/plus_upload.png"))); // NOI18N
+        uploadLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/mz/advisell/images/plus_upload.png"))); // NOI18N
         uploadLbl.setBorder(javax.swing.BorderFactory.createDashedBorder(Color.GRAY));
         documentsPanel.add(uploadLbl);
 
@@ -202,9 +196,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(investBtn, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                            .addComponent(investBtn))))
                 .addContainerGap())
         );
         contentPanelLayout.setVerticalGroup(
@@ -234,8 +226,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
                         .addComponent(editBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(investBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteBtn)))
+                        .addGap(29, 29, 29)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(panNoLbl)
@@ -281,27 +272,14 @@ public class ViewProfileDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        new FillProfileDialog(frame, true, profile).setVisible(true);
+        dispose();
+        new FillProfileDialog((JFrame)this.getParent(), true, profile).setVisible(true);
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void investBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_investBtnActionPerformed
-        new RecordInvestmentDialog(frame, true, profile.getAadharCardNumber()).setVisible(true);
+        dispose();
+        new RecordInvestmentDialog((JFrame)this.getParent(), true, profile.getAadharCardNumber()).setVisible(true);
     }//GEN-LAST:event_investBtnActionPerformed
-
-    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-      int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
-        if (dialogResult == JOptionPane.OK_OPTION) {
-            ProfileBo profileBo = new ProfileService();
-            int result = profileBo.deleteProfile(profile.getAadharCardNumber());
-            if (result > 0) {
-                ClientProfileUploadDocumentBo uploadDocumentBo = new DocumentService();
-                uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
-                //investmentResultLbl.setText("Delete successfully");
-            } else {
-                //investmentResultLbl.setText("Error");
-            }
-        }  
-    }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void setContent() {
         nameLbl.setText(profile.getFirstName() + " " + profile.getLastName());
@@ -341,7 +319,6 @@ public class ViewProfileDialog extends javax.swing.JDialog {
     private javax.swing.JLabel address;
     private javax.swing.JLabel addressLbl;
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel documentLbl;
     private javax.swing.JPanel documentsPanel;
     private javax.swing.JButton editBtn;

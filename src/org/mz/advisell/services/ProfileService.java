@@ -67,7 +67,7 @@ public class ProfileService {
             statement.setString(9, documents);
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
@@ -77,7 +77,7 @@ public class ProfileService {
                     dbConnection.closeConnection();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
         }
         return result;
@@ -145,7 +145,7 @@ public class ProfileService {
             result = statement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
@@ -155,7 +155,7 @@ public class ProfileService {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
 
             }
         }
@@ -172,7 +172,7 @@ public class ProfileService {
             statement.setString(1, aadharCardNo);
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
@@ -182,7 +182,7 @@ public class ProfileService {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
 
             }
         }
@@ -212,7 +212,7 @@ public class ProfileService {
                 profile.setAadharCardNumber(resultSet.getString(10));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SearchService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (resultSet != null) {
@@ -225,7 +225,7 @@ public class ProfileService {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
         }
         return profile;
