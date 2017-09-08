@@ -124,7 +124,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_newProfileMenuItemActionPerformed
 
     private void searchMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMenuItemActionPerformed
-        this.add(new SearchPanel(this),0);
+        this.add(new SearchPanel(),0);
         this.revalidate();
     }//GEN-LAST:event_searchMenuItemActionPerformed
 

@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
-    <Container class="javax.swing.JPanel" name="singleResultPanel">
+    <Container class="javax.swing.JPanel" name="singleResultPanelDesign">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -23,18 +23,18 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="editBtn" min="-2" pref="63" max="-2" attributes="0"/>
+                          <Component id="editBtnDesign" min="-2" pref="63" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                          <Component id="investmentBtn" min="-2" max="-2" attributes="0"/>
+                          <Component id="investmentBtnDesign" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" pref="43" max="32767" attributes="0"/>
-                          <Component id="deleteBtn" min="-2" max="-2" attributes="0"/>
+                          <Component id="deleteBtnDesign" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="nameLbl" min="-2" pref="91" max="-2" attributes="0"/>
+                          <Component id="nameLblDesign" min="-2" pref="91" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          <Component id="mobileLbl" min="-2" pref="85" max="-2" attributes="0"/>
+                          <Component id="mobileLblDesign" min="-2" pref="85" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          <Component id="schemeLbl" pref="89" max="32767" attributes="0"/>
+                          <Component id="schemeLblDesign" pref="89" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -46,15 +46,15 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="nameLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="mobileLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="schemeLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="nameLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mobileLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="schemeLblDesign" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="investmentBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="editBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="deleteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="investmentBtnDesign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="editBtnDesign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="deleteBtnDesign" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               </Group>
@@ -62,7 +62,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="nameLbl">
+        <Component class="javax.swing.JLabel" name="nameLblDesign">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="11" style="1"/>
@@ -70,27 +70,27 @@
             <Property name="text" type="java.lang.String" value="Saket Kumar Malik"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="mobileLbl">
+        <Component class="javax.swing.JLabel" name="mobileLblDesign">
           <Properties>
             <Property name="text" type="java.lang.String" value="+91-8510080900"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="editBtn">
+        <Component class="javax.swing.JButton" name="editBtnDesign">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="investmentBtn">
+        <Component class="javax.swing.JButton" name="investmentBtnDesign">
           <Properties>
             <Property name="text" type="java.lang.String" value="Invest"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="deleteBtn">
+        <Component class="javax.swing.JButton" name="deleteBtnDesign">
           <Properties>
             <Property name="text" type="java.lang.String" value="Delete"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="schemeLbl">
+        <Component class="javax.swing.JLabel" name="schemeLblDesign">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="HCL Extra Life"/>

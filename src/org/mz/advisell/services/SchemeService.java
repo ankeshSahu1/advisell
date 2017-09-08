@@ -43,18 +43,16 @@ public class SchemeService {
             statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
+            dbConnection.closeConnection();
         }
         return result;
     }
@@ -70,19 +68,17 @@ public class SchemeService {
             statement.setString(2,oldScheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
 
             }
+            dbConnection.closeConnection();
         }
         return result;
     }
@@ -103,12 +99,10 @@ public class SchemeService {
                 if (statement != null) {
                     statement.close();
                 }
-                if (connection != null) {
-                    connection.close();
-                }
             } catch (SQLException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
+            dbConnection.closeConnection();
         }
         return result;
     }

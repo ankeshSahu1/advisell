@@ -20,7 +20,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
 import org.mz.advisell.services.dao.DBConnection;
@@ -186,5 +187,47 @@ public class ProfileService {
             }
         }
         return result;
+    }
+    
+    public Profile getClientDetails(String aadharCardNo) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Profile profile = new Profile();
+        DBConnection dbConnection = new DBConnection();
+        try {
+            connection = dbConnection.createConnection();
+            statement = connection.prepareStatement("SELECT * FROM profile WHERE aadhar=?");
+            statement.setString(1, aadharCardNo);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                profile.setFirstName(resultSet.getString(1));
+                profile.setLastName(resultSet.getString(2));
+                profile.setGender(resultSet.getString(3));
+                profile.setContactNumber(resultSet.getString(4));
+                profile.setEmailId(resultSet.getString(5));
+                profile.setAddress(resultSet.getString(6));
+                profile.setCity(resultSet.getString(7));
+                profile.setState(resultSet.getString(8));
+                profile.setPinNumber(resultSet.getString(9));
+                profile.setAadharCardNumber(resultSet.getString(10));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return profile;
     }
 }

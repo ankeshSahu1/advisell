@@ -20,18 +20,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.mz.advisell.bo.profile.ProfileBo;
 import org.mz.advisell.services.ProfileService;
-import org.mz.advisell.bo.search.SearchBo;
 import org.mz.advisell.services.SearchService;
-import org.mz.advisell.services.ClientProfileUploadDocumentBo;
 import org.mz.advisell.services.DocumentService;
 import org.mz.advisell.bean.Profile;
 
@@ -41,30 +38,32 @@ import org.mz.advisell.bean.Profile;
  */
 public class SearchPanel extends javax.swing.JPanel {
 
-    private final Frame frame;
-    private Profile profile;
+    private SearchService searchService;
 
     /**
-     * Creates new form GetAadharPanel
+     * Creates new form SearchPanel
      */
-    public SearchPanel(java.awt.Frame frame) {
-        this.frame = frame;
+    public SearchPanel() {
         initComponents();
-        showClientResult();
+        searchService = new SearchService();
+        showClientResults(searchService.getClientList(searchTextField.getText()));
+        /**
+         * Document Listener is used to implement event on text change
+         * in Search TextField
+         */
         searchTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                showClientResult();
+                showClientResults(searchService.getClientList(searchTextField.getText()));
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                showClientResult();
+                showClientResults(searchService.getClientList(searchTextField.getText()));
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-
             }
         });
     }
@@ -78,70 +77,70 @@ public class SearchPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        singleResultPanel = new javax.swing.JPanel();
-        nameLbl = new javax.swing.JLabel();
-        mobileLbl = new javax.swing.JLabel();
-        editBtn = new javax.swing.JButton();
-        investmentBtn = new javax.swing.JButton();
-        deleteBtn = new javax.swing.JButton();
-        schemeLbl = new javax.swing.JLabel();
+        singleResultPanelDesign = new javax.swing.JPanel();
+        nameLblDesign = new javax.swing.JLabel();
+        mobileLblDesign = new javax.swing.JLabel();
+        editBtnDesign = new javax.swing.JButton();
+        investmentBtnDesign = new javax.swing.JButton();
+        deleteBtnDesign = new javax.swing.JButton();
+        schemeLblDesign = new javax.swing.JLabel();
         searchLbl = new javax.swing.JLabel();
         searchTextField = new javax.swing.JTextField();
         investmentResultLbl = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         clientListPanel = new javax.swing.JPanel();
 
-        singleResultPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        singleResultPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        singleResultPanelDesign.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        singleResultPanelDesign.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        nameLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        nameLbl.setText("Saket Kumar Malik");
+        nameLblDesign.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        nameLblDesign.setText("Saket Kumar Malik");
 
-        mobileLbl.setText("+91-8510080900");
+        mobileLblDesign.setText("+91-8510080900");
 
-        editBtn.setText("Edit");
+        editBtnDesign.setText("Edit");
 
-        investmentBtn.setText("Invest");
+        investmentBtnDesign.setText("Invest");
 
-        deleteBtn.setText("Delete");
+        deleteBtnDesign.setText("Delete");
 
-        schemeLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        schemeLbl.setText("HCL Extra Life");
+        schemeLblDesign.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        schemeLblDesign.setText("HCL Extra Life");
 
-        javax.swing.GroupLayout singleResultPanelLayout = new javax.swing.GroupLayout(singleResultPanel);
-        singleResultPanel.setLayout(singleResultPanelLayout);
-        singleResultPanelLayout.setHorizontalGroup(
-            singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(singleResultPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout singleResultPanelDesignLayout = new javax.swing.GroupLayout(singleResultPanelDesign);
+        singleResultPanelDesign.setLayout(singleResultPanelDesignLayout);
+        singleResultPanelDesignLayout.setHorizontalGroup(
+            singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(singleResultPanelDesignLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(singleResultPanelLayout.createSequentialGroup()
-                        .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(singleResultPanelDesignLayout.createSequentialGroup()
+                        .addComponent(editBtnDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
-                        .addComponent(investmentBtn)
+                        .addComponent(investmentBtnDesign)
                         .addGap(18, 43, Short.MAX_VALUE)
-                        .addComponent(deleteBtn))
-                    .addGroup(singleResultPanelLayout.createSequentialGroup()
-                        .addComponent(nameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteBtnDesign))
+                    .addGroup(singleResultPanelDesignLayout.createSequentialGroup()
+                        .addComponent(nameLblDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(mobileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(mobileLblDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(schemeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
+                        .addComponent(schemeLblDesign, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        singleResultPanelLayout.setVerticalGroup(
-            singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(singleResultPanelLayout.createSequentialGroup()
+        singleResultPanelDesignLayout.setVerticalGroup(
+            singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(singleResultPanelDesignLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLbl)
-                    .addComponent(mobileLbl)
-                    .addComponent(schemeLbl))
+                .addGroup(singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLblDesign)
+                    .addComponent(mobileLblDesign)
+                    .addComponent(schemeLblDesign))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(singleResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(investmentBtn)
-                    .addComponent(editBtn)
-                    .addComponent(deleteBtn))
+                .addGroup(singleResultPanelDesignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(investmentBtnDesign)
+                    .addComponent(editBtnDesign)
+                    .addComponent(deleteBtnDesign))
                 .addGap(6, 6, 6))
         );
 
@@ -183,27 +182,23 @@ public class SearchPanel extends javax.swing.JPanel {
         getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
-    public void showClientResult() {
-        SearchBo searchBo = new SearchService();
-        ArrayList<Profile> clientList = searchBo.getClientList(searchTextField.getText());
+    private void showClientResults(ArrayList<Profile> clientList) {
         clientListPanel.removeAll();
-        if (!(clientList.isEmpty())) {
-            for (Profile profile : clientList) {
-                this.profile = profile;
-                JPanel singleResultPanel = createSingleResult();
-                singleResultPanel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        singleResultPanelMouseClicked(evt);
-                    }
-                });
-                clientListPanel.add(singleResultPanel);
-            }
-            revalidate();
+        for (Profile profile : clientList) {
+            JPanel singleResultPanel = createSingleResult(profile);
+            singleResultPanel.putClientProperty("PROFILE", profile);/*Profile is linked to every result*/
+            singleResultPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    singleResultPanelMouseClicked(evt);
+                }
+            });
+            clientListPanel.add(singleResultPanel);
         }
+        revalidate();
     }
 
-    private JPanel createSingleResult() {
+    private JPanel createSingleResult(Profile profile) {
         JPanel singleResultPanel = new JPanel();
         singleResultPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         singleResultPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -284,47 +279,50 @@ public class SearchPanel extends javax.swing.JPanel {
     }
     
     private void singleResultPanelMouseClicked(java.awt.event.MouseEvent evt){
-        new ViewProfileDialog(frame, true, profile).setVisible(true);
-        showClientResult();
+        Profile profile = (Profile)((JPanel)evt.getComponent()).getClientProperty("PROFILE");
+        new ViewProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
     
     private void editBtnActionPerformed(ActionEvent evt) {
-        //new FillProfileDialog(frame, true).setVisible(true);
-        showClientResult();
+        Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
+        new FillProfileDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile).setVisible(true);
     }
 
     private void deleteBtnActionPerformed(ActionEvent evt) {
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure want to delete this profile", "Confirmation Dialog", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.OK_OPTION) {
-            ProfileBo profileBo = new ProfileService();
-            int result = profileBo.deleteProfile(profile.getAadharCardNumber());
+            Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
+            ProfileService profileService = new ProfileService();
+            int result = profileService.deleteProfile(profile.getAadharCardNumber());
             if (result > 0) {
-                ClientProfileUploadDocumentBo uploadDocumentBo = new DocumentService();
-                uploadDocumentBo.deleteDocuments(profile.getAadharCardNumber());
-                investmentResultLbl.setText("Delete successfully");
-                showClientResult();
+                DocumentService documentService = new DocumentService();
+                documentService.deleteDocuments(profile.getAadharCardNumber());
+                investmentResultLbl.setText("Deleted successfully.");
+                clientListPanel.remove((JPanel)((JButton)evt.getSource()).getParent());
+                revalidate();
             } else {
-                investmentResultLbl.setText("Error");
+                investmentResultLbl.setText("Error! Please try again.");
             }
         }
     }
 
     private void investmentBtnActionPerformed(ActionEvent evt) {
-        new RecordInvestmentDialog(frame, true, profile.getAadharCardNumber()).setVisible(true);
+        Profile profile = (Profile)((JPanel)((JButton)evt.getSource()).getParent()).getClientProperty("PROFILE");
+        new RecordInvestmentDialog((javax.swing.JFrame)this.getTopLevelAncestor(), true, profile.getAadharCardNumber()).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel clientListPanel;
-    private javax.swing.JButton deleteBtn;
-    private javax.swing.JButton editBtn;
-    private javax.swing.JButton investmentBtn;
+    private javax.swing.JButton deleteBtnDesign;
+    private javax.swing.JButton editBtnDesign;
+    private javax.swing.JButton investmentBtnDesign;
     private javax.swing.JLabel investmentResultLbl;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel mobileLbl;
-    private javax.swing.JLabel nameLbl;
-    private javax.swing.JLabel schemeLbl;
+    private javax.swing.JLabel mobileLblDesign;
+    private javax.swing.JLabel nameLblDesign;
+    private javax.swing.JLabel schemeLblDesign;
     private javax.swing.JLabel searchLbl;
     private javax.swing.JTextField searchTextField;
-    private javax.swing.JPanel singleResultPanel;
+    private javax.swing.JPanel singleResultPanelDesign;
     // End of variables declaration//GEN-END:variables
 }
