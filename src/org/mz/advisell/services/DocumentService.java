@@ -32,37 +32,51 @@ import org.mz.advisell.bean.Document;
  */
 public class DocumentService {
 
-    public int uploadDocuments(ArrayList<Document> documentList, String aadharNo) {
-        int result = 0;
-        File directory = new File("documents/" + aadharNo);
-        result = uploadDocuments(directory, documentList);
-        return result;
+    public int uploadDocuments(ArrayList<Document> documentList, String aadhar) {
+        File directory = new File("documents/" + aadhar);
+        directory.mkdir();
+        return uploadDocuments(documentList, directory);
     }
 
     public int resetDocuments(ArrayList<Document> documentList, String aadhar) {
-        int result = 0;
-        result = uploadDocuments(new File("documents/" + aadhar + "/temp_Documents"), documentList);
-        if (result == 0) {
-            return result;
+        int result = 1;
+        //Upload to temp
+        File tempDir = new File("documents/" + aadhar + "/temp");
+        tempDir.mkdir();
+        result = result & uploadDocuments(documentList, tempDir);
+        
+        //delete from adhar folder
+        result = result & deleteDocuments(aadhar);
+        
+        //upload from temp to adhar
+        documentList = new ArrayList<>();
+        for(File file : tempDir.listFiles()){
+            Document document = new Document();
+            document.setFile(file);
+            document.setFileName(file.getName());
+            documentList.add(document);
         }
-        result = deleteDocuments(aadhar);
-        if (result==-1) {
-            return result;
-        }
-        result = moveDocuments(new File("documents/" + aadhar), documentList);
+        result = result & uploadDocuments(documentList, new File("documents/" + aadhar));
+        
+        //delete temp docs
+        result = result & deleteDocuments(aadhar + "/temp");
         return result;
     }
+    
+    public int deleteDocuments(String aadhar) {
+        File directory = new File("documents/" + aadhar);
+        File[] fileArray = directory.listFiles();
+        for (File file : fileArray) {
+            file.delete();
+        }
+        return 1;
+    }
 
-    private int uploadDocuments(File directory, ArrayList<Document> documentList) {
+    private int uploadDocuments(ArrayList<Document> documentList, File directory) {
         int result = 0;
         FileInputStream fileInputStream = null;
         FileOutputStream fileOutputStream = null;
-        File file = null;
-        boolean deleteDirResult=deleteDirectory(directory);
-        if(!(deleteDirResult)){
-            return result=-2;
-        }
-        directory.mkdir();
+        File file;
         try {
             for (Document document : documentList) {
                 file = new File(directory + File.separator + document.getFileName());
@@ -92,72 +106,6 @@ public class DocumentService {
             }
         }
 
-        return result;
-    }
-
-    private int moveDocuments(File directory, ArrayList<Document> documentList) {
-        int result = -2;
-        FileInputStream fileInputStream = null;
-        FileOutputStream fileOutputStream = null;
-        File file = null;
-        try {
-            for (Document document : documentList) {
-                file = new File(directory + File.separator + document.getFileName());
-                fileInputStream = new FileInputStream(directory + "/temp_Documents/" + document.getFileName());
-                fileOutputStream = new FileOutputStream(file);
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = fileInputStream.read(buffer)) > 0) {
-                    fileOutputStream.write(buffer, 0, length);
-                }
-            }
-            result = 1;
-        } catch (FileNotFoundException e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-        } catch (IOException e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-            } catch (IOException e) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-            }
-        }
-
-        return result;
-    }
-
-    public int deleteDocuments(String aadharNo) {
-        int result = -1;
-        File directory = new File("documents/" + aadharNo);
-        File[] fileArray = directory.listFiles();
-        for (File file : fileArray) {
-            if (file.isFile()) {
-                if(file.delete()){
-                    result=1;
-                }else{
-                    return result=-1;
-                }
-            }
-        }
-        if(!(fileArray[0].isDirectory())){
-          if(deleteDirectory(directory)){
-              result=1;
-          }else{
-              result=-1;
-          }  
-        }
-        return result;
-    }
-    
-    private boolean deleteDirectory(File directory){
-        boolean result=false;
-        result=directory.delete();
         return result;
     }
 }
