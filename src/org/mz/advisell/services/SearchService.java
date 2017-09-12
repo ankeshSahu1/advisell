@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.mz.advisell.constant.Constant;
 import org.mz.advisell.bean.ProfilePreview;
 import org.mz.advisell.services.dao.DBConnection;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -40,7 +41,7 @@ public class SearchService {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         DBConnection dbConnection = new DBConnection();
-        String query = "SELECT first_name,last_name,contact,aadhar, FROM profile WHERE";
+        String query = "SELECT first_name,last_name,phone,aadhar FROM profile WHERE";
         StringBuilder queryBuilder = new StringBuilder(query);
         try {
             connection = dbConnection.createConnection();
@@ -67,13 +68,14 @@ public class SearchService {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 ProfilePreview profilePreview = new ProfilePreview();
-                profilePreview.setFirstName(resultSet.getString(1));
-                profilePreview.setLastName(resultSet.getString(2));
-                profilePreview.setContactNumber(resultSet.getString(4));
-                profilePreview.setAadharCardNumber(resultSet.getString(10));
+                profilePreview.setFirstName(resultSet.getString("first_name"));
+                profilePreview.setLastName(resultSet.getString("last_name"));
+                profilePreview.setMobileNumber(resultSet.getString("phone"));
+                profilePreview.setAadharCardNumber(resultSet.getString("aadhar"));
                 clientDetails.add(profilePreview);
             }
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -84,6 +86,7 @@ public class SearchService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();

@@ -59,6 +59,12 @@ public class FillProfileDialog extends javax.swing.JDialog {
             setProfileData(profile);
         } else{
             profile = new Profile();
+            submitProfileBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    createProfileBtnActionPerformed(evt);
+                }
+            });
         }
         this.profile = profile;
     }
@@ -66,7 +72,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
     private void setProfileData(Profile profile){
         firstNameTextField.setText(profile.getFirstName());
         lastNameTextField.setText(profile.getLastName());
-        mobileTextField.setText(profile.getContactNumber());
+        mobileTextField.setText(profile.getMobileNumber());
         phoneTextField.setText(profile.getPhoneNumber());
         emailIdTextField.setText(profile.getEmailId());
         addressTextArea.setText(profile.getAddress());
@@ -119,7 +125,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Profile");
-        setIconImage(new ImageIcon(getClass().getResource("../images/icon_new_profile.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/icon_new_profile.png")).getImage());
         setResizable(false);
 
         contentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "New Profile", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
@@ -221,11 +227,6 @@ public class FillProfileDialog extends javax.swing.JDialog {
         documentsPanel.add(uploadLbl);
 
         submitProfileBtn.setText("Create Profile");
-        submitProfileBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createProfileBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
@@ -292,11 +293,11 @@ public class FillProfileDialog extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void createProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProfileBtnActionPerformed
+    
+    private void createProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
-        profile.setContactNumber(mobileTextField.getText());
+        profile.setMobileNumber(mobileTextField.getText());
         profile.setPhoneNumber(phoneTextField.getText());
         profile.setEmailId(emailIdTextField.getText());
         profile.setAddress(addressTextArea.getText());
@@ -312,13 +313,13 @@ public class FillProfileDialog extends javax.swing.JDialog {
                     .setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
-        }
-    }//GEN-LAST:event_createProfileBtnActionPerformed
-
+        } 
+    }
+    
     private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
-        profile.setContactNumber(mobileTextField.getText());
+        profile.setMobileNumber(mobileTextField.getText());
         profile.setPhoneNumber(phoneTextField.getText());
         profile.setEmailId(emailIdTextField.getText());
         profile.setAddress(addressTextArea.getText());

@@ -205,7 +205,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
         nameLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         nameLbl.setText(profilePreview.getFirstName() + " " + profilePreview.getLastName());
-        mobileLbl.setText(profilePreview.getContactNumber());
+        mobileLbl.setText(profilePreview.getMobileNumber());
         editBtn.setText("Edit");
         investmentBtn.setText("Invest");
         deleteBtn.setText("Delete");
@@ -290,7 +290,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 documentService.deleteDocuments(aadhar);
                 searchResultLbl.setText("Deleted successfully.");
                 clientListPanel.remove((JPanel)((JButton)evt.getSource()).getParent());
-                revalidate();
+                this.getTopLevelAncestor().revalidate();
             } else {
                 searchResultLbl.setText("Error! Please try again.");
             }

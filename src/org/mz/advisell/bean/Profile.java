@@ -28,14 +28,14 @@ public class Profile {
     private String lastName;
     private String gender;
     private String emailId;
-    private String contactNumber;
     private String phoneNumber;
+    private String mobileNumber;
     private String city;
     private String state;
     private String pinNumber;
     private String address;
     private String aadharCardNumber;
-    private String PanNumber;
+    private String panNumber;
     private ArrayList<Document> documentList;
     private ArrayList<Investment> investmentList;
     
@@ -61,11 +61,11 @@ public class Profile {
     }
 
     public String getPanNumber() {
-        return PanNumber;
+        return panNumber;
     }
 
-    public void setPanNumber(String PanNumber) {
-        this.PanNumber = PanNumber;
+    public void setPanNumber(String panNumber) {
+        this.panNumber = panNumber;
     }
     public String getFirstName() {
         return firstName;
@@ -83,8 +83,8 @@ public class Profile {
         return emailId;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
     public String getCity() {
@@ -123,8 +123,8 @@ public class Profile {
         this.emailId = emailId;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setMobileNumber(String contactNumber) {
+        this.mobileNumber = contactNumber;
     }
 
     public void setCity(String city) {

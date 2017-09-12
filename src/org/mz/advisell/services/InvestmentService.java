@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.dao.DBConnection;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -46,6 +47,7 @@ public class InvestmentService{
             statement.setInt(3,investment.getAmount());
             result=statement.executeUpdate();
 	}catch(SQLException e){	
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
 	}finally{
             try {
@@ -53,6 +55,7 @@ public class InvestmentService{
                     statement.close();
 		}
             }catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
 		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
             }
             dbConnection.closeConnection();
@@ -76,7 +79,8 @@ public class InvestmentService{
                 investment.setAmount(resultSet.getInt("amount"));
                 investmentList.add(investment);
             }
-	}catch(SQLException e){	
+	}catch(SQLException e){
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
 	}finally{
             try {
@@ -87,6 +91,7 @@ public class InvestmentService{
                     resultSet.close();
                 }
             }catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
 		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
             }
             dbConnection.closeConnection();

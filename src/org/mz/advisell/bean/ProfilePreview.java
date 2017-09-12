@@ -25,7 +25,7 @@ public class ProfilePreview {
     
     private String firstName;
     private String lastName;
-    private String contactNumber;
+    private String mobileNumber;
     private String aadharCardNumber;
 
     public String getFirstName() {
@@ -44,12 +44,12 @@ public class ProfilePreview {
         this.lastName = lastName;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getAadharCardNumber() {

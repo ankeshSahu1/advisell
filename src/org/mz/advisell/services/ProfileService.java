@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
 import org.mz.advisell.services.dao.DBConnection;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -35,18 +36,18 @@ import org.mz.advisell.services.dao.DBConnection;
 public class ProfileService {
 
     private Connection connection;
-
+    
     public int addProfile(Profile profile) {
         DBConnection dbConnection = new DBConnection();
         PreparedStatement statement = null;
         int result = 0;
         try {
-            connection = dbConnection.createConnection();
+            connection=dbConnection.createConnection();
             statement = connection.prepareStatement("INSERT INTO profile(first_name,last_name,mobile,phone,email,address,aadhar,pan_no,documents) VALUES(?,?,?,?,?,?,?,?,?);");
             statement.setString(1, (String) profile.getFirstName());
             statement.setString(2, (String) profile.getLastName());
-            statement.setString(3, (String) profile.getContactNumber());
-            statement.setString(4, (String) profile.getPhoneNumber());
+            statement.setString(3, (String) profile.getPhoneNumber());
+            statement.setString(4, (String) profile.getMobileNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
             statement.setString(7, (String) profile.getAadharCardNumber());
@@ -60,21 +61,24 @@ public class ProfileService {
             }
             statement.setString(9, documents.toString());
             result = statement.executeUpdate();
-            
-            if(result == 0){
+
+            if (result == 0) {
                 return result;
             }
             DocumentService uploadService = new DocumentService();
             result = uploadService.uploadDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
-        
+
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
@@ -93,7 +97,7 @@ public class ProfileService {
             statement = connection.prepareStatement(query);
             statement.setString(1, (String) profile.getFirstName());
             statement.setString(2, (String) profile.getLastName());
-            statement.setString(3, (String) profile.getContactNumber());
+            statement.setString(3, (String) profile.getMobileNumber());
             statement.setString(4, (String) profile.getPhoneNumber());
             statement.setString(5, (String) profile.getEmailId());
             statement.setString(6, (String) profile.getAddress());
@@ -107,14 +111,15 @@ public class ProfileService {
             }
             statement.setString(9, documents.toString());
             result = statement.executeUpdate();
-            
-            if(result == 0){
+
+            if (result == 0) {
                 return result;
             }
             DocumentService resetService = new DocumentService();
             result = resetService.resetDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
 
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -122,6 +127,7 @@ public class ProfileService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
@@ -139,12 +145,13 @@ public class ProfileService {
             statement.setString(1, aadharCardNo);
             result = statement.executeUpdate();
             
-            if(result == 0){
+            if (result == 0) {
                 return result;
             }
             DocumentService documentService = new DocumentService();
             result = documentService.deleteDocuments(aadharCardNo);
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -152,13 +159,14 @@ public class ProfileService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
         }
         return result;
     }
-    
+
     public Profile getClientDetails(String aadharCardNo) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -171,23 +179,20 @@ public class ProfileService {
             resultSet = statement.executeQuery();
             profile = new Profile();
             if (resultSet.next()) {
-                profile.setFirstName(resultSet.getString(1));
-                profile.setLastName(resultSet.getString(2));
-                profile.setGender(resultSet.getString(3));
-                profile.setContactNumber(resultSet.getString(4));
-                profile.setPanNumber(resultSet.getString("pan_no"));
+                profile.setFirstName(resultSet.getString("first_name"));
+                profile.setLastName(resultSet.getString("last_name"));
                 profile.setPhoneNumber(resultSet.getString("phone"));
-                profile.setEmailId(resultSet.getString(5));
-                profile.setAddress(resultSet.getString(6));
-                profile.setCity(resultSet.getString(7));
-                profile.setState(resultSet.getString(8));
-                profile.setPinNumber(resultSet.getString(9));
-                profile.setAadharCardNumber(resultSet.getString(10));
+                profile.setPanNumber(resultSet.getString("pan_no"));
+                profile.setMobileNumber(resultSet.getString("mobile"));
+                profile.setEmailId(resultSet.getString("email"));
+                profile.setAddress(resultSet.getString("address"));
+                profile.setAadharCardNumber(resultSet.getString("aadhar"));
                 profile.setDocumentList(createDocumentList(resultSet.getString("documents"), aadharCardNo));
                 profile.setInvestmentList(new InvestmentService().getInvestmentList(aadharCardNo));
             }
-            
+
         } catch (SQLException ex) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -198,19 +203,20 @@ public class ProfileService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
         }
         return profile;
     }
-    
-    private ArrayList<Document> createDocumentList(String documents, String aadhar){
+
+    private ArrayList<Document> createDocumentList(String documents, String aadhar) {
         ArrayList<Document> documentList = new ArrayList<>();
         String[] fileNameArray = documents.split(",");
-        for(String fileName: fileNameArray){
+        for (String fileName : fileNameArray) {
             Document document = new Document();
-            document.setFile(new File("documents/"+aadhar+"/"+fileName));
+            document.setFile(new File("documents/" + aadhar + "/" + fileName));
             document.setFileName(fileName);
             documentList.add(document);
         }

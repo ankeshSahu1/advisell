@@ -21,33 +21,38 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
  * @author metazone
  */
 public class DBConnection {
+
     private Connection connection;
-	
-    public Connection createConnection(){
-		try{
-                    Class.forName("com.mysql.jdbc.Driver");
-                    connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/investmentrecord","root","root");
-		}catch(SQLException e){
-			e.printStackTrace();
-		} catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+
+    public Connection createConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/investmentrecord", "root", "root");
+        } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException ex) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
-		return connection;
-	}
-	
-	public void closeConnection(){
-		try{
-			if(connection!=null){
-				connection.close();
-			}
-		}catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
+        return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+        }
+    }
 }

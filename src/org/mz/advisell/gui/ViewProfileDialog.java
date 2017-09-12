@@ -78,7 +78,7 @@ public class ViewProfileDialog extends javax.swing.JDialog {
         documentsPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setIconImage(new ImageIcon(getClass().getResource("../images/icon_new_profile.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/icon_new_profile.png")).getImage());
         setResizable(false);
         setSize(contentPanel.getPreferredSize());
 
@@ -271,8 +271,8 @@ public class ViewProfileDialog extends javax.swing.JDialog {
 
     private void setContent() {
         nameLbl.setText(profile.getFirstName() + " " + profile.getLastName());
-        phoneNo.setText(profile.getContactNumber());
-        mobileNo.setText(profile.getPhoneNumber());
+        phoneNo.setText(profile.getPhoneNumber());
+        mobileNo.setText(profile.getMobileNumber());
         email.setText(profile.getEmailId());
         address.setText("<html>"+profile.getAddress());
         panNo.setText(profile.getPanNumber());

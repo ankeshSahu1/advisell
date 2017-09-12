@@ -19,9 +19,8 @@ package org.mz.advisell.gui;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
-import javax.swing.text.NumberFormatter;
+import javax.swing.JTextField;
 import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.SchemeService;
 import org.mz.advisell.services.InvestmentService;
@@ -131,7 +130,7 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
 
     private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
         JPanel currentInvestmentPanel = (JPanel)((JButton)evt.getSource()).getParent();
-        JFormattedTextField investmentTextField = (JFormattedTextField)currentInvestmentPanel.getComponent(1);
+        JTextField investmentTextField = (JTextField)currentInvestmentPanel.getComponent(1);
         JComboBox schemesDropDown = (JComboBox)currentInvestmentPanel.getComponent(0);
         Investment investment = new Investment();
         investment.setAmount(Integer.parseInt(investmentTextField.getText()));
@@ -154,9 +153,9 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
         for (String scheme : schemeList) {
             schemesDropDown.addItem(scheme);
         }
-        NumberFormatter formatter = new NumberFormatter();
-        formatter.setAllowsInvalid(false);
-        JFormattedTextField amountTextField = new JFormattedTextField(formatter);
+//        NumberFormatter formatter = new NumberFormatter();
+//        formatter.setAllowsInvalid(false);
+        JTextField amountTextField = new JTextField();
         JButton addInvestmentBtn = new JButton("Add");
         javax.swing.GroupLayout singleInvestmentPanelLayout = new javax.swing.GroupLayout(singleInvestmentPanel);
         singleInvestmentPanel.setLayout(singleInvestmentPanelLayout);

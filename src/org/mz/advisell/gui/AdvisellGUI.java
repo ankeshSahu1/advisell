@@ -16,9 +16,12 @@
  */
 package org.mz.advisell.gui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import org.mz.advisell.services.SchemeService;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -54,7 +57,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Advisell");
-        setIconImage(new ImageIcon(getClass().getResource("../images/logo_icon.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/logo_icon.png")).getImage());
         setResizable(false);
 
         contentPanel.setLayout(new java.awt.BorderLayout());
@@ -145,8 +148,10 @@ public class AdvisellGUI extends javax.swing.JFrame {
         
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            new Logging().createLogFile(Logger.getLogger(AdvisellGUI.class.getName()));
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdvisellGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logging.showLogs(Logger.getLogger(AdvisellGUI.class.getName()));
+            Logger.getLogger(AdvisellGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

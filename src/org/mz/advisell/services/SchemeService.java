@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.services.dao.DBConnection;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -43,6 +44,7 @@ public class SchemeService {
             statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -50,6 +52,7 @@ public class SchemeService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
@@ -68,6 +71,7 @@ public class SchemeService {
             statement.setString(2,oldScheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -75,6 +79,7 @@ public class SchemeService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
 
             }
@@ -93,6 +98,7 @@ public class SchemeService {
             statement.setString(1,scheme);
             result = statement.executeUpdate();
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -100,6 +106,7 @@ public class SchemeService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();
@@ -121,6 +128,7 @@ public class SchemeService {
                schemes.add(resultSet.getString(1));
              }
         } catch (SQLException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -131,6 +139,7 @@ public class SchemeService {
                     statement.close();
                 }
             } catch (SQLException e) {
+                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
             }
             dbConnection.closeConnection();

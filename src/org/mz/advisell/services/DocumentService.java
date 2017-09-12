@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mz.advisell.bean.Document;
+import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -87,23 +88,16 @@ public class DocumentService {
                 while ((length = fileInputStream.read(buffer)) > 0) {
                     fileOutputStream.write(buffer, 0, length);
                 }
+                fileInputStream.close();
+                fileOutputStream.close();
             }
             result = 1;
         } catch (FileNotFoundException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         } catch (IOException e) {
+            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-            } catch (IOException e) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-            }
         }
 
         return result;
