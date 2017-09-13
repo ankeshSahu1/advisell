@@ -35,7 +35,7 @@ public class DocumentService {
 
     public int uploadDocuments(ArrayList<Document> documentList, String aadhar) {
         File directory = new File("documents/" + aadhar);
-        directory.mkdir();
+        directory.mkdirs();
         return uploadDocuments(documentList, directory);
     }
 
@@ -43,7 +43,7 @@ public class DocumentService {
         int result = 1;
         //Upload to temp
         File tempDir = new File("documents/" + aadhar + "/temp");
-        tempDir.mkdir();
+        tempDir.mkdirs();
         result = result & uploadDocuments(documentList, tempDir);
         
         //delete from adhar folder

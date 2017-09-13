@@ -290,7 +290,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 documentService.deleteDocuments(aadhar);
                 searchResultLbl.setText("Deleted successfully.");
                 clientListPanel.remove((JPanel)((JButton)evt.getSource()).getParent());
-                this.getTopLevelAncestor().revalidate();
+                revalidate();
             } else {
                 searchResultLbl.setText("Error! Please try again.");
             }
