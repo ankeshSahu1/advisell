@@ -27,7 +27,7 @@ public interface Constant {
     final String QUERY_BETWEEN = " between ";
     final String QUERY_AADHAR = " aadhar ";
     final String QUERY_PAN_NUMBER = " pan_no ";
-    final String QUERY_NUMBER = " phone ";
+    final String QUERY_NUMBER = " mobile ";
     final String QUERY_OR = " or ";
     final String QUERY_CONCAT = " concat ";
     final String QUERY_FIRST_NAME = " first_name ";

@@ -47,7 +47,7 @@ public class InvestmentService{
             statement.setInt(3,investment.getAmount());
             result=statement.executeUpdate();
 	}catch(SQLException e){	
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
+            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
 	}finally{
             try {

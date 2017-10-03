@@ -27,6 +27,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.mz.advisell.services.ProfileService;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
@@ -39,8 +40,10 @@ import org.mz.advisell.constant.Constant;
 public class FillProfileDialog extends javax.swing.JDialog {
 
     private final Profile profile;
+
     /**
      * Creates new form NewProfileDialog
+     *
      * @param parent
      * @param modal
      * @param profile
@@ -48,7 +51,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
     public FillProfileDialog(java.awt.Frame parent, boolean modal, Profile profile) {
         super(parent, modal);
         initComponents();
-        if(profile!=null){
+        if (profile != null) {
             submitProfileBtn.setText("Save Changes");
             submitProfileBtn.addActionListener(new ActionListener() {
                 @Override
@@ -57,7 +60,7 @@ public class FillProfileDialog extends javax.swing.JDialog {
                 }
             });
             setProfileData(profile);
-        } else{
+        } else {
             profile = new Profile();
             submitProfileBtn.addActionListener(new ActionListener() {
                 @Override
@@ -68,8 +71,8 @@ public class FillProfileDialog extends javax.swing.JDialog {
         }
         this.profile = profile;
     }
-    
-    private void setProfileData(Profile profile){
+
+    private void setProfileData(Profile profile) {
         firstNameTextField.setText(profile.getFirstName());
         lastNameTextField.setText(profile.getLastName());
         mobileTextField.setText(profile.getMobileNumber());
@@ -123,6 +126,9 @@ public class FillProfileDialog extends javax.swing.JDialog {
         uploadLbl = new javax.swing.JLabel();
         submitProfileBtn = new javax.swing.JButton();
 
+        documentChooser.setAcceptAllFileFilterUsed(false);
+        documentChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "tif"));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Profile");
         setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/icon_new_profile.png")).getImage());
@@ -137,6 +143,10 @@ public class FillProfileDialog extends javax.swing.JDialog {
         firstNameLbl.setText("First Name");
 
         lastNameLbl.setText("Last Name");
+
+        firstNameTextField.setName("firstName"); // NOI18N
+
+        lastNameTextField.setName("lastName"); // NOI18N
 
         javax.swing.GroupLayout namePanelLayout = new javax.swing.GroupLayout(namePanel);
         namePanel.setLayout(namePanelLayout);
@@ -167,6 +177,8 @@ public class FillProfileDialog extends javax.swing.JDialog {
 
         mobileLbl.setText("Mobile");
         mobilePanel.add(mobileLbl);
+
+        mobileTextField.setName("mobileNumber"); // NOI18N
         mobilePanel.add(mobileTextField);
 
         phonePanel.setLayout(new java.awt.GridLayout(2, 1));
@@ -293,8 +305,13 @@ public class FillProfileDialog extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void createProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
+
+    private void createProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        int result = validateProfile();
+        if (result < 1) {
+            return;
+        }
+
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setMobileNumber(mobileTextField.getText());
@@ -304,19 +321,24 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setAadharCardNumber(aadharTextField.getText());
         profile.setPanNumber(panNoTextField.getText());
         /*Documents have been set already by upload button*/
-        
+
         ProfileService profileService = new ProfileService();
-        int result = profileService.addProfile(profile);
+        result = profileService.addProfile(profile);
         if (result > 0) {
             dispose();
-            new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
+            new InvestOptionDialog((JFrame) this.getParent(), true, aadharTextField.getText())
                     .setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
-        } 
+        }
     }
-    
-    private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt){
+
+    private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        int result = validateProfile();
+        if (result < 1) {
+            return;
+        }
+
         profile.setFirstName(firstNameTextField.getText());
         profile.setLastName(lastNameTextField.getText());
         profile.setMobileNumber(mobileTextField.getText());
@@ -326,50 +348,109 @@ public class FillProfileDialog extends javax.swing.JDialog {
         profile.setAadharCardNumber(aadharTextField.getText());
         profile.setPanNumber(panNoTextField.getText());
         /*Documents have been set already by upload/delete button*/
-        
+
         ProfileService profileService = new ProfileService();
-        int result = profileService.updateProfile(profile);
+        result = profileService.updateProfile(profile);
         if (result > 0) {
             dispose();
-            new InvestOptionDialog((JFrame)this.getParent(), true, aadharTextField.getText())
+            new InvestOptionDialog((JFrame) this.getParent(), true, aadharTextField.getText())
                     .setVisible(true);
         } else {
             msgLbl.setText("Error! Please check the data.");
         }
     }
-    
+
+    public int validateProfile() {
+        int result = 1;
+        
+        msgLbl.setText("");
+        
+        if (!panNoTextField.getText().isEmpty() && !panNoTextField.getText().trim().matches("^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$")) {
+            msgLbl.setText("Invalid Pan Number");
+        }
+
+        if (aadharTextField.getText().isEmpty()) {
+            msgLbl.setText("AaharCardNumber cannot be empty");
+        } else if (!aadharTextField.getText().trim().matches("^[2-9]{1}[0-9]{11}$")) {
+            msgLbl.setText("Invalid Aadhar Number...");
+        }
+
+        if (addressTextArea.getText().isEmpty()) {
+            msgLbl.setText("Address cannot be empty");
+        }
+
+        if (emailIdTextField.getText().isEmpty()) {
+            msgLbl.setText("Email can't be empty");
+        } else if (!emailIdTextField.getText().trim().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
+            msgLbl.setText("Invalid Email");
+        }
+
+        if (!phoneTextField.getText().isEmpty() && !phoneTextField.getText().trim().matches("^[0-9]{10}$")) {
+            msgLbl.setText("Invalid Phone Number");
+        }
+
+        if (mobileTextField.getText().isEmpty()) {
+            msgLbl.setText("Please fill your mobile number");
+        } else if (!mobileTextField.getText().trim().matches("^[0-9]{10}$")) {
+            msgLbl.setText("Invalid Mobile Number");
+        }
+
+        if (lastNameTextField.getText().isEmpty()) {
+            msgLbl.setText("Last Name cannot be blank");
+        } else if (!lastNameTextField.getText().trim().matches("[A-Za-z]*")) {
+            msgLbl.setText("Last Name must contains characters only");
+        } else if (lastNameTextField.getText().trim().length() < 2) {
+            msgLbl.setText("Last Name can't be less than 2 characters");
+        }
+
+        if (firstNameTextField.getText().isEmpty()) {
+            msgLbl.setText("First Name cannot be blank");
+        } else if (!firstNameTextField.getText().trim().matches("[A-Za-z]*")) {
+            msgLbl.setText("First Name must contains characters only");
+        } else if (firstNameTextField.getText().trim().length() < 2) {
+            msgLbl.setText("First Name can't be less than 2 characters");
+        }
+
+        if (!msgLbl.getText().isEmpty()) {
+            result = 0;
+        }
+        return result;
+    }
+
     private void uploadLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadLblMouseClicked
         onUploadLblClicked();
     }//GEN-LAST:event_uploadLblMouseClicked
 
-    private void thumbnailLblMouseClicked(java.awt.event.MouseEvent evt){
-        profile.getDocumentList().remove((Document)((JLabel)evt.getComponent()).getClientProperty(Constant.DOCUMENT_KEY));
+    private void thumbnailLblMouseClicked(java.awt.event.MouseEvent evt) {
+        profile.getDocumentList().remove((Document) ((JLabel) evt.getComponent()).getClientProperty(Constant.DOCUMENT_KEY));
         documentsPanel.remove(evt.getComponent());
         revalidate();
     }
-    
+
     private void onUploadLblClicked() {
         documentChooser.showOpenDialog(null);
         File file = documentChooser.getSelectedFile();
-        
+
         /*Save Document to list*/
-        Document document = new Document();
-        document.setFile(file);
-        document.setFileName(file.getName());
-        profile.getDocumentList().add(document);
-        
-        createDocumentThumbnail(document);
+        if (file != null) {
+            Document document = new Document();
+            document.setFile(file);
+            document.setFileName(file.getName());
+            profile.getDocumentList().add(document);
+
+            createDocumentThumbnail(document);
+        }
     }
 
-    private void createDocumentThumbnail(Document document){
-        ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon(document.getFile().getAbsolutePath()), 30,35);
+    private void createDocumentThumbnail(Document document) {
+        ImageIcon documentThumbnail = getScaledImageIcon(new ImageIcon(document.getFile().getAbsolutePath()), 30, 35);
         JLabel thumbnailLbl = new JLabel(documentThumbnail);
         thumbnailLbl.setBorder(BorderFactory.createEtchedBorder());
         thumbnailLbl.setToolTipText("Click to Remove Document");
         thumbnailLbl.putClientProperty(Constant.DOCUMENT_KEY, document);//Required for Delete later
         documentsPanel.add(thumbnailLbl, 0);
         this.revalidate();
-        
+
         thumbnailLbl.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -377,15 +458,15 @@ public class FillProfileDialog extends javax.swing.JDialog {
             }
         });
     }
-    
+
     private ImageIcon getScaledImageIcon(ImageIcon icon, int width, int height) {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics g = bufferedImage.createGraphics();
         g.drawImage(icon.getImage(), 0, 0, width, height, null);
         return new ImageIcon(bufferedImage);
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aadharLbl;
     private javax.swing.JPanel aadharPanel;

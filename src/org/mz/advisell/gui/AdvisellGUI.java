@@ -58,6 +58,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Advisell");
         setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/logo_icon.png")).getImage());
+        setName("advisellMainFrame"); // NOI18N
         setResizable(false);
 
         contentPanel.setLayout(new java.awt.BorderLayout());

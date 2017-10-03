@@ -127,16 +127,40 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
     private void moreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moreBtnActionPerformed
         addInvestmentPanel();
     }//GEN-LAST:event_moreBtnActionPerformed
-
+    
+    public int validateInvestment(JTextField investmentTextField){
+        investmentResultLbl.setText("");
+        
+        if(investmentTextField.getText().isEmpty()){
+            investmentResultLbl.setText("Please fill investment...");
+        }else if(!investmentTextField.getText().trim().matches("[0-9]*")){
+            investmentResultLbl.setText("Invalid!!!");
+        }else if(investmentTextField.getText().trim().length()>Integer.MAX_VALUE){
+            investmentResultLbl.setText("Out of range");
+        }
+        
+        if(investmentResultLbl.getText().isEmpty()){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
     private void addInvestmentBtnActionPerformed(java.awt.event.ActionEvent evt) {
         JPanel currentInvestmentPanel = (JPanel)((JButton)evt.getSource()).getParent();
         JTextField investmentTextField = (JTextField)currentInvestmentPanel.getComponent(1);
         JComboBox schemesDropDown = (JComboBox)currentInvestmentPanel.getComponent(0);
+        
+        int result=validateInvestment(investmentTextField);
+        if(result==0){
+            return;
+        }
+        
         Investment investment = new Investment();
         investment.setAmount(Integer.parseInt(investmentTextField.getText()));
         investment.setScheme(schemesDropDown.getSelectedItem().toString()); 
         InvestmentService investmentService = new InvestmentService();
-        int result = investmentService.addInvestment(investment, aadhar);
+        result = investmentService.addInvestment(investment, aadhar);
         if (result > 0) {
             investmentResultLbl.setText("successfully added.");
         } else {
@@ -153,8 +177,6 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
         for (String scheme : schemeList) {
             schemesDropDown.addItem(scheme);
         }
-//        NumberFormatter formatter = new NumberFormatter();
-//        formatter.setAllowsInvalid(false);
         JTextField amountTextField = new JTextField();
         JButton addInvestmentBtn = new JButton("Add");
         javax.swing.GroupLayout singleInvestmentPanelLayout = new javax.swing.GroupLayout(singleInvestmentPanel);

@@ -109,11 +109,32 @@ public class SchemesPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public int validateSchemes(){
+        int result=1;
+        
+        resultLbl.setText("");
+        
+        if(schemeNameTextField.getText().isEmpty()){
+            resultLbl.setText("Please enter any scheme name...");
+        }else if(schemeNameTextField.getText().length()>20){
+            resultLbl.setText("Scheme Name can't be greater than 20 characters");
+        }
+        
+        if(!resultLbl.getText().isEmpty()){
+            result=0;
+        }
+        
+        return result;
+    }
+    
     private void addSchemeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchemeBtnActionPerformed
         int row = schemesTable.getSelectedRow();
         SchemeService schemeService = new SchemeService();
-        int result;
+        int result=validateSchemes();
+        if(result==0){
+            return;
+        }
         if (addSchemeBtn.getText().equals("Add")) {
             result = schemeService.addScheme(schemeNameTextField.getText().toUpperCase());
         } else {

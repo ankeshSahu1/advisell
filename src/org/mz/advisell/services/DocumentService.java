@@ -45,32 +45,39 @@ public class DocumentService {
         File tempDir = new File("documents/" + aadhar + "/temp");
         tempDir.mkdirs();
         result = result & uploadDocuments(documentList, tempDir);
-        
+
         //delete from adhar folder
         result = result & deleteDocuments(aadhar);
-        
+
         //upload from temp to adhar
         documentList = new ArrayList<>();
-        for(File file : tempDir.listFiles()){
-            Document document = new Document();
-            document.setFile(file);
-            document.setFileName(file.getName());
-            documentList.add(document);
+        if (tempDir.listFiles()!=null) {
+            for (File file : tempDir.listFiles()) {
+                Document document = new Document();
+                document.setFile(file);
+                document.setFileName(file.getName());
+                documentList.add(document);
+            }
         }
         result = result & uploadDocuments(documentList, new File("documents/" + aadhar));
-        
+
         //delete temp docs
         result = result & deleteDocuments(aadhar + "/temp");
         return result;
     }
-    
+
     public int deleteDocuments(String aadhar) {
         File directory = new File("documents/" + aadhar);
         File[] fileArray = directory.listFiles();
-        for (File file : fileArray) {
-            file.delete();
+        if(fileArray!=null){
+            for (File file : fileArray) {
+                file.delete();
+            }
+            directory.delete();
+            return 1;
+        }else{
+            return 0;
         }
-        return 1;
     }
 
     private int uploadDocuments(ArrayList<Document> documentList, File directory) {
@@ -90,8 +97,8 @@ public class DocumentService {
                 }
                 fileInputStream.close();
                 fileOutputStream.close();
+                result = 1;
             }
-            result = 1;
         } catch (FileNotFoundException e) {
             Logging.showLogs(Logger.getLogger(this.getClass().getName()));
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);

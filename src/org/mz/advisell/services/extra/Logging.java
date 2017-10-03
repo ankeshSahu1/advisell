@@ -32,9 +32,9 @@ public class Logging {
     static FileHandler fh;
 
     public void createLogFile(Logger log) {
-         try {
+        try {
             LogManager.getLogManager().reset();
-            fh = new FileHandler("logging.log",true);
+            fh = new FileHandler("logging.log", true);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             fh.setLevel(Level.SEVERE);
@@ -43,8 +43,8 @@ public class Logging {
             log.log(Level.SEVERE, "File logger not working", e);
         }
     }
-    
+
     public static void showLogs(Logger log) {
-         log.addHandler(fh);
+        log.addHandler(fh);
     }
 }

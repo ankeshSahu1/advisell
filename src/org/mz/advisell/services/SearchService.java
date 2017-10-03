@@ -41,7 +41,7 @@ public class SearchService {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         DBConnection dbConnection = new DBConnection();
-        String query = "SELECT first_name,last_name,phone,aadhar FROM profile WHERE";
+        String query = "SELECT first_name,last_name,mobile,aadhar FROM profile WHERE";
         StringBuilder queryBuilder = new StringBuilder(query);
         try {
             connection = dbConnection.createConnection();
@@ -70,7 +70,7 @@ public class SearchService {
                 ProfilePreview profilePreview = new ProfilePreview();
                 profilePreview.setFirstName(resultSet.getString("first_name"));
                 profilePreview.setLastName(resultSet.getString("last_name"));
-                profilePreview.setMobileNumber(resultSet.getString("phone"));
+                profilePreview.setMobileNumber(resultSet.getString("mobile"));
                 profilePreview.setAadharCardNumber(resultSet.getString("aadhar"));
                 clientDetails.add(profilePreview);
             }

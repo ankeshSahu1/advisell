@@ -176,7 +176,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
         getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void showClientResults(ArrayList<ProfilePreview> clientList) {
         clientListPanel.removeAll();
         for (ProfilePreview profilePreview : clientList) {
