@@ -131,7 +131,7 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
     public int validateInvestment(JTextField investmentTextField){
         investmentResultLbl.setText("");
         
-        if(investmentTextField.getText().isEmpty()){
+        if(investmentTextField.getText().trim().isEmpty()){
             investmentResultLbl.setText("Please fill investment...");
         }else if(!investmentTextField.getText().trim().matches("[0-9]*")){
             investmentResultLbl.setText("Invalid!!!");
@@ -178,6 +178,7 @@ public class RecordInvestmentDialog extends javax.swing.JDialog {
             schemesDropDown.addItem(scheme);
         }
         JTextField amountTextField = new JTextField();
+        amountTextField.setName("amount");
         JButton addInvestmentBtn = new JButton("Add");
         javax.swing.GroupLayout singleInvestmentPanelLayout = new javax.swing.GroupLayout(singleInvestmentPanel);
         singleInvestmentPanel.setLayout(singleInvestmentPanelLayout);

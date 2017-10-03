@@ -222,6 +222,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="phoneTextField">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="phoneNumber" noResource="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -238,6 +241,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="emailIdTextField">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="email" noResource="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -278,6 +284,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="name" type="java.lang.String" value="address" noResource="true"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -297,6 +304,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="aadharTextField">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="aadhar" noResource="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -313,6 +323,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="panNoTextField">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="panNumber" noResource="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

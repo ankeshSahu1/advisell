@@ -54,6 +54,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="schemeNameTextField">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="scheme" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="addSchemeBtn">
       <Properties>

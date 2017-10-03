@@ -56,6 +56,8 @@ public class SchemesPanel extends javax.swing.JPanel {
         schemesScrollPane = new javax.swing.JScrollPane();
         schemesTable = new javax.swing.JTable();
 
+        schemeNameTextField.setName("scheme"); // NOI18N
+
         addSchemeBtn.setText("Add");
         addSchemeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,10 +117,14 @@ public class SchemesPanel extends javax.swing.JPanel {
         
         resultLbl.setText("");
         
-        if(schemeNameTextField.getText().isEmpty()){
+        if(schemeNameTextField.getText().trim().isEmpty()){
             resultLbl.setText("Please enter any scheme name...");
-        }else if(schemeNameTextField.getText().length()>20){
+        }else if(schemeNameTextField.getText().trim().matches("null")){
+            resultLbl.setText("Scheme Name can't be null");
+        }else if(schemeNameTextField.getText().trim().length()>20){
             resultLbl.setText("Scheme Name can't be greater than 20 characters");
+        }else if(!schemeNameTextField.getText().trim().matches("[A-Za-z0-9]*")){
+            resultLbl.setText("Invalid Scheme Name");
         }
         
         if(!resultLbl.getText().isEmpty()){

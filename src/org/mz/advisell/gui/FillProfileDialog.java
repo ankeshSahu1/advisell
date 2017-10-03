@@ -185,18 +185,23 @@ public class FillProfileDialog extends javax.swing.JDialog {
 
         phoneLbl.setText("Phone");
         phonePanel.add(phoneLbl);
+
+        phoneTextField.setName("phoneNumber"); // NOI18N
         phonePanel.add(phoneTextField);
 
         emailPanel.setLayout(new java.awt.GridLayout(2, 1));
 
         emailIdLbl.setText("Email");
         emailPanel.add(emailIdLbl);
+
+        emailIdTextField.setName("email"); // NOI18N
         emailPanel.add(emailIdTextField);
 
         addressLbl.setText("Address");
 
         addressTextArea.setColumns(20);
         addressTextArea.setRows(5);
+        addressTextArea.setName("address"); // NOI18N
         addressScrollPane.setViewportView(addressTextArea);
 
         javax.swing.GroupLayout addressPanelLayout = new javax.swing.GroupLayout(addressPanel);
@@ -219,12 +224,16 @@ public class FillProfileDialog extends javax.swing.JDialog {
 
         aadharLbl.setText("Aadhar Card No");
         aadharPanel.add(aadharLbl);
+
+        aadharTextField.setName("aadhar"); // NOI18N
         aadharPanel.add(aadharTextField);
 
         panPanel.setLayout(new java.awt.GridLayout(2, 1));
 
         panNoLbl.setText("Pan No");
         panPanel.add(panNoLbl);
+
+        panNoTextField.setName("panNumber"); // NOI18N
         panPanel.add(panNoTextField);
 
         documentsPanel.setLayout(new javax.swing.BoxLayout(documentsPanel, javax.swing.BoxLayout.LINE_AXIS));
@@ -365,47 +374,51 @@ public class FillProfileDialog extends javax.swing.JDialog {
         
         msgLbl.setText("");
         
-        if (!panNoTextField.getText().isEmpty() && !panNoTextField.getText().trim().matches("^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$")) {
+        if (!panNoTextField.getText().trim().isEmpty() && !panNoTextField.getText().trim().matches("^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$")) {
             msgLbl.setText("Invalid Pan Number");
         }
 
-        if (aadharTextField.getText().isEmpty()) {
+        if (aadharTextField.getText().trim().isEmpty()) {
             msgLbl.setText("AaharCardNumber cannot be empty");
         } else if (!aadharTextField.getText().trim().matches("^[2-9]{1}[0-9]{11}$")) {
             msgLbl.setText("Invalid Aadhar Number...");
         }
 
-        if (addressTextArea.getText().isEmpty()) {
+        if (addressTextArea.getText().trim().isEmpty()) {
             msgLbl.setText("Address cannot be empty");
+        }else if(addressTextArea.getText().trim().matches("null")){
+            msgLbl.setText("Address cannot be null");
         }
 
-        if (emailIdTextField.getText().isEmpty()) {
+        if (emailIdTextField.getText().trim().isEmpty()) {
             msgLbl.setText("Email can't be empty");
-        } else if (!emailIdTextField.getText().trim().matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")) {
+        } else if (!emailIdTextField.getText().trim().matches("^[_A-Za-z0-9#-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+            msgLbl.setText("Invalid Email");
+        }else if (emailIdTextField.getText().trim().contains("null")) {
             msgLbl.setText("Invalid Email");
         }
 
-        if (!phoneTextField.getText().isEmpty() && !phoneTextField.getText().trim().matches("^[0-9]{10}$")) {
+        if (!phoneTextField.getText().trim().isEmpty() && !phoneTextField.getText().trim().matches("^[789]\\d{9}$")) {
             msgLbl.setText("Invalid Phone Number");
         }
 
-        if (mobileTextField.getText().isEmpty()) {
+        if (mobileTextField.getText().trim().isEmpty()) {
             msgLbl.setText("Please fill your mobile number");
-        } else if (!mobileTextField.getText().trim().matches("^[0-9]{10}$")) {
+        } else if (!mobileTextField.getText().trim().matches("^[789]\\d{9}$")) {
             msgLbl.setText("Invalid Mobile Number");
         }
 
-        if (lastNameTextField.getText().isEmpty()) {
+        if (lastNameTextField.getText().trim().isEmpty()) {
             msgLbl.setText("Last Name cannot be blank");
-        } else if (!lastNameTextField.getText().trim().matches("[A-Za-z]*")) {
+        } else if (!lastNameTextField.getText().trim().matches("[A-Za-z]*")||lastNameTextField.getText().trim().matches("null")) {
             msgLbl.setText("Last Name must contains characters only");
         } else if (lastNameTextField.getText().trim().length() < 2) {
             msgLbl.setText("Last Name can't be less than 2 characters");
         }
 
-        if (firstNameTextField.getText().isEmpty()) {
+        if (firstNameTextField.getText().trim().isEmpty()) {
             msgLbl.setText("First Name cannot be blank");
-        } else if (!firstNameTextField.getText().trim().matches("[A-Za-z]*")) {
+        } else if (!firstNameTextField.getText().trim().matches("[A-Za-z]*")||firstNameTextField.getText().trim().matches("null")) {
             msgLbl.setText("First Name must contains characters only");
         } else if (firstNameTextField.getText().trim().length() < 2) {
             msgLbl.setText("First Name can't be less than 2 characters");
