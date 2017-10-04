@@ -16,12 +16,10 @@
  */
 package org.mz.advisell.gui;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.CardLayout;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import org.mz.advisell.services.SchemeService;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -60,6 +58,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/org/mz/advisell/images/logo_icon.png")).getImage());
         setName("advisellMainFrame"); // NOI18N
         setResizable(false);
+        getContentPane().setLayout(new java.awt.CardLayout());
 
         contentPanel.setLayout(new java.awt.BorderLayout());
 
@@ -68,7 +67,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
         logoLabel.setToolTipText("");
         contentPanel.add(logoLabel, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(contentPanel, "card2");
 
         fileMenu.setText("File");
 
@@ -128,8 +127,8 @@ public class AdvisellGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_newProfileMenuItemActionPerformed
 
     private void searchMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMenuItemActionPerformed
-        this.add(new SearchPanel(),0);
-        this.revalidate();
+        this.add(new SearchPanel(),"SearchPanelCard");
+        ((CardLayout) getContentPane().getLayout()).show(getContentPane(),"SearchPanelCard");
     }//GEN-LAST:event_searchMenuItemActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -138,8 +137,8 @@ public class AdvisellGUI extends javax.swing.JFrame {
 
     private void settingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsMenuItemActionPerformed
         SchemeService schemeService = new SchemeService();
-        this.add(new SchemesPanel(schemeService.getSchemes()),0);
-        this.revalidate();
+        this.add(new SchemesPanel(schemeService.getSchemes()),"SchemePanelCard");
+        ((CardLayout)getContentPane().getLayout()).show(getContentPane(),"SchemePanelCard");
     }//GEN-LAST:event_settingsMenuItemActionPerformed
 
     /**
@@ -149,10 +148,8 @@ public class AdvisellGUI extends javax.swing.JFrame {
         
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            new Logging().createLogFile(Logger.getLogger(AdvisellGUI.class.getName()));
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            Logging.showLogs(Logger.getLogger(AdvisellGUI.class.getName()));
-            Logger.getLogger(AdvisellGUI.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdvisellGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex); 
         }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

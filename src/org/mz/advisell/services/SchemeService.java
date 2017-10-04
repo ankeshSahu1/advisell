@@ -21,10 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mz.advisell.services.dao.DBConnection;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -33,6 +32,7 @@ import org.mz.advisell.services.extra.Logging;
 public class SchemeService {
     
     private Connection connection;
+    private static final Logger LOGGER=LogManager.getLogger(SchemeService.class.getName());
     
     public int addScheme(String scheme) {
         DBConnection dbConnection = new DBConnection();
@@ -43,17 +43,18 @@ public class SchemeService {
             statement = connection.prepareStatement("INSERT INTO scheme(scheme_name) VALUES(?);");
             statement.setString(1,scheme);
             result = statement.executeUpdate();
+            if(result==1){
+                LOGGER.info("Scheme added into database");
+            }
         } catch (SQLException e) {
-            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
         }
@@ -70,18 +71,18 @@ public class SchemeService {
             statement.setString(1,newScheme);
             statement.setString(2,oldScheme);
             result = statement.executeUpdate();
+            if(result==1){
+                LOGGER.info("Scheme updated");
+            }
         } catch (SQLException e) {
-            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-
+                LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
         }
@@ -97,17 +98,18 @@ public class SchemeService {
             statement = connection.prepareStatement("DELETE FROM scheme WHERE scheme_name=?;");
             statement.setString(1,scheme);
             result = statement.executeUpdate();
+            if(result==1){
+                LOGGER.info("Scheme deleted into database");
+            }
         } catch (SQLException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+               LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
         }
@@ -128,8 +130,7 @@ public class SchemeService {
                schemes.add(resultSet.getString(1));
              }
         } catch (SQLException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -139,8 +140,7 @@ public class SchemeService {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
         }

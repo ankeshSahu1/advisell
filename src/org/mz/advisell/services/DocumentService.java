@@ -22,16 +22,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mz.advisell.bean.Document;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
  * @author parii
  */
 public class DocumentService {
+    
+    private static final Logger LOGGER=LogManager.getLogger(DocumentService.class.getName());
 
     public int uploadDocuments(ArrayList<Document> documentList, String aadhar) {
         File directory = new File("documents/" + aadhar);
@@ -97,14 +98,12 @@ public class DocumentService {
                 }
                 fileInputStream.close();
                 fileOutputStream.close();
-                result = 1;
             }
+            result = 1;
         } catch (FileNotFoundException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } catch (IOException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);  
         }
 
         return result;

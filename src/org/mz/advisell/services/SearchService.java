@@ -21,12 +21,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mz.advisell.constant.Constant;
 import org.mz.advisell.bean.ProfilePreview;
 import org.mz.advisell.services.dao.DBConnection;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -35,7 +34,8 @@ import org.mz.advisell.services.extra.Logging;
 public class SearchService {
 
     private Connection connection;
-
+    private static final Logger LOGGER=LogManager.getLogger(SearchService.class.getName());
+            
     public ArrayList<ProfilePreview> getClientList(String searchValue) {
         ArrayList<ProfilePreview> clientDetails = new ArrayList<>();
         PreparedStatement statement = null;
@@ -75,8 +75,7 @@ public class SearchService {
                 clientDetails.add(profilePreview);
             }
         } catch (SQLException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } finally {
             try {
                 if (resultSet != null) {
@@ -86,8 +85,7 @@ public class SearchService {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
         }

@@ -22,12 +22,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mz.advisell.bean.Document;
 import org.mz.advisell.bean.Profile;
 import org.mz.advisell.services.dao.DBConnection;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -36,6 +35,7 @@ import org.mz.advisell.services.extra.Logging;
 public class ProfileService {
 
     private Connection connection;
+    private static final Logger LOGGER=LogManager.getLogger(ProfileService.class.getName());
 
     public int addProfile(Profile profile) {
         DBConnection dbConnection = new DBConnection();
@@ -65,21 +65,23 @@ public class ProfileService {
             if (result == 0) {
                 return result;
             }
-//            DocumentService uploadService = new DocumentService();
-//            result = uploadService.uploadDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
+            LOGGER.info("Profile added into database");
+            
+            DocumentService uploadService = new DocumentService();
+            result = uploadService.uploadDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
+            if(result==1){
+                LOGGER.info("Documents uploaded");
+            }
 
         } catch (SQLException e) {
-//            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-
+            LOGGER.error(e.getMessage(), e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                LOGGER.error(e.getMessage(), e); 
             }
             dbConnection.closeConnection();
         }
@@ -114,20 +116,23 @@ public class ProfileService {
             if (result == 0) {
                 return result;
             }
-//            DocumentService resetService = new DocumentService();
-//            result = resetService.resetDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
+            LOGGER.info("Profile updated");
+           
+            DocumentService resetService = new DocumentService();
+            result = resetService.resetDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
+            if(result==1){
+                LOGGER.info("Updated documents uploaded");
+            }
 
         } catch (SQLException e) {
-            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(), e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                 LOGGER.error(e.getMessage(), e);
             }
             dbConnection.closeConnection();
         }
@@ -146,19 +151,22 @@ public class ProfileService {
             if (result == 0) {
                 return result;
             }
-//            DocumentService documentService = new DocumentService();
-//            result = documentService.deleteDocuments(aadharCardNo);
+            LOGGER.info("Profile deleted into database");
+            
+            DocumentService documentService = new DocumentService();
+            result = documentService.deleteDocuments(aadharCardNo);
+            if(result==1){
+              LOGGER.info("Documents deleted");
+            }
         } catch (SQLException e) {
-            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+             LOGGER.error(e.getMessage(), e);
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                 LOGGER.error(e.getMessage(), e);
             }
             dbConnection.closeConnection();
         }
@@ -190,8 +198,7 @@ public class ProfileService {
             }
 
         } catch (SQLException ex) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+             LOGGER.error(ex.getMessage(), ex);
         } finally {
             try {
                 if (resultSet != null) {
@@ -201,8 +208,7 @@ public class ProfileService {
                     statement.close();
                 }
             } catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+                 LOGGER.error(e.getMessage(), e);
             }
             dbConnection.closeConnection();
         }

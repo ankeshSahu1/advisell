@@ -21,11 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mz.advisell.bean.Investment;
 import org.mz.advisell.services.dao.DBConnection;
-import org.mz.advisell.services.extra.Logging;
 
 /**
  *
@@ -34,6 +33,7 @@ import org.mz.advisell.services.extra.Logging;
 public class InvestmentService{
 
     private Connection connection;
+    private static final Logger LOGGER=LogManager.getLogger(InvestmentService.class.getName());
     
     public int addInvestment(Investment investment, String aadhar) {
         DBConnection dbConnection = new DBConnection();
@@ -46,17 +46,18 @@ public class InvestmentService{
             statement.setString(2,investment.getScheme());
             statement.setInt(3,investment.getAmount());
             result=statement.executeUpdate();
+            if(result==1){
+                LOGGER.info("Client which have "+aadhar+" aadharnumber make investment "+investment.getScheme()+" scheme");
+            }
 	}catch(SQLException e){	
-            //Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+            LOGGER.error(e.getMessage(),e);
 	}finally{
             try {
                 if(statement!=null){
                     statement.close();
 		}
             }catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+               LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
 	}
@@ -80,8 +81,7 @@ public class InvestmentService{
                 investmentList.add(investment);
             }
 	}catch(SQLException e){
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+            LOGGER.error(e.getMessage(),e);
 	}finally{
             try {
                 if(statement!=null){
@@ -91,8 +91,7 @@ public class InvestmentService{
                     resultSet.close();
                 }
             }catch (SQLException e) {
-                Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,null,e);
+                LOGGER.error(e.getMessage(),e);
             }
             dbConnection.closeConnection();
 	}
