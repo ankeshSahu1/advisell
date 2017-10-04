@@ -19,9 +19,8 @@ package org.mz.advisell.services.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.mz.advisell.services.extra.Logging;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -30,17 +29,16 @@ import org.mz.advisell.services.extra.Logging;
 public class DBConnection {
 
     private Connection connection;
+    private static final Logger LOGGER=LogManager.getLogger(DBConnection.class.getName());
 
     public Connection createConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/investmentrecord", "root", "root");
         } catch (SQLException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         } catch (ClassNotFoundException ex) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error(ex.getMessage(),ex);
         }
         return connection;
     }
@@ -51,8 +49,7 @@ public class DBConnection {
                 connection.close();
             }
         } catch (SQLException e) {
-            Logging.showLogs(Logger.getLogger(this.getClass().getName()));
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            LOGGER.error(e.getMessage(),e);
         }
     }
 }

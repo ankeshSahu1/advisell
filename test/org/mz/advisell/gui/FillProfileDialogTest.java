@@ -83,14 +83,8 @@ public class FillProfileDialogTest {
         {"preeti", "garg67", "preeti.garg125@gmail.com", "7530946836", "9466749855", "2-sec,fbd", "798789786785", "preet1255i"},
         {"preeti", "null", "preeti.garg125@gmail.com", "7530946836", "9466749855", "2-sec,fbd", "798789786785", "preet1255i"},
         {"preeti", "garg", "preeti.garg125@gmail.com@125", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "798789786785", "preet1255i"},
-        {"preeti", "garg", "preeti*23@gmail.com", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
-        {"preeti", "garg", "preeti#23@gmail.com", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
-        {"preeti", "garg", "preeti_23@gmail.com", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
-        {"preeti", "garg", "preeti23@gmail.com.op", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
         {"preeti", "garg", "preeti23@gmail@gmail.com", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
         {"preeti", "garg", "preeti.garg125@gmail.com.%gmail.com", "9211294005", "9466749855", "Bukharpur,Blb,Fbd", "748789786785", "preet1255i"},
-        {"preeti", "garg", "preeti23@gmail.com.in.op", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
-        {"preeti", "garg", "preeti23@gmail.com", "7530946836", "9466749855", "Bukharpur,Blb,Fbd", "768456789786", "preet1255i"},
         {"preeti", "garg", "pree@#ti.garg125_@gmail.com", "9211294005", "9466749855", "Bukharpur,Blb,Fbd", "748789786785", "preet1255i"},
         {"preeti", "garg", "null23@gmail.com", "9211294005", "9466749855", "Bukharpur,Blb,Fbd", "748789786785", "preet1255i"},
         {"preeti", "garg", "", "9211294005", "9466749855", "Bukharpur,Blb,Fbd", "748789786785", "preet1255i"},
@@ -129,14 +123,6 @@ public class FillProfileDialogTest {
 
         });
     }
-
-//    /**
-//     * Test of validateProfile method, of class FillProfileDialog.
-//     */
-//    @Test
-//    public void testValidProfile() {
-//        assertEquals(1,fillProfileDialog.validateProfile());
-//    }
     
     /**
      * Test of validateProfile method, of class FillProfileDialog. 

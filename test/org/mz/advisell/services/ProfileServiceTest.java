@@ -17,7 +17,6 @@
 package org.mz.advisell.services;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import static org.junit.Assert.assertEquals;

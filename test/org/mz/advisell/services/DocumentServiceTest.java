@@ -98,7 +98,7 @@ public class DocumentServiceTest {
      * No document upload
      * Test of resetDocuments method, of class DocumentService.
      * Expected result 0
-     * Actual result throw NullPointerException
+     * Actual result 1
      */
     @Test
     public void testResetNoDocument() {
@@ -152,7 +152,7 @@ public class DocumentServiceTest {
      * Directory not existed and try to delete documents
      * Test of deleteDocuments method, of class DocumentService.
      * Expected result 0
-     * Actual result throw NullPointerException
+     * Actual result 1
      */
     @Test
     public void testNotExistedDirectoryDeleted() {

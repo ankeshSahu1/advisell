@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.mz.advisell.bean.Document;
@@ -69,10 +70,6 @@ public class ProfileService {
             
             DocumentService uploadService = new DocumentService();
             result = uploadService.uploadDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
-            if(result==1){
-                LOGGER.info("Documents uploaded");
-            }
-
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         } finally {
@@ -119,11 +116,8 @@ public class ProfileService {
             LOGGER.info("Profile updated");
            
             DocumentService resetService = new DocumentService();
+            System.out.println(profile.getDocumentList());
             result = resetService.resetDocuments(profile.getDocumentList(), profile.getAadharCardNumber());
-            if(result==1){
-                LOGGER.info("Updated documents uploaded");
-            }
-
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         } finally {
@@ -217,7 +211,7 @@ public class ProfileService {
 
     private ArrayList<Document> createDocumentList(String documents, String aadhar) {
         ArrayList<Document> documentList = new ArrayList<>();
-        if (documents!=null) {
+        if (documents!=null && !documents.isEmpty()) {
             String[] fileNameArray = documents.split(",");
             for (String fileName : fileNameArray) {
                 Document document = new Document();

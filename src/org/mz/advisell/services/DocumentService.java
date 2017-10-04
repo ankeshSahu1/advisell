@@ -31,13 +31,17 @@ import org.mz.advisell.bean.Document;
  * @author parii
  */
 public class DocumentService {
-    
-    private static final Logger LOGGER=LogManager.getLogger(DocumentService.class.getName());
+
+    private static final Logger LOGGER = LogManager.getLogger(DocumentService.class.getName());
 
     public int uploadDocuments(ArrayList<Document> documentList, String aadhar) {
         File directory = new File("documents/" + aadhar);
         directory.mkdirs();
-        return uploadDocuments(documentList, directory);
+        int result=uploadDocuments(documentList, directory);
+        if(result==1){
+            LOGGER.info(documentList.size()+" Documents uploaded");
+        }
+        return result;
     }
 
     public int resetDocuments(ArrayList<Document> documentList, String aadhar) {
@@ -60,25 +64,27 @@ public class DocumentService {
                 documentList.add(document);
             }
         }
+
         result = result & uploadDocuments(documentList, new File("documents/" + aadhar));
 
         //delete temp docs
         result = result & deleteDocuments(aadhar + "/temp");
+        if(result==1){
+            LOGGER.info(documentList.size()+" Documents uploaded");
+        }
         return result;
     }
 
     public int deleteDocuments(String aadhar) {
         File directory = new File("documents/" + aadhar);
         File[] fileArray = directory.listFiles();
-        if(fileArray!=null){
+        if (fileArray != null) {
             for (File file : fileArray) {
                 file.delete();
             }
-            directory.delete();
-            return 1;
-        }else{
-            return 0;
         }
+        directory.delete();
+        return 1;
     }
 
     private int uploadDocuments(ArrayList<Document> documentList, File directory) {
@@ -101,9 +107,9 @@ public class DocumentService {
             }
             result = 1;
         } catch (FileNotFoundException e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);  
+            LOGGER.error(e.getMessage(), e);
         }
 
         return result;
