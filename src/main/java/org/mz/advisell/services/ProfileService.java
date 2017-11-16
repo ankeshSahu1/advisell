@@ -22,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.mz.advisell.bean.Document;
@@ -210,7 +209,7 @@ public class ProfileService {
     }
 
     private ArrayList<Document> createDocumentList(String documents, String aadhar) {
-        ArrayList<Document> documentList = new ArrayList<>();
+        ArrayList<Document> documentList = new ArrayList<Document>();
         if (documents!=null && !documents.isEmpty()) {
             String[] fileNameArray = documents.split(",");
             for (String fileName : fileNameArray) {

@@ -18,7 +18,6 @@ package org.mz.advisell.gui;
 
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 import org.mz.advisell.services.SchemeService;
 
 /**
@@ -144,20 +143,7 @@ public class AdvisellGUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdvisellGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex); 
-        }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdvisellGUI().setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu adminMenu;

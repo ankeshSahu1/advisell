@@ -68,7 +68,7 @@ public class InvestmentService{
         DBConnection dbConnection = new DBConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        ArrayList<Investment> investmentList = new ArrayList<>();
+        ArrayList<Investment> investmentList = new ArrayList<Investment>();
         try{
             connection = dbConnection.createConnection();
             statement=connection.prepareStatement("SELECT * FROM investment WHERE aadhar=?");

@@ -37,7 +37,7 @@ public class SearchService {
     private static final Logger LOGGER=LogManager.getLogger(SearchService.class.getName());
             
     public ArrayList<ProfilePreview> getClientList(String searchValue) {
-        ArrayList<ProfilePreview> clientDetails = new ArrayList<>();
+        ArrayList<ProfilePreview> clientDetails = new ArrayList<ProfilePreview>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         DBConnection dbConnection = new DBConnection();

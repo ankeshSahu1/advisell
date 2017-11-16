@@ -117,7 +117,7 @@ public class SchemeService {
     }
     
     public ArrayList<String> getSchemes() {
-        ArrayList<String> schemes=new ArrayList<>();
+        ArrayList<String> schemes=new ArrayList<String>();
         
         PreparedStatement statement = null;
         ResultSet resultSet = null;

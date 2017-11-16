@@ -55,7 +55,7 @@ public class DocumentService {
         result = result & deleteDocuments(aadhar);
 
         //upload from temp to adhar
-        documentList = new ArrayList<>();
+        documentList = new ArrayList<Document>();
         if (tempDir.listFiles()!=null) {
             for (File file : tempDir.listFiles()) {
                 Document document = new Document();
